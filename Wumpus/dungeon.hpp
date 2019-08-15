@@ -8,7 +8,7 @@ enum class DungeonKind
 
 struct Dungeon
 {
-    Dungeon(int index_, int label_, DungeonKind kind_ = DungeonKind::Normal);
+    explicit Dungeon(int label_, DungeonKind kind_ = DungeonKind::Normal);
 
     int index;
     int label;
