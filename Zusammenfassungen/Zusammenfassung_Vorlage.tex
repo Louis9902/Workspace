@@ -1,0 +1,56 @@
+\documentclass[a4paper, landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{multirow}
+\usepackage{multicol}
+
+\usepackage{enumitem}
+
+% common variables
+\def\name{Zusammenfassung}
+\def\pages{1}
+
+% custom variables
+
+\geometry{top=2cm,bottom=2cm,left=1cm,right=1cm,landscape}
+
+% common header and footer 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\name}
+\fancyhead[R]{Seite \thepage\hspace{1mm}von\hspace{1mm}\pages}
+% \fancyfoot[C]{}
+
+% common lenghts
+\setlist{nosep}                 %Kein List Seperator
+\setlength{\parindent} {0em}    %Kein Indent
+\setlength{\columnseprule}{0.3pt}
+\setlength{\topskip}{10pt}
+
+% custom enviroments
+\newenvironment{example}{
+    \par\vspace{\abovedisplayskip}\noindent\textbf{Beispiel:}\par
+}{\par\vspace{\belowdisplayskip}}
+\newenvironment{important}{
+    \par\vspace{\abovedisplayskip}\noindent\textbf{Wichtig:}\par
+}{\par\vspace{\belowdisplayskip}}
+\newenvironment{conditions}{
+    \par\vspace{\abovedisplayskip}\noindent
+    \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}
+}{\endtabularx\par\vspace{\belowdisplayskip}}
+
+\title{\name}
+\author{Louis Seubert}
+
+\begin{document}
+\begin{multicols}{3}
+ \section{Allgemeines}
+\end{multicols}
+\end{document}
+
