@@ -1,2 +1,2 @@
 # Workspace
-This repository is for synchronising my workspace.
+Hier ist eine Sammlung meiner Zusammenfassungen und alten Projekten.
