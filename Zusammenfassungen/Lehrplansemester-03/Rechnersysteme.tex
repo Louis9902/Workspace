@@ -111,8 +111,21 @@
         \end{eqnarray}
         
         \section{Paritätsprüfung}
-        
+
         \subsection{Paritätsbit}
+        Beweiß das die Wahrscheinlichkeit eines als korrekt angesehenen Wortes durch ein Paritätsbit erhöht wird.
+        \begin{conditions}
+            $$n$$ & Länge des Wortes in Bits \\
+            $$p$$ & Wahrscheinlichkeit eines korrekten Bits \\
+            $$P_{\text{parity}}$$ & Wahrscheinlichkeit das ein Wort korrekt ist. (Wort inkl. Paritätsbit) \\
+            $$P_{\text{no\_parity}}$$ & Wahrscheinlichkeit das ein Wort korrekt ist. (Wort ohne Paritätsbit) 
+        \end{conditions}
+        \begin{align}
+        P_{\text{parity}}   & =p^{n + 1} +\binom{n+1}{n} \cdot p^{n} \cdot (1 - p)  \nonumber   \\
+                            & =p^{n + 1} + (n + 1) \cdot (p^{n} - p^{n + 1})        \nonumber   \\
+                            & =(n + 1) \cdot p^{n} - np^{n + 1}                     \nonumber
+        \end{align}
+
         
         \subsection{Zyklische Redundanzprüfung}
         
@@ -171,7 +184,7 @@
         \subsection{Bündelfehlerkorrektur}
         Um mehrere aufeinanderfolgende Bitfehler zu korrigiren ordnet man die $k$ mit Hamming codierten Wörter der Länge $n$ in einer $k \cdot n$ Matrix an.
         \emph{Dabei ist zu beachten das nun zuerst die erste Spalte der Matrix übertragen bzw. gespeichert wird.} \par
-        Smit kann man einen \textbf{maximal} einen Bündelfehler der Länge $k$ Bits korrigiren, dabei ist bei $k$ aufeinanderfolgenden fehlerhaften Bits maximal 1 Bit pro Wort fehlerhaft.
+        Somit kann man einen \textbf{maximal} einen Bündelfehler der Länge $k$ Bits korrigiren, dabei ist bei $k$ aufeinanderfolgenden fehlerhaften Bits maximal 1 Bit pro Wort fehlerhaft.
         \begin{example}
          \begin{center}
             \begingroup\setlength\tabcolsep{2pt}
@@ -220,13 +233,36 @@
         \section{Fehlertoleranz}
         
         \subsection{N-Modulare-Redundanz}
-        \paragraph{2MR} W
+        Die Wahrscheinlichkeit eines fehlerfreien Funktionieren eines Systemes $p_{s}$ ist abhängig von der Verfügbarkeit der Einzelkomponenten $p_{c}$ und der Verfügbarkeit des Voters $p_{v}$. Für einen perfekten bzw. nicht vorkommenden Voter ist $p_{v} = 1$.
+        Die maximale Anzahl der ausfallenden Komponenten $w$, wird falls nicht gegeben, durch $w = \lceil \cfrac{m}{2} \rceil$ representiert.
         
-        \paragraph{3MR} W
+        \[
+         p_{s} = \sum_{i = 0}^{w} \left( \binom{m}{m - 1} \cdot p_{c}^{m - 1} \cdot (1 - p_{c}) \right) \cdot p_{v}
+        \]
+
+        \paragraph{2MR} Wahrscheinlichkeit des fehlerfreien Funktionierens eines 2MR Systems:\par 
+        2 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+        \[
+         p_{s} = \left(2 p_{c} - p_{c}^{2} \right) \cdot p_{v}
+        \]
         
-        \paragraph{4MR} W
+        \paragraph{3MR} Wahrscheinlichkeit des fehlerfreien Funktionierens eines TMR Systems:\par 
+        3 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+        \[
+         p_{s} = \left(3 p_{c}^{2} - 2 p_{c}^{3} \right) \cdot p_{v}
+        \]
         
-        \paragraph{5MR} W
+        \paragraph{4MR} Wahrscheinlichkeit des fehlerfreien Funktionierens eines 4MR Systems:\par 
+        4 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+        \[
+         p_{s} = \left(3 p_{c}^{4} - 8 p_{c}^{3} + 6 p_{c}^{2} \right) \cdot p_{v}
+        \]
+        
+        \paragraph{5MR} Wahrscheinlichkeit des fehlerfreien Funktionierens eines 5MR Systems:\par 
+        5 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+        \[
+         p_{s} = \left(6 p_{c}^{5} - 15 p_{c}^{4} + 10 p_{c}^{3} \right) \cdot p_{v}
+        \]
         
         \section{Speicher}
         
@@ -256,69 +292,34 @@
         \end{center}
 
         \subsubsection{Datenübertragungszeit}
+        
+        \[
+        \text{Spuren} = \cfrac{\text{Datei}_\text{Größe}}{\text{Oberflächen}_\text{Anzahl} \cdot \text{Sektoren}_\text{Anzahl} \cdot \text{Sektor}_\text{Größe}}
+        \]
+        
         \begin{conditions}
-            $$B_{\text{file}}$$ & Größe der Datei\\
-            $$B_{\text{sector}}$$ & Größe eines Sektors \\
-            $$N_{\text{surface}}$$ & Anzahl der Oberflächen der Festplatte \\
-            $$N_{\text{sector}}$$ & Anzahl der Sektoren pro Spur \\
-            $$T_{s}$$ & Zeit für die Positionierung zum Start des Vorgangs \\
-            $$T_{r}$$ & Zeit für die Positionierung zwischen benachbarten Spuren \\
-            $$V_{\text{d}}$$ & Rotationsgeschwindigkeit [rps] \\
-            $$T_{\text{sr}}$$ & Zeit für \textbf{eine} Umdrehung \\
-            $$T_{\text{latency}}$$ & Zeit der Rotationsverzögerung \\
-            \\
-            $S$ & Anzahl der benötigten Spuren \\
+            $$S$$ & Gesamtanzahl der benötigten Spuren \\
+            $$S_{c}$$ & Anzahl der benachbarten Spuren \\
+            $$N$$ & Umdrehungen pro Minute \\
+            $$PT_{d}$$ & mittlere Positionierungszeit \\
+            $$PT_{c}$$ & mittlere Positionierungszeit zwischen benachbarten Spuren \\
             $$T_{s}$$ & Zeit für die Positionierung zum Start des Vorgangs \\
             $$T_{r}$$ & Mittlere Latenz Zeit bis Präambel gelesen wird \\
-            $$T_{t}$$ & Zeit für den Datentransfer \\
-            $$n$$ & Umdrehungen pro Minute
+            $$T_{t}$$ & Zeit für den Datentransfer \
         \end{conditions}
-        
+        \begin{eqnarray}
+         T_{s} &=& T_{\text{pos\_default}} + T_{\text{pos\_connect}}                                                                            \nonumber   \\
+         T_{\text{pos\_default}} &=& PT_{d} \cdot \left( S - S_{c} \right)                                                                      \nonumber   \\
+         T_{\text{pos\_connect}} &=& PT_{c} \cdot S_{c}                                                                                         \nonumber   \\
+         T_{r} &=& \left( \cfrac{60 \cdot 1000}{2n} \right) \cdot S                                                                             \nonumber   \\
+         T_{t} &=& \left( \cfrac{60 \cdot 1000}{n} \right) \cdot \cfrac{\text{Sektoren}_\text{genutzt}}{\text{Sektoren}_\text{Anzahl}} \cdot S  \nonumber   \\
+         T_{\text{average}} &=& T_{s} + T_{r} + T_{t}                                                                                           \nonumber
+        \end{eqnarray}
+        Sollten alle Spuren bis auf die erste benachbart sein, dann gilt für die Positionierungszeit:
         \[
-        S = \cfrac{\text{Datei}_\text{Größe}}{\text{Oberflächen}_\text{Anzahl} \cdot \text{Sektoren}_\text{Anzahl} \cdot \text{Sektor}_\text{Größe}}
-        \]
-        
-        \[
-        T_{t} = \cfrac{60 \cdot 1000}{n}
-        \]
-        
-        \[
-        T_{r} = \cfrac{T_{w}}{2}
-        \]
-
-
-        
-        \[
-        T = T_{s} + T_{r} + T_{t}
+         T_{s} = PT_{d} + (S - 1) \cdot PT_{c}
         \]
 
-        
-        \[
-        T_{\text{average}} = T_{\text{first track}} + T_{\text{extra track}}
-        \]
-        
-        \[
-        T_{\text{latency}} = \cfrac{1}{2} \cdot T_{r}
-        \]
-        
-        \[
-        T_{\text{first track}} = T_{s} + T_{\text{latency}} + T_{sr}
-        \]
-        
-        \[
-        T_{\text{extra track}} = ( T_{r} + T_{\text{latency}} + T_{sr} ) \cdot ( N_{\text{tracks}} - 1 )
-        \]
-
-
-
-
-         
-%         \begin{align}
-%             T_{average} &=& \nonumber\\
-%             & ( T_{ps} + T_{\text{latency}} + T_{sr} ) \nonumber\\
-%             & \quad + [( T_{pn} + T_{\text{latency}} + T_{sr} ) \cdot ( N_{\text{tracks}} - 1 )] \nonumber
-%         \end{align}
-         
         
         \subsection{SSD}
         \begin{conditions}
