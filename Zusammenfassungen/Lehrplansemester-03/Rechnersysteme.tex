@@ -15,6 +15,7 @@
 
 \usepackage{enumitem}
 \usepackage{array}
+\usepackage{pifont}
 \usepackage{tikz}
 \usepackage{color}
 
@@ -22,7 +23,7 @@
 
 % common variables
 \def\name{Zusammenfassung Rechnersysteme}
-\def\pages{2}
+\def\pages{3} 
 
 % custom settings
 \geometry{top=2cm,bottom=2cm,left=1cm,right=1cm,landscape}
@@ -55,6 +56,9 @@
 % custom commands
 \newcommand*\circlenummber[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.1ex] (char) {#1};}}
 \newcommand*\spaceline{\par\vspace{\belowdisplayskip}}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
 
 \title{\name}
 \author{Louis Seubert}
@@ -229,7 +233,19 @@
             \end{tabular}
          \endgroup
         \end{example}
+        
+        \subsection{SECDEC}
+        \textbf{S}ingle \textbf{E}rror \textbf{C}orrection \textbf{D}ouble \textbf{E}rror \textbf{D}etection füget ein weiteres Paritätsbit an der Position \texttt{0} welches die gesamten anderen Bits auf Parität überprüft. \spaceline
+        \begin{itemize}
+         \item Hamming-Prüfbits \cmark \quad Extra-Prüfbit \cmark\par
+         $\longrightarrow$ fehlerfrei oder mehr als 2 Fehler
+         \item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \xmark\par
+         $\longrightarrow$ 1-Bitfehler, korrigirbar mit Hamming
+         \item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \cmark\par
+         $\longrightarrow$ 2-Bitfehler, nicht lokalisier- bzw. korrigirbar
+        \end{itemize}
 
+        
         \section{Fehlertoleranz}
         
         \subsection{N-Modulare-Redundanz}
