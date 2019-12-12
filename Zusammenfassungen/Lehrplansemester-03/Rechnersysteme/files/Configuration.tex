@@ -1,0 +1,38 @@
+\setlist{nosep}
+\setlength{\parindent}{0em}
+
+% colors %
+\usepackage{color}
+\definecolor{cmark}{HTML}{008000}
+\definecolor{xmark}{HTML}{E32636}
+
+% tick and cross symbols %
+\usepackage{pifont}
+\newcommand{\cmark}{\textcolor{cmark}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{xmark}{\ding{55}}}
+
+%  %
+\newcommand{\includefigure}[1]{\begin{center}\input{#1}\end{center}}
+
+% custom commands %
+% paragraph with a little more space %
+\newcommand*\parspace{\par\vspace{\belowdisplayshortskip}}
+%  %
+\newcommand*\rot{\rotatebox[origin=center]{90}}
+%  %
+\newcommand*\important{\par\vspace{\abovedisplayskip}\textbf{Wichtig:}\par}
+\newcommand*\remember{\par\vspace{\abovedisplayskip}\textbf{Merke:}\par}
+\newcommand*\question{\par\vspace{\abovedisplayskip}\textbf{Frage:}\par}
+\newcommand*\example{\par\vspace{\abovedisplayskip}\textbf{Beispiel:}\par}
+%  %
+\newcommand*\circlenummber[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.1ex] (char) {#1};}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\newenvironment{definitions}{
+    \par\vspace{\abovedisplayshortskip}\noindent
+    \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}
+}{\endtabularx\par\vspace{\belowdisplayshortskip}}
+
+%  %
+\newcommand*\avg{\text{avg}}

@@ -1,0 +1,82 @@
+\section{HDD}
+
+\subsection{Begriffe}
+\begin{description}
+\item[Spur]
+Ein Kreis auf der Festplatte auf dem die Sektoren nacheinander liegen. Die
+Spuren sind konzentrisch auf der Festplatte gelegt.
+
+\item[Sektor]
+Ein Stück aus einer Spur mit fester Breite. Die Sektorlänge ist z.B. in Bytes
+($512$ oder $4096$ Bytes) oder Mikrometer angegeben. Jeder Sektor enthält zudem
+noch $40$ bis $100$ Bytes für Verwaltungsinformationen (\emph{Präambel}) und 
+Fehlererkennung/-korrektur.
+
+\item[Zylinder]
+Wenn die Festplatte aus mehreren übereinander liegenden Scheiben besteht,
+besteht ein Zylinder allen Spuren die genau übereinander auf den Scheiben
+liegen. Wenn es z.B. 2 Scheiben gibt, dann sind alle $2$ Spuren die ganz außen
+auf jeder Scheibe liegen ein Zylinder; genauso machen alle Spuren Nr. $16$ auf
+jeder Scheibe zusammen ein Zylinder aus: Zylinder $16$. Ein Zylinder ist also
+eine Erweiterung der Spur auf vertikalen Ebene wenn es mehrere Scheiben gibt. Es
+folgt, auf einem Zylinder der aus $n$ übereinander liegenden Spuren besteht und
+wenn jede dieser Spuren $k$ Bytes hat, dann hat ein Zylinder $n \cdot k$ Bytes.
+Folgt auch, dass eine Angabe wie $32$ Zylinder bedeutet dass jede Scheibe $32$
+Spuren hat.
+\end{description}
+
+\subsection{Datenübertragungszeit}
+Die mittlere Datenübertragungszeit $T_{\text{average}}$ einer
+Festplatte hinsichtlich der auf einer Spur befindlichen Daten kann
+vereinfacht mittels der folgenden Funktion dargestellt werden:
+\[
+    T_{\text{average}} := T_{s} + T_{r} + T_{t}
+\]
+Die mittlere Positionierungszeit $T_{s}$ setzt sich dabei zusammen aus der 
+Positionierungszeit $MT_{\text{sr}}$ des Schreib/Lese-Kopfs in die
+richtige radiale Position zum Lesen/Schreiben und der Zeit $MT_{\text{sc}}$
+zum wechseln auf benachbarte Spuren $S_{c}$, daraus leiten sich folgenden Funktionen ab:
+\[
+ T_{s} := T_{\text{sr}} + T_{\text{sc}}
+\]
+\[
+ T_{\text{sr}} := MT_{\text{sr}}\cdot (S-S_{c})
+\]
+\[
+ T_{\text{sc}} := MT_{\text{sc}}\cdot S_{c}
+\]
+Sollten jedoch alle Spuren $S$ bis auf die erste benachbart sein, dann gilt für
+die Positionierungszeit folgenden Funktion:
+\[
+ T_{s} := MT_{\text{sr}} + MT_{\text{sc}}\cdot (S-1)
+\]
+Der Drehverzug $T_{r}$ fällt bei jedem Spurwechsel an und ist die Verzögerung,
+welche anfällt bis sich der gesuchte Sektor auf der rotierenden Festplatte unter
+dem Schreib/Lese-Kopf befindet. Die Drehverzugszeit ist dabei abhängig von der
+Rotationsgeschwindigkeit $v$ welche in \emph{RPM} angegeben wird.
+\[
+ T_{r} := \left(\cfrac{60\cdot 1000}{2v}\right)\cdot S
+\]
+Die Übertragungszeit $T_{t}$ ist die eigentliche Zeit welche benötigt wird und die Daten
+zu übertragen; diese ist abhängig von der Rotationsgeschwindigkeit $v$ sowie der Anzahl
+der genutzten Sektoren $N_{u}$ pro Spur und der Gesamtanzahl der Sektoren $N_{t}$ pro Spur.
+\[
+ T_{t} := \left(\cfrac{60\cdot 1000}{v}\right)\cdot \cfrac{N_{u}}{N_{t}}\cdot S
+\]
+Die Anzahl der benötigten Spuren lässt wie folgt berechnen:
+\[
+\text{Spuren} = \cfrac{\text{Datei}_\text{Größe}}{\text{Oberflächen}_\text{Anzahl}\cdot \text{Sektoren}_\text{Anzahl}\cdot \text{Sektor}_\text{Größe}}
+\]
+
+\subsection{Speicherdirektzugriff}
+Der Speicherdirektzugriff ermöglicht es angeschlossenen Peripheriegeräten ohne Umweg über
+die CPU mit dem Arbeitsspeicher zu kommuniziren. Ein Vorteil des Speicherdirektzugriffs
+ist die schneller Datenübertargung bei einer gleichzeitigen Entlastung des Prozessors.
+Der DMA-Controller muss jedoch die Daten zwangsläufig über das gleiche Bussystem übertragen
+wie die CPU. \par
+Die Buszyklen $C$ welche für einen $n$-Bit-DMA-Transfer benötigten werden kann
+mittels folgender Funktion, in Abhängigkeit von der Umdrehungsdauer $T_{r}$ (in ms), 
+der Sektorgröße $S$ und der Sektorenanzahl $A$,ermittelt werden:
+\[
+ C = \left\lceil\cfrac{A\cdot S\cdot 8}{n\cdot T_{r}}\right\rceil
+\]
