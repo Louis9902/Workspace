@@ -1,2 +1,2 @@
-# Workspace
-Hier ist eine Sammlung meiner Zusammenfassungen und alten Projekten.
+# Zusammenfassungen
+Eine Ansammlung von komprimierten wissen, welches durchaus für Klausuren relevant sein könnte.
