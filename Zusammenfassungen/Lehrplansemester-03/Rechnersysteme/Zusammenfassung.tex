@@ -19,14 +19,37 @@
 \usepackage{enumerate}
 \usepackage{enumitem}
 
+\usepackage{standalone}
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, arrows}
 
 \usepackage{fancyhdr}
-\usepackage{titling}
+\usepackage{titlesec}
 
 \usepackage{multicol}
 \usepackage{multirow}
+
+\newenvironment{graphics}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+
+  % change style %
+\titleformat*{\section}
+{\large\bfseries} 
+\titlespacing*{\section}
+{0pt}{4pt}{0pt}
+
+\titleformat*{\subsection}
+{\normalsize\bfseries}
+\titlespacing*{\subsection}
+{0pt}{4pt}{0pt}
+
+\titleformat*{\subsubsection}
+{\normalsize\bfseries}
+\titlespacing*{\subsubsection}
+{0pt}{4pt}{0pt}
+
+\DeclareUnicodeCharacter{0308}{~}
 
 % rotate page and set margins %
 \geometry{top=1.8cm,bottom=1cm,left=1cm,right=1cm,landscape}
@@ -34,8 +57,8 @@
 % make header and footer %
 \pagestyle{fancy}
 \fancyhead{} % clear header
-\fancyhead[L]{\thetitle}
-\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages} 
+\fancyhead[L]{Zusammenfassung Rechnersysteme}
+\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages}
 \fancyfoot{} % clear footer
 
 \input{./files/Configuration.tex}
@@ -45,7 +68,7 @@
 \author{Louis Seubert}
 
 \begin{document}
- \begin{multicols}{3}
+ \begin{multicols*}{3}
   \input{./files/sections/01-Einheiten.tex}
   \input{./files/sections/02-Leistungsbewertung.tex} 
   \input{./files/sections/03-Fehlertoleranz.tex}
@@ -53,8 +76,10 @@
   \input{./files/sections/05-Hamming.tex}
   \input{./files/sections/06-IJVM.tex}
   \input{./files/sections/07-HDD.tex}
-  \input{./files/sections/08-SSD.tex}
-  \input{./files/sections/09-Caches.tex}
+  \input{./files/sections/08-SSD.tex} 
+  \input{./files/sections/09-Caches.tex} 
   \input{./files/sections/10-Sprungvorhersage.tex}
- \end{multicols}
+  \input{./files/sections/11-Cache-Kohaerenz.tex}
+  \input{./files/sections/12-Multithreading.tex}
+ \end{multicols*}
 \end{document} 

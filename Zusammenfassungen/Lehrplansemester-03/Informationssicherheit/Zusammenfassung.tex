@@ -1,0 +1,360 @@
+\documentclass[8pt,a4paper,landscape]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[page]{totalcount}
+
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{listings}
+\usepackage{enumitem}
+
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
+
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\usepackage{multicol}
+
+\DeclareUnicodeCharacter{0308}{~}
+
+% rotate page and set margins %
+\geometry{left=0.55cm,right=0.55cm,top=1.10cm,bottom=0.55cm,landscape,headsep=2mm}
+
+% make header and footer %
+\pagestyle{fancy}
+\fancyhead{} % clear header
+\fancyhead[L]{Zusammenfassung Informationssicherheit}
+\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages} 
+\fancyfoot{} % clear footer
+
+% configure document %
+\setlist{nosep}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topskip}{10pt}
+\setlength{\columnseprule}{0.5pt} % column seperator line
+
+% change style %
+\titleformat*{\section}
+{\large\bfseries} 
+\titlespacing*{\section}
+{0pt}{4pt}{0pt}
+
+\titleformat*{\subsection}
+{\normalsize\bfseries}
+\titlespacing*{\subsection}
+{0pt}{4pt}{0pt}
+
+\titleformat*{\subsubsection}
+{\normalsize\bfseries}
+\titlespacing*{\subsubsection}
+{0pt}{4pt}{0pt}
+
+\title{Zusammenfassung Informationssicherheit} 
+\author{Louis Seubert}
+
+\newcommand{\ord}{\operatorname{ord}}
+
+\usepackage{./msc}
+
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\No}{\ensuremath{\mathbb{N}_0}}
+\newcommand{\Z}[1]{\ensuremath{\mathbb{Z}_{#1}}}
+\newcommand{\Zx}[1]{\ensuremath{\mathbb{Z}_{#1}^{*}}}
+
+\newcommand{\calO}{\ensuremath{\mathcal{O}}}
+
+\newcommand{\plaint}{\ensuremath{m}}
+\newcommand{\ciphert}{\ensuremath{c}}
+\newcommand{\key}{\ensuremath{k}}
+\newcommand{\skey}{\ensuremath{sk}}
+\newcommand{\pkey}{\ensuremath{pk}}
+\newcommand{\secpara}{\ensuremath{k}}
+\newcommand{\enc}{\textsc{Enc}}
+\newcommand{\dec}{\textsc{Dec}}
+\newcommand{\sig}{\textsc{Sig}}
+\newcommand{\ver}{\textsc{Ver}}
+
+\newcommand{\complexity}[1]{\par\vspace{\abovedisplayskip}\texttt{Worst-Case-Laufzeit:}\quad#1\par}
+
+\newenvironment{definitions}{
+    \par\vspace{\abovedisplayshortskip}\noindent
+    \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}
+}{\endtabularx\par\vspace{\belowdisplayshortskip}}
+
+\begin{document}
+\begin{multicols*}{4}
+  \section{Grundlagen}
+  \subsection*{Allgemeines}
+  \[
+   x^{k} \bmod p \equiv \left( x \bmod p \right)^{k \bmod \varphi(p)} \bmod p
+  \]
+  \[
+   \gcd(a,m) = 1 \Rightarrow a^{\varphi(m)} \equiv 1 \bmod m
+  \]
+  \subsection*{Berechnung der Stellenzahl}
+  Die Anzahl $a$ der Ziffern der $b$-adischen Darstellung einer natürlichen Zahl
+  $n \in \No$ berechnet sich wie folgt:
+  \[
+   a =
+    \begin{cases}
+    1, & \text{wenn } n = 0,\\
+    \lfloor \log_b{n} \rfloor + 1, & \text{wenn } n \geq 1.
+    \end{cases}
+  \]
+
+  \subsection{Phi-Funktion}
+  Die Eulersche Phi-Funktion gibt an, wie viele ganze Zahlen teilefremd zu $n$ sind.
+  \begin{enumerate}
+    \item $\varphi(\text{prime}) = \text{prime} - 1$
+    \item $\varphi(\text{prime}^k) = \text{prime}^{k-1} \cdot (\text{prime}-1)$
+    \item $\varphi(n \cdot m) = \varphi(n) \cdot \varphi(m)$
+  \end{enumerate}
+  \[
+    \varphi(n) = n \prod_{p \mid n} \left( 1 - \frac{1}{p} \right)
+  \]
+  Wobei $p$ eine Primzahl ist welche $n$ ganzzahlig teilt. (Primfaktoren)
+
+  \subsection{Kontravalenz}
+  \begin{center}
+    \begin{tabular}{c| c c }
+      $\oplus$ & 0 & 1 \\ \hline
+      0        & 0 & 1 \\
+      1        & 1 & 0
+    \end{tabular}
+  \end{center}
+  
+  \subsection{Diskreter Logarithmus}
+  Der diskrete Logarithmus ist die kleinste Lösung für $x$ der Gleichung
+  $a^{x} \equiv m \bmod p$ mit $m,\;a \in \N,\;p \in \Z{p}$. \par
+  Da sich die diskrete Exponentiation leicht berechnen lässt, gilt das nicht für die
+  Umkehrfunktion. \emph{(Diffie-Hellman-Annahme)} Aufgrund dessen wird diese "Einwegfunktion"
+  u. a. im Diffie-Hellman-Key-Exchange, der ElGamal-Encryption und vielem mehr eingesetzt.
+  Jedoch ist diese Funktion ungeignet für Verschlüsselungsmethoden, da es keine "Falltür" zum
+  entschlüssel gibt.
+  
+  \paragraph{Ordnung} einer Zahl ist der kleinste Exponent, so dass gilt:
+  \[
+   x^{n} \bmod m \equiv 1
+  \]
+  Dabei entspricht die Ordnung von $x$ der Anzahl der Elementen welche einen Zyklus bilden.
+  Wenn $x$ eine Primzahl ist dann gilt: $\ord(x) = x - 1$
+  \[
+   \ord(x^{l}) = \frac{\ord(x)}{\gcd(\ord(x),l)}
+  \]
+  
+  \subsection{Modulares Potenzieren}
+  Seien $x,k,m \in \N$, gesucht ist $z = x^{k} \mod m$
+  \begin{enumerate}
+   \item Binärdarstellung von $k$
+   \item Ersetzen jeder $0$ durch \textbf{Q} und jeder $1$ durch \textbf{QM}
+   \item Dabei wird \textbf{Q} als Anweisung zum \emph{Quadrieren} und \textbf{M} als Anweisung zum
+    \emph{Multiplizieren} mit der Basis $x$ aufgefasst.
+   \item Begonnen wird mit 1 bzw. kann die erste \textbf{QM} Anweisung durch $x$ substituiert werden.
+  \end{enumerate}
+  
+  \subsection{Chinesischer Restsatz}
+  Seien $m_{1}, \ldots, m_{n} \in \N$ paarweise teilerfremd, dann hat das System von Kongruenzen eine
+  eindeutige Lösung $x \in \Z{m}$, wobei $m = m_{1} \cdot \ldots \cdot m_{n}$ das Produkt der
+  einzelnen Module ist.
+  \[
+   x \equiv a_{1} \bmod m_{1}, \;\ldots, x \equiv a_{n} \bmod m_{n}
+  \]
+  Eine Lösung $x$ kann wie folgt ermittelt werden: 
+  \[
+   x = \left( \sum_{i = 1}^{n} a_{i} \cdot M_{i} \cdot N_{i} \right) \bmod m
+  \]
+  mit folgenden Vorraussetztungen:
+  \begin{definitions}
+   $$m$$ & $m = m_{1} \cdot \ldots \cdot m_{n}$ \\
+   $$M_{i}$$ & $\frac{m}{m_{i}}$ \\
+   $$N_{i}$$ & $M_{i}^{-1} \bmod m_{i}$
+  \end{definitions}
+
+  \subsection{Euklidischer Algorithmus}
+  Setze $r_{0} := a, r_{1} := b$
+  \begin{eqnarray*}
+   r_{0} &=& q_2 \cdot r_{1} + r_{2} \\
+   r_{1} &=& q_3 \cdot r_{2} + r_{3} \\
+   &\vdots& \\
+   r_{n-2} &=& q_{n} \cdot r_{n-1} + r_{n} \\
+   r_{n-1} &=& q_{n+1} \cdot r_{n} + 0
+  \end{eqnarray*}
+  \subsubsection*{Erweiterung}
+  {\small
+  \begin{align*}
+   x_{0} &= 1 \quad x_{1} = 0 & y_{0} &= 0 \quad y_{1} = 1 \\
+   x_{2} &= x_{0} - q_{2} \cdot x_{1}       & y_{2} &= y_{0} - q_{2} \cdot y_{1} \\
+   x_{3} &= x_{1} - q_{3} \cdot x_{2}       & y_{3} &= y_{1} - q_{3} \cdot y_{2} \\
+   x_{n} &= x_{n-2} - q_{n} \cdot x_{n-1}   & y_{n} &= y_{n-2} - q_{n} \cdot y_{n-1}
+  \end{align*}}
+  dann gilt $x_{n}a + y_{n}b = \gcd(a,b)$.
+  
+  \subsection{Primitivwurzeln}
+  Hat die Ordnung einer Zahl $x$ modulo $m$ den größtmöglichen Wert, also $\ord$
+  
+  \paragraph{Primitivwurzeltest} Um festzustellen, ob eine Zahl $g$ eine Primitivwurzel in der
+  Restklassengruppe \Zx{p} mit $p$ ist Primzahl ist, führe man folgende Schritte aus:
+  \begin{enumerate}
+   \item Primfaktorzerlegung von $p-1$:\par
+   $p-1 = p_{1} \cdot \ldots \cdot p_{i}$
+   \item Prüfe für alle $q \in \{p_{1}, \;\ldots, p_{i}\}$ ob gilt
+   $g^{(p-1)/q} \not\equiv 1 \bmod p$ \par
+   Sollten demnach alle Primfaktoren ungleich $1 \bmod p$ sein, dann ist $g$ eine Primitivwurzel.
+  \end{enumerate}
+  
+  Falls $g$ eine Primitivwurzel von \Zx{n} ist, dann ist auch $a = x^{t}$ eine Primitivwurzel
+  von \Zx{n} genau dann wenn gilt: $\gcd(t,\varphi(n)) = 1$.
+    
+ \subsection{Miller-Rabin}
+ \vspace{2.27cm}
+ 
+ \section{Verschlüsselungsalgorithmen}
+ \subsection{Asymetrische Verfahren}
+ \subsubsection{RSA}
+ $\skey = (n,d) \quad \pkey = (n,e)$
+ 
+ \paragraph{Schlüsselwahl}
+ \begin{enumerate}[itemsep=2pt,leftmargin=15pt]
+  \item Wähle Primzahlen $p,q$
+  \item $n = p \cdot q$
+  \item $\varphi(n) = (p-1) \cdot (q-1)$
+  \item Wähle $e$ so dass gilt:\par
+  $\gcd(e,\varphi(n)) = 1 = e \cdot d + k \cdot \varphi(n)$
+ \end{enumerate}
+ %\textit{Anmerkung:} Die Anzahl der möglichen Exponenten lässt sich durch $\varphi(\varphi(n))$ berechnen.
+ \paragraph{Verschlüsselung}
+ \begin{enumerate}[itemsep=2pt,leftmargin=15pt]
+  \item $\ciphert = \plaint^e \bmod n$
+ \end{enumerate}
+ 
+ \paragraph{Entschlüsselung}
+ \begin{enumerate}[itemsep=2pt,leftmargin=15pt]
+  \item $\plaint = \ciphert^d \bmod n$
+ \end{enumerate}
+
+ \paragraph{Signieren}
+ \begin{enumerate}[itemsep=2pt,leftmargin=15pt]
+  \item $s = m^d \bmod n$
+ \end{enumerate}
+
+ \paragraph{Verifizieren}
+ \begin{enumerate}[itemsep=2pt,leftmargin=15pt]
+  \item $m = s^e \bmod n$
+ \end{enumerate}
+ 
+ \subsubsection{ElGamal}
+ $\skey = (p,g,x) \quad \pkey = (p,g,y)$
+ 
+ \paragraph{Schlüsselwahl}
+ \begin{enumerate}
+  \item Wähle Primzahl $p$ sowie $g$ welches eine Primitivwurzel von $\Z{p}$ ist.
+  \item Wähle eine zufällige ganze Zahl $x \in \{1,\;\ldots,\;p-2\}$
+  \item Berechne: \par
+  $y = g^x \bmod p$
+ \end{enumerate}
+ 
+ \paragraph{Verschlüsselung}
+ \begin{enumerate}
+  \item Wähle $k \in [1;p-2]$
+  \item $c_1 = g^k \bmod p$
+  \item $c_2 = m \cdot y^k \bmod p$
+  \item $c = (c_1,c_2)$
+ \end{enumerate}
+ 
+ \paragraph{Entschlüsselung}
+ \begin{enumerate}
+  \item $m = c_{1}^{p-1-x} \cdot c_{2} \mod p$
+ \end{enumerate}
+ 
+ \subsection{Symmetrische Verfahren}
+ \subsubsection{DES}
+ \begin{center}
+  \begin{tabular*}{.9\linewidth}{r|l@{\extracolsep{\fill}}}\hline
+   Struktur & Feistelchiffre    \\\hline
+   Schlüssellänge & 56 Bit      \\\hline
+   Blocklänge & 64 Bit          \\\hline
+   Rundenanzahl & 16            \\\hline
+ \end{tabular*}
+ \end{center}
+
+ \subsubsection{AES}
+  \begin{center}
+  \begin{tabular*}{.9\linewidth}{r|l@{\extracolsep{\fill}}}\hline
+   Struktur & Substitutionschiffre          \\\hline
+   Schlüssellänge & 128, 192 oder 256 Bit   \\\hline
+   Blocklänge & 128 Bit                     \\\hline
+   Rundenanzahl & 10, 12 oder 14            \\\hline
+ \end{tabular*}
+ \end{center}
+ 
+ \subsection{Blockverschlüsselung}
+ \begin{center}
+  \begin{tabular}{c | c}
+      \textbf{Blockorientiert} & \textbf{Stromorientiert} \\\hline
+      ECB & OFB \\
+      CBC & CFB
+  \end{tabular}
+ \end{center}
+ Stromorientierte Betriebsarten erfordern kein Padding das Klartextes, und
+ unterstützen keine asymetrische Verschlüsselung. \par
+ Um einen Klartext \plaint verschlüsseln zu können muss diser in Blöcke der 
+ Länge $r \leq n$ eingeteilt werden. Dabei ist $n$ die Blocklänge des 
+ Verschlüsselungsverfahren, $r$ die Länge der Klartextblöcke. $\plaint_i$
+ bezeichnet dabei einen Block des Klartextes \plaint.
+ 
+ \subsubsection{ECB}
+ \subsubsection{CBC}
+ \subsubsection{CFB}
+ \subsubsection{OFB}
+ 
+ \section{Hashfunktionen}
+ Eine Hashfunktion ist eine Einwegfunktion welche einen belibig langen Bitstrom
+ auf einen Bitstrom mit fester länge minimiert.
+ Eine Hashfunktion kann folgende Eigenschaften besitzen:
+ \begin{description}
+  \item[Kollisionsresistenz]
+  \item[Urbildresistenz]
+ \end{description}
+ 
+ \subsection{Message Authentification Codes}
+ \subsubsection{Hash Message Authentication Code}
+
+ 
+ \section{Protokolle}
+ \subsection{Diffie-Hellman-Schlüsselaustausch}
+ Alice und Bob haben einen gemeinsamen öffentlichen Schlüssel $(p,g)$, wobei
+ $p$ eine Primzahl ist und $g$ eine Primitivwurzel von \Z{p}.
+ \begin{enumerate}
+  \item Alice wählt zufälliges $a \in [0;p-2]$ und berechnet $c = g^a \bmod p$
+  und übermittelt $c$ an Bob.
+  \item Bob wählt zufälliges $b \in [0;p-2]$ und berechnet $d = g^b \bmod p$
+  und übermittelt $d$ an Alice.
+  \item Alice berechnet nun $k = d^a \bmod p$
+  \item Bob berechnet nun $k = c^b \bmod p$
+ \end{enumerate}
+ 
+ \subsection{Station-to-Station-Protokoll}
+ Eine Erweiterung des Diffie-Hellman-Schlüsselaustausch um einen 
+ Man-in-the-Middle-Angriff auszuschließen.
+ \begin{enumerate}
+  \item Alice wählt zufälliges $a \in [0;p-2]$ und berechnet $c = g^{a} \bmod p$
+  und übermittelt $c$ an Bob.
+  \item Bob wählt zufälliges $b \in [0;p-2]$ und berechnet $k = g^{ab} \bmod p$
+  \item Bob sendet nun $g^{b}$ sowie $z = \enc_{k}(s)$ mit $s = \sig_{\skey_{B}}(g^{a}||g^{b})$
+  \item Alice $k = g^{ab} \bmod p$ und $s = \dec_{k}(z)$ sowie $\ver((g^{a}||g^{b}),s,\pkey_{B})$
+  \item Alice sendet nun $z = \enc_{k}(s)$ mit $s = \sig_{\skey_{A}}(g^{b}||g^{a})$
+  \item Bob entschlüsselt $s = \dec_{k}(z)$ und verifiziert $\ver((g^{b}||g^{a}),s,\pkey_{A})$
+ \end{enumerate}
+ Sollte die letzte Überprüfung korrekt sein, dann ist ein gemeinsamer Schlüssel gewählt.
+  
+\end{multicols*}
+\end{document}
