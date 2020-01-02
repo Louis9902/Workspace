@@ -36,7 +36,8 @@
 \pagestyle{fancy}
 \fancyhead{} % clear header
 \fancyhead[L]{Zusammenfassung Informationssicherheit}
-\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages} 
+\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages}
+\fancyhead[C]{Louis Seubert}
 \fancyfoot{} % clear footer
 
 % configure document %
@@ -235,7 +236,7 @@
 		\item Primfaktorzerlegung von \(p-1\):\par
 		      \(p-1 = p_{1} \cdot \ldots \cdot p_{i}\)
 		\item Prüfe für alle \(q \in \{p_{1},\ldots, p_{i}\}\) ob gilt
-		      \(g^{(p-1)/q} \not\equiv 1 \pmod p\) \par
+		      \(g^{(p-1)/q} \not\equiv 1 \pmod{p}\) \par
 		\item Sollten demnach alle Primfaktoren ungleich \(1 \bmod p\) sein, dann
 		      ist \(g\) eine Primitivwurzel.
 	\end{enumerate}
@@ -338,9 +339,9 @@
 	\paragraph{Verfahren} \,\\
 	\(k \in\{1,\ldots,p-2\}\) wird für jedes Verfahren erneut zufällig gewählt.
 	\begin{align*}
-		\enc(\pkey,\plaint)          & = \left((g^{k}),(y^{k} \cdot \plaint)\right) \pmod p \\
-		\dec(\skey,(g^{k},\ciphert)) & = (g^{k})^{p-1-x} \cdot \ciphert \pmod p             \\
-		\sig(\skey,\plaint)          & = (s_{1},s_{2})                                      \\
+		\enc(\pkey,\plaint)          & = \left((g^{k}),(y^{k} \cdot \plaint)\right) \pmod{p} \\
+		\dec(\skey,(g^{k},\ciphert)) & = (g^{k})^{p-1-x} \cdot \ciphert \pmod{p}             \\
+		\sig(\skey,\plaint)          & = (s_{1},s_{2})                                       \\
 		\ver(\pkey,\plaint,\sigma)   & = 1 :\;\Leftrightarrow v_{1} = v_{2}
 	\end{align*}
 
@@ -381,8 +382,8 @@
 	\begin{center}
 		\begin{tabular}{c | c}
 			\textbf{Blockorientiert} & \textbf{Stromorientiert} \\\hline
-			ECB                      & OFB                      \\
-			CBC                      & CFB
+			ECB                      & CFB                      \\
+			CBC                      & OFB
 		\end{tabular}
 	\end{center}
 	Stromorientierte Betriebsarten erfordern kein Padding das Klartextes, und
@@ -392,14 +393,108 @@
 	Verschlüsselungsverfahren, $r$ die Länge der Klartextblöcke. $\plaint_i$
 	bezeichnet dabei einen Block des Klartextes \plaint.
 
+	\begin{definitions}
+		$\(n\)$ & Die Blocklänge des Verschlüsselungsverfahren \\
+		$\(r\)$ & Die Blocklänge der Nachrichtenfragmente
+	\end{definitions}
+
 	\subsubsection{ECB}
-	\includegraphics[width=0.2\textwidth]{./images/ecb_mode.png}
+	\begin{align*}
+		r            & = n                      \\
+		\ciphert_{i} & = \enc_{k}(\plaint_{i})  \\
+		\plaint_{i}  & = \dec_{k}(\ciphert_{i})
+	\end{align*}
+
+	\textbf{Übertragungsfehler}
+	\begin{description}
+		\item[Bitfehler] in \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist zufällig,
+		      alle anderen werden korrekt entschlüsselt.
+		\item[Verlust] von \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist verloren,
+		      alle anderen werden korrekt entschlüsselt.
+		\item[Angriff] ist möglich da gleiche verschlüsselte Blöcke die selbe
+		      Nachricht enthalten.
+	\end{description}
+
 	\subsubsection{CBC}
-	\includegraphics[width=0.2\textwidth]{./images/cbc_mode.png}
+	\begin{align*}
+		r            & = n                                            \\
+		\ciphert_{0} & = \text{Initialisierungsvektor}                \\
+		\ciphert_{i} & = \enc_{k}(\plaint_{i} \oplus \ciphert_{i-1})  \\
+		\plaint_{i}  & = \dec_{k}(\ciphert_{i}) \oplus \ciphert_{i-1}
+	\end{align*}
+
+	\textbf{Übertragungsfehler}
+	\begin{description}
+		\item[Bitfehler] in \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist zufällig
+		      und \(\plaint_{i+1}\) hat den Bitfehler an gleicher Stelle wie
+		      \(\ciphert_{i}\), alle anderen werden korrekt entschlüsselt.
+		\item[Verlust] von \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist verloren
+		      und \(\plaint_{m+1}\) ist zufällig, \(\plaint_{i+2}\) und folgende werden
+		      korrekt entschlüsselt.
+		\item[Angriff] ist nicht möglich.
+	\end{description}
+
 	\subsubsection{CFB}
-	\includegraphics[width=0.2\textwidth]{./images/cfb_mode.png}
+	\begin{align*}
+		r            & \geq 1                                         \\
+		n            & \geq r                                         \\
+		x_{0}        & = \text{Initialisierungsvektor}                \\
+		x_{i+1}      & = lsb_{n-r}(x_{i}) || \ciphert_{i}             \\
+		\ciphert_{0} & = x_{0}                                        \\
+		\ciphert_{i} & = \plaint_{i} \oplus msb_{r}(\enc_{k}(x_{i}))  \\
+		\plaint_{i}  & = \ciphert_{i} \oplus msb_{r}(\dec_{k}(x_{i}))
+	\end{align*}
+
+	\textbf{Übertragungsfehler}
+	\begin{description}
+		\item[Bitfehler] in \(\ciphert_{i} \Rightarrow \plaint_{i}\) hat den
+		      Bitfehler an gleicher Stelle wie \(\ciphert_{i}\), und alle folgenden
+		      \(\lceil\frac{n}{r}\rceil\) Blöcke sind zufällig.
+		\item[Verlust] von \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist verloren,
+		      und alle folgenden \(\lceil\frac{n}{r}\rceil\) Blöcke sind zufällig.
+		\item[Angriff] ist nicht möglich.
+	\end{description}
+
 	\subsubsection{OFB}
-	\includegraphics[width=0.2\textwidth]{./images/ofb_mode.png}
+	\begin{align*}
+		r            & \geq 1                               \\
+		n            & \geq r                               \\
+		x_{0}        & = \text{Initialisierungsvektor}      \\
+		x_{i+1}      & = \enc_{k}(x_{i})                    \\
+		\ciphert_{0} & = x_{0}                              \\
+		\ciphert_{i} & = \plaint_{i} \oplus msb_{r}(x_{i})  \\
+		\plaint_{i}  & = \ciphert_{i} \oplus msb_{r}(x_{i})
+	\end{align*}
+
+	\textbf{Übertragungsfehler}
+	\begin{description}
+		\item[Bitfehler] in \(\ciphert_{i} \Rightarrow \plaint_{i}\) hat den
+		      Bitfehler an gleicher Stelle wie \(\ciphert_{i}\).
+		\item[Verlust] von \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist verloren,
+		      und alle folgenden Blöcke sind zufällig (korrigierbar).
+		\item[Angriff] ist nicht möglich.
+	\end{description}
+
+	\subsubsection{CTR}
+	\begin{align*}
+		r            & \geq 1                                  \\
+		n            & \geq r                                  \\
+		ctr_{i}      & =  \text{Initialisierungsvektor}        \\
+		\ciphert_{i} & = \plaint_{i} \oplus \enc_{k}(ctr_{i})  \\
+		\plaint_{i}  & = \ciphert_{i} \oplus \enc_{k}(ctr_{i})
+	\end{align*}
+
+	\textbf{Übertragungsfehler}
+	\begin{description}
+		\item[Bitfehler] in \(\ciphert_{i} \Rightarrow \plaint_{i}\) hat den
+		      Bitfehler an gleicher Stelle wie \(\ciphert_{i}\).
+		\item[Verlust] von \(\ciphert_{i} \Rightarrow \plaint_{i}\) ist verloren,
+		      und alle folgenden Blöcke sind korrekt.
+		\item[Angriff] ist nicht möglich.
+	\end{description}
+	\underline{Vorteile zum \emph{OFB}:} Wahlfreien Zugriff auf jeden
+	verschlüsselten Block und \enc\ und \dec\ können parallel durchgeführt
+	werden.
 
 	\section{Angriffe gegen Verschlüsselungsalgorithmen}
 	\subsection{RSA}
@@ -456,33 +551,70 @@
 
 	\subsection{ElGamal}
 	\subsubsection*{Berechnungen}
-	\subsubsection*{Existenzielles Fälschen}
+	Ermitteln von \(k\), wenn es mehrmals benutzt wurde um eine Nachricht zu
+	signieren:
+	\[k = (s_{2_1} - s_{2_2})^{-1} \cdot (\plaint_{1} - \plaint_{2}) \bmod (p-1)\]
+	Bei bekannten \(k\) das \(x\) berechnen (Funktioniert nur, wenn das Inverse
+	existiert):
+	\[x = s_{1}^{-1} \cdot (\plaint - \skey) \bmod (p-1)\]
 
+	\subsubsection*{Existenzielles Fälschen}
+	\begin{enumerate}
+		\item Wähle \(c\) zufällig mit \(\gcd(c,p-1) = 1\)
+		\item Wähle \(b\) zufällig
+		\item \(s_{1} = g^{b} \cdot y^{c}\)
+		\item \(s_{2} = -s_{1} \cdot (c^{-1}) \pmod{p-1}\)
+		\item \(m = -s_{1} \cdot b \cdot (c^{-1}) \pmod{p-1}\)
+	\end{enumerate}
+
+	\subsubsection*{Angriff mit Bleichenbacher}
+	Falls eine Signatur \((s_{1},s_{2})\) zur Nachricht \(m\) bekannt ist kann
+	wie folgt eine Signatur gefälscht werden:
+	\begin{enumerate}
+		\item Berechne \(m^{-1} \bmod (p-1)\)
+		\item Wähle eine zufällig Nachricht \(m'\)
+		\item \(u = m' \cdot m^{-1} \pmod{p-1}\)
+		\item \(v = s_{1} \cdot u \pmod{p-1}\)
+		\item \(s_{1}' = \left(s_{1} \cdot (p-1)^{2}\right) + (v \cdot p) \bmod \left(p \cdot (p-1)\right)\)
+		      \text{\footnotesize\textit{Chinesischer Restsatz}}
+		\item \(s_{2}' = s_{2} \cdot u \pmod{p-1}\)
+	\end{enumerate}
+	Das Ergebnis: \((m',s_{1}',s_{2}')\), dabei ist zu beachten das \(m'\) nicht
+	\(\bmod p\) genommen wird, d.h. es größer als \(p\). Ohne den ersten Schritt
+	in der Verifizierung (\(1 \leq s_{1} \leq p-1\)) wäre diese Signatur gültig.
 
 	\section{Hashfunktionen}
-	Eine Hashfunktion ist eine Abbildung welche einen belibig lange Zeichenfolge auf eine
-	Zeichenfolge mit fester länge minimiert.
-	Eine Hashfunktion kann folgende Eigenschaften besitzen:
-	\begin{description}
-		\item[Einwegfunktion] \emph{preimage resistance}\par
-		      Es ist praktisch unmöglich, zu einem gegebenen Ausgabewert $y$ einen Eingabewert $x$ zu finden,
-		      den die Hashfunktion auf $y$ abbildet: $h(x) = y$.
-		\item[Kollisionsresistenz]
-		      \begin{description}
-			      \item[]
-			      \item[Schwache] \emph{2nd-preimage resistance}\par
-			            Es ist praktisch unmöglich, für einen gegebenen Wert $x$ einen davon verschiedenen Wert
-			            $x'$ zu finden, der denselben Hashwert ergibt: $h(x)=h(x')\;,\; x \ne x'$.
-			      \item[Starke] \emph{collision resistance}\par
-			            Es ist praktisch unmöglich, zwei verschiedene Eingabewerte $x$ und $x'$ zu finden, die
-			            denselben Hashwert ergeben.
-		      \end{description}
-	\end{description}
+	Hashfunktionen sind Funktionen die von einer großen, potentiell
+	unbeschränkten Menge in eine kleinere Menge abbilden, also
+	\[h_{k}: \{0,1\}^{*} \rightarrow \{0,1\}^{k}\]
 
-	\subsection{Message Authentification Codes}
-	\emph{Message Authentication Codes} (MACs) sind ein symmetrisches Verfahren,
+	\subsection{Sicherheitseigenschaften}
+	\subsubsection{Kollisionsresistenz}
+	Die Kollisionsresistenz \emph{(collision resistance)} bedeutet dass, es
+	praktisch unmöglich ist zwei verschiedene Eingabewerte \(x\) und \(x'\) zu
+	finden, die denselben Hashwert ergeben. \[x \neq x',\; h(x) = h(x')\]
+
+	\subsubsection{Einwegeigenschaft}
+	Die Einwegeigenschaft \emph{(pre-image resistance)} bedeutet dass, es
+	praktisch unmöglich ist zu einem Hashwert \(y\) einen Eingabewert \(x\) zu
+	finden, den die Hashfunktion auf \(y\) abbildet. \[h(x) = y\]
+
+	\subsubsection{Zwischenschritt}
+	Einen Zwischenschritt zwischen Kollisionsresistenz und Einwegeigenschaft
+	stellt die Ziel Kollisionsresistenz \emph{(second preimage resistance)} dar,
+	dass bedeutet das es praktisch unmöglich ist zu einem gegebenen Eingabewert
+	\(x\) einen davon verschieden Eingabewert \(x'\) zu finden, der den selben
+	Hashwert ergibt. \[x \neq x',\; h(x) = h(x')\]
+
+	\subsection{Modification Detection Code}
+	\emph{Modification Detection Code} (MDC) ist ein Hashwert, welcher der
+	Integritätsprüfung dient.
+
+	\subsection{Message Authentification Code}
+	\emph{Message Authentication Codes} (MAC) sind ein symmetrisches Verfahren,
 	um die Authentizität einer Nachricht sicherzustellen. Hierzu gibt es einen
-	Signatur- und einen Verifikationsalgorithmus.
+	Signatur- und einen Verifikationsalgorithmus welche beide eine gemeinsames
+	Geheimnis benötigen.
 	\subsubsection{Hash-MAC}
 	Um einen HMAC \(\sigma\) zu prüfen, erstellt der Empfänger selbst einen HMAC
 	und prüft, ob diese identisch ist zu \(\sigma\). \par
