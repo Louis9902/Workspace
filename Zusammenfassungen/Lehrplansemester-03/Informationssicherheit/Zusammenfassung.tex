@@ -15,19 +15,23 @@
 \usepackage{listings}
 \usepackage{enumitem}
 
-\usepackage{tikz}
-\usetikzlibrary{automata, positioning, arrows}
-
 \usepackage{graphicx}
 \usepackage{tabularx}
 
 \usepackage{multicol}
 
-\DeclareUnicodeCharacter{0308}{~}
 \hyphenation{
 	prak-tisch
 	un-mög-lich
+	Schlü-sel
+	Schlüs-sel-aus-tausch
+	Diffie-Hell-man-Schlüs-sel-aus-tausch
 }
+
+% define some static variables %
+\def\drafter{Louis Seubert}
+\def\subject{Informationssicherheit}
+\def\maxpage{4}
 
 % rotate page and set margins %
 \geometry{left=0.55cm,right=0.55cm,top=1.10cm,bottom=0.55cm,landscape,headsep=2mm}
@@ -35,9 +39,9 @@
 % make header and footer %
 \pagestyle{fancy}
 \fancyhead{} % clear header
-\fancyhead[L]{Zusammenfassung Informationssicherheit}
-\fancyhead[R]{\thepage\hspace{1mm}von\hspace{1mm}\totalpages}
-\fancyhead[C]{Louis Seubert}
+\fancyhead[L]{Zusammenfassung \subject}
+\fancyhead[R]{\thepage\;von\;\maxpage}
+\fancyhead[C]{\drafter}
 \fancyfoot{} % clear footer
 
 % configure document %
@@ -48,46 +52,29 @@
 \setlength{\columnseprule}{0.5pt} % column seperator line
 
 % change style %
-\titleformat*{\section}
-{\large\bfseries} 
-\titlespacing*{\section}
-{0pt}{4pt}{0pt}
+\titleformat*{\section}{\large\bfseries}
+\titlespacing*{\section}{0pt}{4pt}{0pt}
 
-\titleformat*{\subsection}
-{\normalsize\bfseries}
-\titlespacing*{\subsection}
-{0pt}{4pt}{0pt}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titlespacing*{\subsection}{0pt}{4pt}{0pt}
 
-\titleformat*{\subsubsection}
-{\normalsize\bfseries}
-\titlespacing*{\subsubsection}
-{0pt}{4pt}{0pt}
+\titleformat*{\subsubsection}{\normalsize\bfseries}
+\titlespacing*{\subsubsection}{0pt}{4pt}{0pt}
 
-\titleformat*{\paragraph}
-{\normalsize\bfseries}
-\titlespacing{\paragraph}
-{0pt}{.5em}{.5em}
+\titleformat*{\paragraph}{\normalsize\bfseries}
+\titlespacing{\paragraph}{0pt}{.5em}{.5em}
 
-\titleformat*{\subparagraph}
-{\small\bfseries}
-\titlespacing{\subparagraph}
-{0pt}{.5em}{.5em}
+\titleformat*{\subparagraph}{\small\bfseries}
+\titlespacing*{\subparagraph}{0pt}{.5em}{.5em}
 
 \title{Zusammenfassung Informationssicherheit} 
 \author{Louis Seubert}
 
+% define some mocros %
 \newcommand{\ord}{\operatorname{ord}}
-
-\newcommand{\N}{\ensuremath{\mathbb{N}}}
-\newcommand{\No}{\ensuremath{\mathbb{N}_0}}
-\newcommand{\Z}[1]{\ensuremath{\mathbb{Z}_{#1}}}
-\newcommand{\Zx}[1]{\ensuremath{\mathbb{Z}_{#1}^{*}}}
-
-\newcommand{\calO}{\ensuremath{\mathcal{O}}}
 
 \newcommand{\plaint}{\ensuremath{m}}
 \newcommand{\ciphert}{\ensuremath{c}}
-\newcommand{\signiture}{\ensuremath{s}}
 
 \newcommand{\skey}{\ensuremath{sk}}
 \newcommand{\pkey}{\ensuremath{pk}}
@@ -96,6 +83,8 @@
 \newcommand{\dec}{\textsc{Dec}}
 \newcommand{\sig}{\textsc{Sig}}
 \newcommand{\ver}{\textsc{Ver}}
+
+% define some enviroments %
 
 \newenvironment{definitions}{
 	\par\vspace{\abovedisplayshortskip}\noindent
@@ -106,16 +95,12 @@
 \begin{multicols*}{4}
 	\section{Grundlagen}
 	\subsection*{Allgemeines}
-	\[
-		x^{k} \bmod p \equiv \left( x \bmod p \right)^{k \bmod \varphi(p)} \bmod p
-	\]
-	\[
-		\gcd(a,m) = 1 \Rightarrow a^{\varphi(m)} \equiv 1 \bmod m
-	\]
+	\[x^{k} \bmod p \equiv \left( x \bmod p \right)^{k \bmod \varphi(p)} \bmod p\]
+	\[\gcd(a,m) = 1 \Rightarrow a^{\varphi(m)} \equiv 1 \bmod m\]
 
 	\subsection*{Berechnung der Stellenzahl}
 	Die Anzahl \(a\) der Ziffern der \(b\)-adischen Darstellung einer natürlichen
-	Zahl \(n \in \No\) berechnet sich wie folgt:
+	Zahl \(n \in \mathbb{N}_{0}\) berechnet sich wie folgt:
 	\[
 		a =
 		\begin{cases}
@@ -250,7 +235,6 @@
 
 	\section{Verschlüsselungsalgorithmen}
 	\subsection{Asymetrische Verfahren}
-
 	\subsubsection{RSA}
 	\paragraph{Schlüsselerzeugung}
 	\begin{enumerate}
@@ -293,7 +277,7 @@
 	\begin{enumerate}
 		\item Rekonstruiere \((x||y) = \dec(\skey,\ciphert)\)
 		\item Rekonstruiere \(r\) mit \(r = y \oplus h(x)\)
-		\item Berechne \plaint mit \(\plaint = x \oplus g(r)\)
+		\item Berechne \(\plaint\) mit \(\plaint = x \oplus g(r)\)
 	\end{enumerate}
 
 	\paragraph{Signieren und Entschlüsseln mit dem Chinesischen Restsatz}
@@ -585,11 +569,11 @@
 
 	\section{Hashfunktionen}
 	Hashfunktionen sind Funktionen die von einer großen, potentiell
-	unbeschränkten Menge in eine kleinere Menge abbilden, also
+	unbeschränkten Menge in eine kleinere Menge abbilden, also:
 	\[h_{k}: \{0,1\}^{*} \rightarrow \{0,1\}^{k}\]
 
 	\subsection{Sicherheitseigenschaften}
-	\subsubsection{Kollisionsresistenz}
+	\subsubsection{Starke Kollisionsresistenz}
 	Die Kollisionsresistenz \emph{(collision resistance)} bedeutet dass, es
 	praktisch unmöglich ist zwei verschiedene Eingabewerte \(x\) und \(x'\) zu
 	finden, die denselben Hashwert ergeben. \[x \neq x',\; h(x) = h(x')\]
@@ -599,12 +583,27 @@
 	praktisch unmöglich ist zu einem Hashwert \(y\) einen Eingabewert \(x\) zu
 	finden, den die Hashfunktion auf \(y\) abbildet. \[h(x) = y\]
 
-	\subsubsection{Zwischenschritt}
+	\subsubsection{Schwache Kollisionsresistenz}
 	Einen Zwischenschritt zwischen Kollisionsresistenz und Einwegeigenschaft
-	stellt die Ziel Kollisionsresistenz \emph{(second preimage resistance)} dar,
-	dass bedeutet das es praktisch unmöglich ist zu einem gegebenen Eingabewert
-	\(x\) einen davon verschieden Eingabewert \(x'\) zu finden, der den selben
-	Hashwert ergibt. \[x \neq x',\; h(x) = h(x')\]
+	stellt die schwache Kollisionsresistenz \emph{(second preimage resistance)}
+	dar, dass bedeutet das es praktisch unmöglich ist zu einem gegebenen
+	Eingabewert \(x\) einen davon verschieden Eingabewert \(x'\) zu finden, der
+	den selben Hashwert ergibt. \[x \neq x',\; h(x) = h(x')\]
+
+	\subsection{Angriffe}
+	\subsubsection*{Kollisionsresistenz}
+	\paragraph{Starke Kollisionsresistenz}
+	Der Angreifer generriert eine zufällige Nachricht und berechnet für diese
+	den Hashwert. Nach etwa \(n^{\frac{n}{1}}\) Nachrichten kann davon
+	ausgegangen werden das der Angreifer eine Kollision findet. \par
+	Aufgrund dessen ist die Hashfunktion \texttt{MD5} nicht mehr sicher, da
+	diese eine Länge \(n = 128\) hat.
+	\paragraph{Schwache Kollisionsresistenz}
+	Der Angreifer generriert eine zufällig Nachricht und berechnet für diese
+	den Hashwert und vergleicht diesen mit einem vorgegebenen Hashwert. Nach
+	\(2^{n}\) Nachrichten kann davon ausgegangen werden das der Angreifer eine
+	Nachricht findet welche den selben Hashwert besitzt. \par
+	Diesbezüglich ist die Hashfunktion \texttt{MD5} immernoch sicher.
 
 	\subsection{Modification Detection Code}
 	\emph{Modification Detection Code} (MDC) ist ein Hashwert, welcher der
@@ -620,20 +619,27 @@
 	und prüft, ob diese identisch ist zu \(\sigma\). \par
 	\(\textit{opad} = \text{0x5C} \quad \textit{ipad} = \text{0x36}\)
 	\[\sig(k,\plaint) = h((k \oplus \textit{opad})|| h((k \oplus\textit{ipad})|| m))\]
+	\subsubsection{CBC-MAC}
+	Das Verfahren ist zu größen Teilen identisch mit dem normalen CBC-Verfahren,
+	jeoch ist der Initialisierungsvektor fest. Der letzte Geheimtext ist der
+	eigentliche MAC Code. \par
+	Zu beachten ist jedoch das diese Verfahren zum einen \textbf{symmertisch}
+	ist und zum anderen die \textbf{Länge für die Nachrichten festgesetzt} ist.
 
 	\subsection{Gebrochene Algorithmen}
 	\begin{center}
 		\begin{tabular}{c| c }
-			Algorithmus & Gebrochene Eigenschaft \\ \hline
-			MD5         & collision resistance   \\
-			SHA-1       & collision resistance
+			Algorithmus & Gebrochene Eigenschaft     \\ \hline
+			MD5         & starke Kollisionsresistenz \\
+			SHA-1       & starke Kollisionsresistenz
 		\end{tabular}
 	\end{center}
 
 	\section{Protokolle}
-	\subsection{Diffie-Hellman-Schlüsselaustausch}
-	Alice und Bob haben einen gemeinsamen öffentlichen Schlüssel $(p,g)$, wobei
-	$p$ eine Primzahl ist und $g$ eine Primitivwurzel von \Z{p}.
+	\subsection{Diffie-Hellman-\\Schlüsselaustausch}
+	Alice und Bob haben einen gemeinsamen öffentlichen Schlüssel \((p,g)\),
+	wobei \(p\) eine Primzahl ist und \(g\) eine Primitivwurzel von
+	\(\mathbb{Z}_{p}\).
 	\begin{enumerate}
 		\item Alice wählt zufälliges $a \in [0;p-2]$ und berechnet $c = g^a \bmod p$
 		      und übermittelt $c$ an Bob.
@@ -656,6 +662,35 @@
 		\item Bob entschlüsselt $s = \dec_{k}(z)$ und verifiziert $\ver((g^{b}||g^{a}),s,\pkey_{A})$
 	\end{enumerate}
 	Sollte die letzte Überprüfung korrekt sein, dann ist ein gemeinsamer Schlüssel gewählt.
+	\columnbreak
 
+	\section{Primzahlen}
+	2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+	73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
+	157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233,
+	239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317,
+	331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419,
+	421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503,
+	509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607,
+	613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701,
+	709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811,
+	821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911,
+	919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997, 1009, 1013,
+	1019, 1021, 1031, 1033, 1039, 1049, 1051, 1061, 1063, 1069, 1087, 1091,
+	1093, 1097, 1103, 1109, 1117, 1123, 1129, 1151, 1153, 1163, 1171, 1181,
+	1187, 1193, 1201, 1213, 1217, 1223, 1229, 1231, 1237, 1249, 1259, 1277,
+	1279, 1283, 1289, 1291, 1297, 1301, 1303, 1307, 1319, 1321, 1327, 1361,
+	1367, 1373, 1381, 1399, 1409, 1423, 1427, 1429, 1433, 1439, 1447, 1451,
+	1453, 1459, 1471, 1481, 1483, 1487, 1489, 1493, 1499, 1511, 1523, 1531,
+	1543, 1549, 1553, 1559, 1567, 1571, 1579, 1583, 1597, 1601, 1607, 1609,
+	1613, 1619, 1621, 1627, 1637, 1657, 1663, 1667, 1669, 1693, 1697, 1699,
+	1709, 1721, 1723, 1733, 1741, 1747, 1753, 1759, 1777, 1783, 1787, 1789,
+	1801, 1811, 1823, 1831, 1847, 1861, 1867, 1871, 1873, 1877, 1879, 1889,
+	1901, 1907, 1913, 1931, 1933, 1949, 1951, 1973, 1979, 1987, 1993, 1997,
+	1999, 2003, 2011, 2017, 2027, 2029, 2039, 2053, 2063, 2069, 2081, 2083,
+	2087, 2089, 2099, 2111, 2113, 2129, 2131, 2137, 2141, 2143, 2153, 2161,
+	2179, 2203, 2207, 2213, 2221, 2237, 2239, 2243, 2251, 2267, 2269, 2273,
+	2281, 2287, 2293, 2297, 2309, 2311, 2333, 2339, 2341, 2347, 2351, 2357,
+	2371, 2377, 2381, 2383, 2389, 2393, 2399, 2411, 2417
 \end{multicols*}
 \end{document}
