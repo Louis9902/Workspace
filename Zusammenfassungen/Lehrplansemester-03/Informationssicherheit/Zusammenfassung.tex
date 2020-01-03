@@ -29,7 +29,7 @@
 }
 
 % define some static variables %
-\def\drafter{Louis Seubert}
+\def\creator{Louis Seubert}
 \def\subject{Informationssicherheit}
 \def\maxpage{4}
 
@@ -41,7 +41,7 @@
 \fancyhead{} % clear header
 \fancyhead[L]{Zusammenfassung \subject}
 \fancyhead[R]{\thepage\;von\;\maxpage}
-\fancyhead[C]{\drafter}
+\fancyhead[C]{\creator}
 \fancyfoot{} % clear footer
 
 % configure document %
@@ -67,10 +67,10 @@
 \titleformat*{\subparagraph}{\small\bfseries}
 \titlespacing*{\subparagraph}{0pt}{.5em}{.5em}
 
-\title{Zusammenfassung Informationssicherheit} 
+\title{Zusammenfassung \subject} 
 \author{Louis Seubert}
 
-% define some mocros %
+% define some macros %
 \newcommand{\ord}{\operatorname{ord}}
 
 \newcommand{\plaint}{\ensuremath{m}}
