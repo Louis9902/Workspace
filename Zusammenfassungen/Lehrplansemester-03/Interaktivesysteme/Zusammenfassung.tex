@@ -21,6 +21,25 @@
 \usepackage{multicol}
 
 \hyphenation{
+	Zei-ge-ge-rä-tes
+	zwei-di-men-si-o-nal
+	mehr-di-men-si-o-nal
+	Ge-nau-ig-keit
+	mehr-deu-ti-ge
+	ba-sie-ren
+	Er-schei-nung
+	bei-tra-gen
+	meh-re-rer
+	in-vol-vier-ten
+	Än-der-ungs-auf-trä-ge
+	Im-ple-men-tie-rung
+	re-du-zier-ten
+	Ent-kopp-lung
+	In-ter-ak-ti-ons-mo-dell
+	Ein-ga-ben
+	Ein-ga-be-fol-gen
+	Funk-ti-o-nen
+	Be-nut-zer-schnitt-stel-le
 }
 
 % define some static variables %
@@ -329,5 +348,403 @@
 		\item Benutzer erleben Kontrolle über das System und können dessen
 		      Reaktionen direkt beobachten
 	\end{itemize}
+	\subsection{Nicht koordinatengebend}
+	\subsubsection{Sprachbasierte Interaktionsformen}
+	Nach \emph{Preim \& Dachselt}
+	\begin{itemize}
+		\item Kommandosprachen
+		\item Textuelle Suche
+		\item Natürlich-sprachliche Systeme
+	\end{itemize}
+	\paragraph{Phoneme \& Prosodie}\mbox{}\\
+	\underline{Phonem:} “Phoneme sind die kleinsten bedeutungsunterscheidenden
+	Einheiten einer Sprache." \\ Der Austausch eines Phonems ändert die Bedeutung
+	eines Wortes.
+	\underline{Prosodie:} "Prosodie ist die Gesamtheit derjenigen lautlichen
+	Eigenschaften der Sprache, die nicht [...] ans Phonem als minimales Segment,
+	sondern an umfassendere lautliche Einheiten gebunden sind" \\ Dient u.a. der
+	Kennzeichnung des Satztyps (z.B. Frage, Aussage), Gewichtung oder Gliederung.
+	\paragraph{Spracherkennung} \underline{Audiosignal \(\rightarrow\) Text}
+	\begin{itemize}
+		\item Vorverarbeitung (Filterung um Störgeräusche zu extrahieren,
+		      Frequenzspektrum berechnen, Sprachrelevante Merkmale extrahieren)
+		\item Extraktion von Phonemen
+		\item Abbildung von Phonemfolgen auf Wörter
+	\end{itemize}
+	\paragraph{Semantische Analyse} Bedeutung der Aussage auf struktureller
+	Ebene (Agenten, Handlungen, Intentionen, Objekte), Ergebnis unter Umständen
+	nicht eindeutig
+	\paragraph{Pragmatische Analyse} Bedeutung der Aussage im Kontext, z.B. Ort,
+	Zeit, Fähigkeiten, Intention; Hinzuziehen weiterer Sprachmerkmale (Prosodie);
+	auch hier Ergebnis unter Umständen nicht eindeutig
+	\paragraph{Sprachsynthese} \underline{Text \(\rightarrow\) Audiosignal}
+	\begin{itemize}
+		\item NLP (Natural Language Processing) transkribiert Text anhand eines
+		      Phonem-Alphabets und einer Prosodiebeschreibung
+		\item DSP (Digital Speech Processing) synthetisiert aus der NLP-Ausgabe
+		      das Audio-Signal gesprochener Sprache
+	\end{itemize}
+	Ansätze für die Umsetztung:
+	\begin{itemize}
+		\item Modellbasierte Synthese: erzeugt ein Audio-Signal auf Basis eines
+		      Modells
+		\item Konkatenative Synthese: verknüpft Ausschnitte aus Aufzeichnungen
+		      gesprochener Sprache um zu einem neuen Audiosignal
+	\end{itemize}
+	\subsubsection{Tastatur}
+	Die Effizienz hängt ab von ...
+	\begin{itemize}
+		\item[...] Größe, Form und Position der Tasten
+		\item[...] Art der Eingabe (Symbolhäufigkeiten und Symbolfolgen), im
+		      Fall natürlicher Sprache also von der Sprache, in der der Text
+		      verfasst wurde
+		\item[...] Technologischen Randbedingungen
+	\end{itemize}
+	Die \textbf{QWERTY} Tastenbelegung orientierte sich danach das sich in der
+	Englischen Sprache die Typenhebel einer Schreibmaschiene nicht kollidierten.
+	\paragraph{Virtuelle Tastaturen}
+	\begin{itemize}
+		\item Platzersparnis: z.B. Temporäres Einblenden bei Touch-Interaktion
+		      genau dann, wenn alphanumerische Eingaben benötigt werden
+		\item Konfigurierbarkeit: z.B. Tastaturen, deren Layout sich anpasst
+	\end{itemize}
+	\underline{Probleme:} Fat Finger Problem, Fehlender Druckpunkt
+	(Tasten können versehentlich ausgelöst werden)
+	\section{Graphische Dialogsysteme}
+	\subsection{WIMP-Prinzipien}
+	\textbf{WIMP}: \underline{\textbf{W}indows \textbf{I}cons \textbf{M}enus \textbf{P}ointer}
+	\begin{description}
+		\item[Metaphors] Interaktionsmechanismen werden auf bekannte
+		      Arbeitsabläufe abgebildet
+		\item[Direct Manipulation] Der Benutzer soll direkt mit Objekten der
+		      Benutzerschnittstelle interagieren können
+		\item[See and Point] Die Interaktion mit der Maschine soll auf den
+		      gerade sichtbaren Objekten basieren
+		\item[Consistency] Objekte mit ähnlicher Funktion sollen ähnlich
+		      aussehen und sich ähnlich verhalten
+		\item [User Control] Nur der Benutzer soll Aktionen der Maschine
+		      initiieren und deren Ablauf kontrollieren
+		\item [Feedback and Dialog] Alle ausgeführten Aktionen des Benutzers
+		      und deren Effekte sollen ohne Verzögerung erkennbar sein
+		\item [Forgiveness] Aktionen des Benutzers sollen rückgängig gemacht
+		      werden können, bei kritischen Aktionen soll gewarnt werden
+		\item [Aesthetic Integrity] Das Erscheinungsbild der Benutzeroberfläche
+		      soll einfach, aufgeräumt und konsistent sein
+		\item [Modelessness] Der Benutzer soll alle möglichen Aktionen zu jedem
+		      Zeitpunkt ausführen können. (Aufwendig zu implementiren)
+		\item [WYSIWYG] Dokumente sollen bei der Erstellung so angezeigt werden,
+		      wie sie als Ausdruck ausgegeben werden. (\textbf{Nur Drucker!})
+	\end{description}
+	\subsection{Fenster}
+	\begin{itemize}
+		\item Rechteckige Bereiche, die Interaktionen von Benutzern verarbeiten
+		      können
+		\item Präsentation und Verhalten angelehnt an Metapher „Papier“
+		      \begin{itemize}[nolistsep]
+			      \item stapelbar, verschiebbar
+			      \item Passend zur Metapher „Schreibtisch“
+			      \item Historisch in Büroarbeiten begründet
+		      \end{itemize}
+		\item Begriff verdeutlicht die Funktion einer Sicht („View“) auf Objekte
+		      einer Anwendung
+	\end{itemize}
+	\subsubsection{Varianten}
+	\begin{description}
+		\item[Applikationsfenster] Beinhaltet (logisch) alle Bedienelemente
+		      einer Anwendung
+		\item[Dialogfenster] Informieren oder Aufforderung zur Eingabe
+		\item[Elementares Fenster (Widget)] Die jenigen Bedienelemente, die eine
+		      Einheit aus Erscheinung und zugehörigem Verhalten bilden
+	\end{description}
+	\subsubsection{Verwaltung von Fenstern}
+	\begin{itemize}
+		\item Window Manager sind entweder im Fenstersystem integriert, oder
+		      können auch austauschbar sein
+		\item Realisieren das Verschieben, Skalieren, Öffnen und Schließen der
+		      Fenster
+		\item Steuern das Aussehen der Fenster, d.h. die Gestaltung der
+		      Titelzeile und der Scrollbars
+		\item Realisieren Fensterplatzierungsstrategien
+		\item Unterstützen Navigation in Fenstern
+	\end{itemize}
+	\subsubsection{Koordinatensysteme}
+	Das Koordinatensystem eines Fenstersystems bestimmt Positionierung und Größe
+	präsentierter Information
+	\begin{description}
+		\item[Geräteabhängige Koordinaten] Die Koordinaten auf einem gegebenen
+		      Ausgabegerät
+		\item[Geräteunabhängige Koordinaten] Die Entkopplung der Präsentation
+		      von geräteabhängigen Parametern (insbesondere: Auflösung) der
+		      Ausgabegeräte \\
+		      \example Eine 1 cm Linie soll auf einem Bildschirm mit 150 dpi
+		      genauso lang ausgegeben werden wie auf einem Drucker mit 2400 dpi
+		\item[Weltkoordinaten] Entkopplung der Präsentation von der
+		      Repräsentation der zugrundeliegenden Daten \\
+		      \example Sowohl Nanometer für Moleküle wie auch astronomische
+		      Koordinaten sollen vom Modell abgebildet werden können
+	\end{description}
+	\subsection{Piktogramme}
+	\begin{itemize}
+		\item Symbole, die Komponenten eines Fenstersystems graphisch
+		      repräsentieren
+		\item Orientierung an bildhaften Darstellungen in anderen Bereichen der
+		      natürlichen Umgebung
+		      \begin{itemize}[nolistsep]
+			      \item Ziel: Ausnutzen der ausgeprägten Stärke des Menschen,
+			            erlernte Muster (wieder) zu erkennen
+		      \end{itemize}
+		\item Unabhängigkeit von einer bestimmten Sprache
+		      \begin{itemize}[nolistsep]
+			      \item Können damit zur Internationalisierung beitragen
+		      \end{itemize}
+	\end{itemize}
+	\subsubsection{Varianten}
+	\begin{description}
+		\item[Repräsentative Piktogramme] Stellen einen abstrakten Sachverhalt
+		      bzw. ein Konzept dar \\
+		      \example Symbole für Mülleimer, Disketten, Drucker
+		\item[Abstrakte Piktogramme] Stellen einen abstrakten Sachverhalt bzw.
+		      ein Konzept dar und müssen somit erst erlernt werden \\
+		      \example Symbole für Pfeile, Wiederholung, Rückgängig
+		\item[ Hybride Formen] Stellen eine Mischform da
+	\end{description}
+	\subsubsection{Richtlinien}
+	\begin{itemize}
+		\item Einfachheit und Klarheit
+		\item Verständlichkeit
+		\item Einprägsamkeit
+		\item Platzsparende Gestaltung
+		\item Klarer Kontrast zu Hintergrund
+		\item Hohe Unterscheidbarkeit vs. Konsistenz
+		\item Selektierter Zustand sollte klar ersichtlich sein
+	\end{itemize}
+	\subsection{Menüs}
+	\begin{itemize}
+		\item Basieren auf Hierarchien und Taxonomien
+		\item Dienen dem Auslösen atomarer Aktionen
+		\item Komplexere Interaktionen wie die Eingabe mehrerer Werte etc.
+		      durch die Verbindung mit Dialogen
+	\end{itemize}
+	\paragraph{Motivation}
+	\begin{itemize}
+		\item Es soll unter einer endlichen Menge von Aktionen gewählt werden
+		\item Man soll die Menge der Aktionen nicht erlernen müssen
+		\item Man soll im Vermeiden syntaktischer Fehler unterstützt werden
+	\end{itemize}
+	\subsubsection{Hick \& Hyman}
+	Versuchsaufbau ,,choice-reaction time''
+	\begin{itemize}
+		\item 2-10 Lampen angeordnet in einem irregulären Kreis
+		\item Jeder Lampe ist eine Taste zugeordnet
+		\item Alle 5 Sekunden leuchtet zufällig eine Lampe auf
+		\item Testperson soll zugeordnete Taste drücken
+		\item Vorfeld: Testpersonen erlernen Zuordnung
+	\end{itemize}
+	\paragraph{Hick-Hyman Gesetz}
+	\begin{itemize}
+		\item Informationsgehalt der Aufgabe (,,choice'')\\
+		      \(H = \log_{2}(n)\)
+		\item Reaktionszeit (,,reaction time'')\\
+		      \(RT = a + b \cdot \log_{2}(n)\)
+		\item Reaktionszeit in hierarchischen Menüs folgt dem Hick-Hyman-Gesetz
+		      laut Landauer \& Nachbar, 1985
+		\item Reaktionszeit bei häufig verwendeten Aktionen folgt dem
+		      Hick-Hyman-Gesetz ist aber linear bei selten verwendeten Aktionen
+		      laut Sears \& Shneiderman, 1994
+		\item Bei Anfängern ist die \(RT\) in einem Menü linear, bei Experten
+		      folgt sie dem Hick-Hyman-Gesetz (laut Cockburn \& Gutwin, 2008) \\
+		      \textbf{Beachte:} Bei plötzlichen Menü-Änderungen sind auch
+		      Experten wieder Anfänger und müssen das Menü neu erlernen!
+	\end{itemize}
+	\section{Post-WIMP}
+	WIMP nimmt eine Anwendungssituation an:
+	\begin{itemize}
+		\item Benutzer kennt Grundkonzepte von Computern
+		\item Benutzer ist konzentriert auf den Computer
+		\item Bearbeitung alleine und vom Nutzer getrieben
+		\item Hardware = \\ Desktop-PC, Maus, Tastatur, Bildschirm
+		\item Büroumgebung \\ (d.h. gute Beleuchtung, wenig Störeinflüsse)
+	\end{itemize}
+	Diese Voraussetzungen sind in heutigen Anwendungssituationen teilweise nicht
+	mehr gegeben daher wandelte sich das WIMP Konzept zu dem heutigem Post-WIMP
+	Konzept.
+	\subsection{WIMP vs. Post-WIMP}
+	\begin{tabularx}{\linewidth}{|l|X|} \hline
+		WIMP                & Post-WIMP                                                                                  \\\hline
+		Metaphors           & Interaktion in der realen Welt                                                             \\\hline
+		Direct Manipulation & Delegierung von Aufgaben an das System                                                     \\\hline
+		See and Point       & Describe and input Command                                                                 \\\hline
+		Consistency         & Diversity; angepasst an den Einsatztort (kann nicht immer angewendet werden)               \\\hline
+		WYSIWYG             & Erkennung des Wunsches des Benutzers und der Darstellung einer gleichwertigen Ausgabe      \\\hline
+		User Control        & teilweise gegeben oder Shared Control                                                      \\\hline
+		Feedback and Dialog & nicht zum Zeitpunkt der Interaktion                                                        \\\hline
+		Forgiveness         & User Model; System weiß, was der Nutzer als Ergebnis haben möchte                          \\\hline
+		Aesthetic Integrity & oft verletzen von See and Point durch Ausblenden von Inhalten                              \\\hline
+		Modelessness        & User Model vorhanden, um Verhalten vorherzusagen; mehrere Funktionen für z.B. einen Button \\\hline
+	\end{tabularx}
+	\subsection{Touchscreens}
+	Technische Varianten: Kapazitiv, resistiv; Singletouch, Multitouch;
+	Druckstärke
+	\subsubsection{Kapazitive Touchscreens}
+	Funktioniert mit einem elektrischen Feld, in fast allen Smartphones \\
+	\textit{Vorteil:} lässt sich mit starkem Glas gut vor äußeren Einwirkungen
+	schützen
+	\subsubsection{Resistive Touchscreens}
+	Funktioniert mit zwei Schichten welche aneinander gedrückt werden \\
+	\textit{Vorteil:}
+	\begin{itemize}
+		\item Bedienung mit jedem Eingabestift möglich
+		\item Mit Handschuhen und Prothesen bedienbar
+		\item Genauer als kapazitive Touchscreens
+		\item Geringe Fertigungskosten
+	\end{itemize}
+	\textit{Nachteile:}
+	\begin{itemize}
+		\item Nur eingeschränktes Multitouch (Two-touch)
+		\item Ist schlecht lesbar bei Sonneneinstrahlung durch Zusatzschicht
+		\item Die Gestenbedienung, aufgrund des notwendigen Drucks, ist erschwert.
+		\item Verschleiß durch die mechanische Belastung beim Betätigen
+		\item Unerwünschtes Auslösen beim Transport durch Kontakt mit anderen
+		      Gegenständen möglich
+	\end{itemize}
+	\section{Entwicklung interaktiver Systeme}
+	\subsection{DIN EN ISO 9241-110}
+	\begin{tabularx}{\linewidth}{|l|X|} \hline
+		\textbf{DIN EN ISO}          & \textbf{WIMP}                              \\\hline
+		Aufgabenangemessenheit       & Aesthetic Integrity, See and Point         \\\hline
+		Selbstbeschreibungsfähigkeit & Direct Manipulation, Metaphors             \\\hline
+		Lernförderlichkeit           & Metaphors, Feedback \& Dialog, Forgiveness \\\hline
+		Steuerbarkeit                & User Control                               \\\hline
+		Erwartungskonformität        & Consistency, WYSIWYG                       \\\hline
+		Individualisierbarkeit       & Modelessness                               \\\hline
+		Fehlertoleranz               & Forgiveness                                \\\hline
+	\end{tabularx}
+	\subsection{Prinzipien der Entwicklung}
+	\begin{itemize}
+		\item Konzentration auf Benutzer
+		      \begin{itemize}[nolistsep]
+			      \item Benutzeranalyse
+			      \item Umfeldanalyse
+			      \item Tätigkeitsanalyse
+		      \end{itemize}
+		\item Frühes und kontinuierliches Testen
+		      \begin{itemize}[nolistsep]
+			      \item Erlebbarkeit der Benutzerschnittstelle in Entwurfsphase
+			            fördern
+			      \item Integriertes Design
+			            \begin{itemize}[nolistsep]
+				            \item Erheben von Feedback zum Zusammenspiel von
+				                  Interaktionselementen bei der Durchführung
+				                  typischer Aufgaben der Benutzer
+				            \item Solche Test erfordern die volle Verfügbarkeit
+				                  aller involvierten Interaktionselemente die
+				                  bei herkömmlicher Implementierung erst spät im
+				                  Entwicklungsprozess gegeben sind.
+				            \item  Ganzheitliche Betrachtung der Anwendung
+				            \item  Jedes Teil der Anwendung sollte entworfen und
+				                  in seinem Interaktionsverhalten umgesetzt
+				                  werden
+			            \end{itemize}
+			      \item Iteratives Design
+			            \begin{itemize}[nolistsep]
+				            \item Bearbeitung kontinuierlicher Änderungsaufträge
+				                  als Nebenwirkung von
+				                  <<Frühes und kontinuierliches Testen>>
+				            \item  Streng lineare Entwicklungsmodelle
+				                  (z.B. Wasserfallmodell) sehen Veränderungen an
+				                  abgeschlossenen Abschnitten nicht vor
+				            \item Prototyping: Erlebbarkeit mit reduzierten
+				                  Implementierungsaufwand verbinden (Prototyping)
+				            \item Dokumentation: Gründe von Änderungen müssen
+				                  rückverfolgbar sein
+			            \end{itemize}
+		      \end{itemize}
+		      \begin{itemize}[nolistsep]
+			      \item Empirische Daten zur Bewertung der Qualität einer
+			            Benutzerschnittstelle erforderlich
+		      \end{itemize}
+	\end{itemize}
+	\section{Modelle interaktiver Systeme}
+	\subsection{Ebenen der Benutzerinteraktion}
+	\begin{center}
+		\begin{minipage}{0.49\linewidth}
+			\paragraph{Aktionssprache}
+			\begin{itemize}
+				\item \underline{Konzeptuell}:\\
+				      Objekte, Beziehungen
+				\item \underline{Semantisch}:\\
+				      Abbildung Eingabefolgen auf Funktionen der Anwendung
+				\item \underline{Syntaktisch}:\\
+				      Folgen atomarer Eingaben
+				\item \underline{Lexikalisch}:\\
+				      Atomare Eingaben (Klick, Texteingabe)
+
+			\end{itemize}
+		\end{minipage}
+		\begin{minipage}{0.49\linewidth}
+			\paragraph{Präsentationssprache}
+			\begin{itemize}
+				\item \underline{Konzeptuell}:\\
+				      Interaktionsmodell
+				\item \underline{Semantisch}:\\
+				      Form der Ausgabe (Menü)
+				\item \underline{Syntaktisch}:\\
+				      Kombinationen von Interaktionselementen
+				\item \underline{Lexikalisch}:\\
+				      atomare Ausgabewlemente (Icons, Text)
+			\end{itemize}
+		\end{minipage}
+	\end{center}
+	\example Kommandozeile: \par
+	Eingabe des Benutzers \texttt{cd /usr/share} (Aktionssprache) \(\rightarrow\)
+	Ausgabe des Systems \texttt{[/usr/share]\$ \_} sowie eine
+	Eingabeausforderung (Präsentationssprache)
+	\subsection{Architekturmodelle}
+	\subsubsection{Seeheim-Modell}
+	\begin{description}
+		\item[Präsentation] Lexikalische Schicht der Benutzerschnittstelle
+		      (isolierte I/O-Aktionen)
+		\item[Dialogkontrolle] Syntaktische Schicht (bildet Eingaben anhand des
+		      Dialogmodells auf Kommandos des Anwendungsinterface ab)
+		\item[Anwendungsinterface] Semantische Schicht der Benutzerschnittstelle
+		      (Anwendungslogik)
+	\end{description}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{./pictures/figure_04.png}
+	\end{center}
+	\subsubsection{Presentation-Abstraction-Control}
+	\begin{description}
+		\item[Presentation] Syntax der Interaktion mit der Anwendung
+		      (I/O, wie er vom Nutzer wahrgenommen wird)
+		\item[Abstraction] Semantik der Interaktion
+		\item[Control]  Konsistenz von Presentation und Abstraction
+	\end{description}
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{./pictures/figure_05.png}
+	\end{center}
+	\textit{Vorteil:} Wartbarkeit; Austausch von Objekten \\
+	\textit{Nachteil:} Dekomponierung der Interaktion fordernd;
+	Verarbeitungsaufwand
+	\subsubsection{Model-View-Controller (MVC)}
+	\begin{description}
+		\item[Model] Datenhaltung und Geschäftslogik
+		\item[View] Darstellung der Daten
+		\item[Controller] Steuerung der Anwendung
+	\end{description}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{./pictures/figure_06.png}
+	\end{center}
+	Beobachter-Pattern: View beobachtet Model; Controller kann View austauschen,
+	Kommandos im Modell ausführen, Model ändern
+	\paragraph{Front Controller} \emph{(Fowler)} \par
+	Durch die Steigende Komplexität der Web-Anwendungen wird ein
+	seitenspezifischer Controller eingeführt. D.h. Ein Zentraler Zugangspunkt
+	zuständig für Weiterleitungen, welche mit Hilfe von Tabellenerfolgt. Ein
+	Spezifischer Page-Controller generiert im nächsten Schritt die View.
+	\subsubsection{Model-View-Presenter}
+	\paragraph{Potel}
+	\paragraph{Fowler}
+	\subsubsection{Model-ViewModel-Model (MVVM)}
+	\section{Frameworks \& Tools}
 \end{multicols*}
 \end{document}
