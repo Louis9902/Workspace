@@ -1,0 +1,8 @@
+<TextBox Name="TextBox1">
+<TextBox.Text>
+<Binding Path="Number" 
+	UpdateSourceTrigger="PropertyChanged"
+	ValidatesOnExceptions="True"
+	ValidatesOnDataErrors="True"/>
+</TextBox.Text>
+</TextBox>

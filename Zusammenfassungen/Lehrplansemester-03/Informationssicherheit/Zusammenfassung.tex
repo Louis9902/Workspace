@@ -243,7 +243,10 @@
 		\item Berechne \(n = p \cdot q\).
 		\item Berechne \(\varphi(n) = (p - 1)(q - 1)\)
 		\item Wähle \(e \in \{3, \dotsc, \varphi(n) - 1\}\), wobei
-		      \(\gcd(e, \varphi(n)) = 1\).
+		      \(\gcd(e, \varphi(n)) = 1\). \\
+		      Hier macht es sinn eine Zahl \(e\) zuwählen welche in der
+		      Binärdarstellung viele \(0\) hat, da dass Modulare Potenzieren so
+		      weniger Multiplikationen besitzt.
 		\item Berechne mit Hilfe des erweiterten Euklid das zu \(e\)
 		      multiplikativ-inverse Element \(d\) bezüglich
 		      \(\varphi(n)\): \par

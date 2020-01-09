@@ -1,61 +1,87 @@
-\documentclass[8pt,a4paper,landscape]{extarticle}
+\documentclass
+[
+	8pt,		% Schriftgröße
+	ngerman,	% für Umlaute, Silbentrennung etc.
+	a4paper,	% Papierformat
+	landscape,	% Orientierung
+	final		% Status des Dokuments (final/draft)
+]{extarticle}
 
+% Anpassung der Landessprache %
+\usepackage[ngerman]{babel}
+% Einbindung von Sonderzeichen %
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[ngerman]{babel}
-\usepackage[page]{totalcount}
-
-\usepackage{geometry}
+\usepackage{textcomp}
+% Anpassung des Seitenlayouts %
 \usepackage{titlesec}
 \usepackage{fancyhdr}
-
+% --------------------------- %
+\usepackage{multicol}
+% --------------------------- %
+\usepackage{setspace}
+\usepackage{geometry}
+% Anpassung von Farben %
+\usepackage{color}
+% Einbindung von mathematischen Symbole %
 \usepackage{amsmath}
 \usepackage{amssymb}
-
+% Einbindung von Programmcode %
 \usepackage{listings}
+% Anpassung von Aufzählungen %
 \usepackage{enumitem}
-
-\usepackage{graphicx}
+% Erweiterung von Tabellen %
 \usepackage{tabularx}
+% Einbindung von Grafiken %
+\usepackage{graphicx}
 
-\usepackage{multicol}
+% ========== Informationen ========== %
+\def\name{Louis Seubert}
+\def\prefix{Zusammenfassung}
+\def\lecture{Interaktivesysteme}
+\def\maxpages{5}
 
-\hyphenation{
-	Zei-ge-ge-rä-tes
-	zwei-di-men-si-o-nal
-	mehr-di-men-si-o-nal
-	Ge-nau-ig-keit
-	mehr-deu-ti-ge
-	ba-sie-ren
-	Er-schei-nung
-	bei-tra-gen
-	meh-re-rer
-	in-vol-vier-ten
-	Än-der-ungs-auf-trä-ge
-	Im-ple-men-tie-rung
-	re-du-zier-ten
-	Ent-kopp-lung
-	In-ter-ak-ti-ons-mo-dell
-	Ein-ga-ben
-	Ein-ga-be-fol-gen
-	Funk-ti-o-nen
-	Be-nut-zer-schnitt-stel-le
+% ============== Anpassungen ============== %
+% Anpassung des Grafik Verzeichnisses %
+\graphicspath
+{
+	{figures/}
 }
-
-% define some static variables %
-\def\creator{Louis Seubert}
-\def\subject{Interaktivesysteme}
-\def\maxpage{5}
-
-% rotate page and set margins %
-\geometry{left=0.55cm,right=0.55cm,top=1.10cm,bottom=0.55cm,landscape,headsep=2mm}
+% Anpassung des Seitenlayouts %
+\geometry
+{
+	left=0.55cm,
+	right=0.55cm,
+	top=1.10cm,
+	bottom=0.55cm,
+	headsep=2mm
+}
+% Anpassing des Programmcodes %
+\lstset
+{
+	basicstyle=\ttfamily\footnotesize,
+	columns=fullflexible,
+	numbers=left,						% where to put the line-numbers
+	numberstyle=\tiny,  				% the style that is used for the line-numbers
+	stepnumber=1,
+	numbersep=5pt,						% how far the line-numbers are from the code
+	showspaces=false,					% show spaces adding particular underscores
+	showstringspaces=false,				% underline spaces within strings
+	showtabs=false,						% show tabs within strings adding particular underscores
+	frame=none,							% adds a frame around the code
+	tabsize=2,							% sets default tabsize to 2 spaces
+	captionpos=b,						% sets the caption-position to bottom
+	breaklines=true,					% sets automatic line breaking
+	breakatwhitespace=false,			% sets if automatic breaks should only happen at whitespace
+	xleftmargin=10pt					% left margin to prevent number clipping
+}
 
 % make header and footer %
 \pagestyle{fancy}
 \fancyhead{} % clear header
-\fancyhead[L]{Zusammenfassung \subject}
-\fancyhead[R]{\thepage\;von\;\maxpage}
-\fancyhead[C]{\creator}
+\fancyhead[L]{\prefix\;\lecture}
+\fancyhead[R]{\thepage\;von\;\maxpages}
+\fancyhead[C]{\name}
 \fancyfoot{} % clear footer
 
 % configure document %
@@ -66,7 +92,8 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\topskip}{10pt}
-\setlength{\columnseprule}{0.5pt} % column seperator line
+% set column seperator %
+\setlength{\columnseprule}{0.5pt}
 
 % change style %
 \titleformat*{\section}{\large\bfseries}
@@ -84,18 +111,18 @@
 \titleformat*{\subparagraph}{\small\bfseries}
 \titlespacing*{\subparagraph}{0pt}{.5em}{.5em}
 
-\title{Zusammenfassung \subject} 
-\author{\creator}
-
 % define some macros %
 \newcommand{\example}{\textit{\underline{Beispiel:} }}
 
 % define some enviroments %
-
 \newenvironment{definitions}{
 	\par\vspace{\abovedisplayshortskip}\noindent
 	\tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}
-}{\endtabularx\par\vspace{\belowdisplayshortskip}}
+}{
+	\endtabularx\par\vspace{\belowdisplayshortskip}
+}
+
+\include{Silbentrennung.tex}
 
 \begin{document}
 \begin{multicols*}{4}
@@ -666,10 +693,11 @@
 	\end{itemize}
 	\section{Modelle interaktiver Systeme}
 	\subsection{Ebenen der Benutzerinteraktion}
-	\begin{center}
-		\begin{minipage}{0.49\linewidth}
+	{
+		\setlength{\columnseprule}{0pt}
+		\begin{multicols*}{2}
 			\paragraph{Aktionssprache}
-			\begin{itemize}
+			\hbadness=10000\begin{itemize}
 				\item \underline{Konzeptuell}:\\
 				      Objekte, Beziehungen
 				\item \underline{Semantisch}:\\
@@ -678,12 +706,10 @@
 				      Folgen atomarer Eingaben
 				\item \underline{Lexikalisch}:\\
 				      Atomare Eingaben (Klick, Texteingabe)
-
 			\end{itemize}
-		\end{minipage}
-		\begin{minipage}{0.49\linewidth}
+			\columnbreak
 			\paragraph{Präsentationssprache}
-			\begin{itemize}
+			\hbadness=10000\begin{itemize}
 				\item \underline{Konzeptuell}:\\
 				      Interaktionsmodell
 				\item \underline{Semantisch}:\\
@@ -693,8 +719,8 @@
 				\item \underline{Lexikalisch}:\\
 				      atomare Ausgabewlemente (Icons, Text)
 			\end{itemize}
-		\end{minipage}
-	\end{center}
+		\end{multicols*}
+	}
 	\example Kommandozeile: \par
 	Eingabe des Benutzers \texttt{cd /usr/share} (Aktionssprache) \(\rightarrow\)
 	Ausgabe des Systems \texttt{[/usr/share]\$ \_} sowie eine
@@ -720,7 +746,7 @@
 		\item[Control]  Konsistenz von Presentation und Abstraction
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.5\linewidth]{./pictures/figure_05.png}
+		\includegraphics[width=0.5\linewidth]{./pictures/pac.pdf}
 	\end{center}
 	\textit{Vorteil:} Wartbarkeit; Austausch von Objekten \\
 	\textit{Nachteil:} Dekomponierung der Interaktion fordernd;
@@ -732,7 +758,7 @@
 		\item[Controller] Steuerung der Anwendung
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/figure_06.png}
+		\includegraphics[width=0.7\linewidth]{./pictures/mvc.pdf}
 	\end{center}
 	Beobachter-Pattern: View beobachtet Model; Controller kann View austauschen,
 	Kommandos im Modell ausführen, Model ändern
@@ -743,8 +769,252 @@
 	Spezifischer Page-Controller generiert im nächsten Schritt die View.
 	\subsubsection{Model-View-Presenter}
 	\paragraph{Potel}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{./pictures/mvp_potel.pdf}
+	\end{center}
 	\paragraph{Fowler}
+	Das Model-View-Presenter Passive View nach Fowler präsentiert die Aufgaben
+	der mit MVC eingeführten Komponenten, dabei beachtet der Presenter das Modell
+	und der Presenter aktualisiert die View.
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{./pictures/mvp_fowler.pdf}
+	\end{center}
 	\subsubsection{Model-ViewModel-Model (MVVM)}
-	\section{Frameworks \& Tools}
+	Das MVVM Modell ist eine im Wesentlichen aus MVC und MVP abgeleitete
+	Spezialisierung anhand technischer Merkmale von WPF.
+	(Stärkung der Separation of Concerns durch XAML; Beschreibt die Einbindung
+	von Events und Bindings)
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{./pictures/mvvm.pdf}
+	\end{center}
+	\section{Frameworks und Tools}
+	\subsection{Frameworks}
+	Programmiergerüst für die Softwareentwicklung\\
+	(z.B. .NET Framework)
+	\subsection{Klassifizierung anhand\\Entwicklungsansatz}
+	{
+		\setlength{\columnseprule}{0pt}
+		\begin{multicols*}{2}
+			\paragraph{Black-Box}
+			\begin{itemize}
+				\item Ansatz
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Vordefinirte\\Komponenten
+					      \item Komponenten\\werden durch\\ihre Schnittstelle
+					            beschrieben
+					      \item Verständnis der\\internen\\Funktionsweise\\der
+					            Komponenten\\\emph{nicht}\\erforderlich
+				      \end{itemize}
+				\item Anwendung des Frameworks
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Objektkomposition
+				      \end{itemize}
+				\item Vorteil
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Niedrige Einarbeitungszeit
+				      \end{itemize}
+			\end{itemize}
+			\columnbreak
+			\paragraph{White-Box}
+			\begin{itemize}
+				\item Ansatz
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Vordefinirte Komponenten und/oder Codebausteine
+					      \item Verständnis der internen Funktionsweise der Komponenten
+					            erforderlich
+				      \end{itemize}
+				\item Anwendung des Frameworks
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item z.B. Erweiterungen des Frameworks durch Ableitungen
+					      \item z.B. Verknüpfen mit Callbacks von Komponenten des Frameworks
+				      \end{itemize}
+				\item Vorteil
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Hohe Flexibilität
+				      \end{itemize}
+			\end{itemize}
+		\end{multicols*}
+	}
+	\subsection{Klassifizierung nach Einsatzbereich}
+	\begin{itemize}
+		\item Toolkit
+		      \begin{itemize}[nolistsep]
+			      \item Unterstützt die \textbf{Erstellung} einer
+			            Benutzerschnittstelle durch wiederverwendbare
+			            Komponenten (z.B. Menüs, Buttons)
+			      \item Erscheinungsbild und Verhalten der GUI-Komponenten
+			            vorgegeben, u.U. anpassbar
+		      \end{itemize}
+		\item Interface Builder
+		      \begin{itemize}[nolistsep]
+			      \item Baut auf einem Toolkit auf
+			      \item Unterstützen (i.A. graphischen) \textbf{Entwurf} und
+			            \textbf{Erstellung} der Benutzerschnittstelle ohne
+			            Programmieraufwand
+		      \end{itemize}
+		\item User Interface Management System (UIMS)
+		      \begin{itemize}[nolistsep]
+			      \item Vermitteln zwischen Benutzer und Anwendungsprogrammen
+			      \item Unterstützen \textbf{Entwurf}, \textbf{Erstellung} und
+			            \textbf{Pflege} von Benutzerschnittstellen
+			      \item Umfassen daher Toolkit und Interface Builder
+		      \end{itemize}
+	\end{itemize}
+	\subsection{Prototyping}
+	Prototyping: Realisieren ausgewählte Aspekte eines UI mit dem Ziel Feedback
+	der Benutzer vor der detaillierten Umsetzung eines Interaktionskonzepts
+	einzuholen und so frühes und kontinuierliches Testen zu befördern
+	\subsection{Modellbasierte Entwicklung}
+	\begin{itemize}
+		\item Horizontale Prototypen
+		      \begin{itemize}[nolistsep]
+			      \item Breite Ausdehnung
+			      \item Enthalten vollständige Benutzerschnittstelle aber keine
+			            Funktionalität
+		      \end{itemize}
+		\item Vertikale Prototypen
+		      \begin{itemize}[nolistsep]
+			      \item Tiefe Ausdehnung
+			      \item Enthalten Funktionalität, aber nur einen Teil der
+			            Benutzerschnittstelle
+		      \end{itemize}
+	\end{itemize}
+	\subsubsection{Unterscheidung hinsichtlich\\Übereinstimmung}
+	{
+		\setlength{\columnseprule}{0pt}
+		\begin{multicols*}{2}
+			\paragraph{Low Fidelity}
+			\begin{itemize}
+				\item Zweck
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Testen von Ideen, Abläufen
+				      \end{itemize}
+				\item Vorteile
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Einfaches und schnelles Erstellen
+					      \item Keine Programmierkenntnisse notwendig
+					      \item Änderungen sind schnell herbeizuführen
+				      \end{itemize}
+			\end{itemize}
+			\columnbreak
+			\paragraph{High Fidelity}
+			\begin{itemize}
+				\item Zweck
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Testen von UI-Umsetztung nahe dem finalen
+					            Produkt
+				      \end{itemize}
+				\item Vorteil
+				      \begin{itemize}[leftmargin=4pt,nolistsep]
+					      \item Geringe Abstraktion gegenüber dem finalen
+					            Produkt
+					      \item Testen in realer Arbeitsumgebung möglich
+					      \item Zusammenspiel zwischen UI und Anwendung kann
+					            getestet werden
+				      \end{itemize}
+			\end{itemize}
+		\end{multicols*}
+	}
+	\paragraph{Techniken} Storyboards und Interface Flow Diagram (Low Fidelity),
+	Mockups (High Fidelity), Wireframes (Low Fidelity)
+	\subsection{Modellbasierte Entwicklung}
+	Das \textbf{Ziel} ist die Flexibilisierung von der Design-Phase
+	(Entwicklungsprozess) und der Runtime-Phase (im Wirkbetrieb)
+	\paragraph{Ansatz}
+	\begin{itemize}
+		\item Aspekte der Benutzerschnittstelle durch Modelle
+		      plattformunabhängig beschreiben
+		\item Modelle als Eingabe für eine automatische Generierung der
+		      Benutzerschnittstelle verwenden
+		\item Änderungen der Anforderungen im Modell, nicht im Code
+		\item Vermeiden von Inkonsistenzen zwischen Modell und Code als Folge
+		      händischer Überführung
+	\end{itemize}
+	\subsubsection{Modelltypen im\\Cameleon-Reference-Framework}
+	\begin{itemize}
+		\item Domain-Modell
+		      \begin{itemize}[nolistsep]
+			      \item Concepts: Konzepte die im Anwendungsgebiet vorkommen
+			      \item Tasks: Aufgaben, die der Benutzer durchzuführen hat
+		      \end{itemize}
+		\item Context-of-Use-Modell
+		      \begin{itemize}[nolistsep]
+			      \item User: Benutzer und Rollen im zu unterstützenden
+			            Arbeitsablauf
+			      \item Platform: Technische Möglichkeiten und Grenzen
+			            involvierter Geräte; Interaktion von Geräten im
+			            Anwendungskontext;
+			            Verfügbare Interaktionskomponenten (Presentation Model)
+			      \item Environment: Umgebung, in der die Anwendung genutzt wird
+		      \end{itemize}
+		\item Adaption-Modell
+		      \begin{itemize}[nolistsep]
+			      \item Evolution: Zu welcher Benutzerschnittstelle soll
+			            gewechselt werden und welches Transition Model soll
+			            verwendet werden
+			      \item Transition: Wie soll der Übergang zwischen zwei
+			            Benutzerschnittschnellen dem Benutzer kommuniziert
+			            werden
+		      \end{itemize}
+	\end{itemize}
+\end{multicols*}
+\begin{multicols*}{3}
+	\section{Windows Presentation Foundation}
+	\lstinputlisting{software/example.xaml}
+	\lstinputlisting{software/example.cs}
+	\subsection{Events}
+	\lstinputlisting{software/events.xaml}
+	\lstinputlisting{software/events.cs}
+	\subsubsection{Routed Events}
+	Routed Events pflanzen sich entweder aufwärts oder abwärts in der Hierarchie
+	des \emph{Visual Trees} der GUI fort: Zwischen drin liegende Layout-Manager
+	(\texttt{Grid}, \texttt{StackPanel}, etc.) bekommen nur dann ein Event, wenn
+	ein enthaltendes Elementen ebenfalls ein Event geschickt bekommt. Bei \(\ge\)
+	2 sich überlagernden Elementen in der gleichen Ebene wählt das Hit-Testing
+	\emph{immer} das im XAML \emph{zuletzt} deklarierte.
+	\begin{itemize}
+		\item Direkte Events (werden nicht weitergereicht)
+		      \begin{itemize}[nolistsep]
+			      \item Ereignisse werden nur von dem Element verarbeitet, bei
+			            dem sie auch aufgetreten sind (konform mit .NET)
+		      \end{itemize}
+		\item Bubbling-Events
+		      \begin{itemize}[nolistsep]
+			      \item Event wird zuerst an den Handler des Quellelements
+			            weitergereicht. Dann wird sich dieses Weiterreichen
+			            elementweise bis zur Wurzel fortgesetzt (meist Window)
+		      \end{itemize}
+		\item Tunneling Events
+		      \begin{itemize}[nolistsep]
+			      \item Hier ist es umgekehrt wie beim Bubbling. Die
+			            Ereigniskette beginnt beim Wurzelelement, d.h. Window
+			            oder Page. Nachfolgend der Handler des
+			            untergeordneten Elements usw.
+		      \end{itemize}
+		\item Bubbling/Tunneling stoppen: \texttt{args.Handled = true;}
+	\end{itemize}
+	\subsection{Attribut-Element-Syntax}
+	\lstinputlisting{software/attribute_1.xaml}
+	\lstinputlisting{software/attribute_2.xaml}
+	\subsection{Bindings}
+	Bindungen binden immer nur auf \textbf{Properties}, nicht auf
+	Member-Variablen, und der angegebene \textit{Path} muss \texttt{public} sein.
+	\subsubsection{Richtungsbestimmung}
+	\begin{itemize}
+		\item \textit{TwoWay}: Zweiwegebindung
+		\item \textit{OneWay}: Von der Quelle zum Ziel
+		\item \textit{OneWayToSource}: Von dem Ziel zur Quelle
+		\item \textit{OneTime}: Eine einmalige \textit{OneWay} Bindung
+	\end{itemize}
+	\subsubsection{Data-Context}
+	\lstinputlisting{software/data_context.cs}
+	\lstinputlisting{software/data_context.xaml}
+	\subsubsection{INotifyPropertyChanged}
+	\lstinputlisting{software/notify_property.cs}
+	\subsection{Style Templates}
+	\lstinputlisting{software/styles.xaml}
+	\subsection{Triggers und Validation}
+	\lstinputlisting{software/triggers.xaml}
+	\lstinputlisting{software/validation.xaml}
 \end{multicols*}
 \end{document}

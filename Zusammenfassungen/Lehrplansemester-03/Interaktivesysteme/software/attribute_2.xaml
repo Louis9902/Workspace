@@ -1,0 +1,5 @@
+<Button>
+	<Button.Name>example</Button.Name>
+	<Button.Content>Drueck Mich!</Button.Content>
+	<Button.Height>20</Button.Height>
+</Button>

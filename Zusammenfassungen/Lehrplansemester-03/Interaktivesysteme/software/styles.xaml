@@ -1,0 +1,10 @@
+<!--Auch in <App.Resources> moeglich-->
+<Window.Resources>
+	<!-- x:Key entfernen um Style allgemein zu nutzen-->
+	<Style x:Key="MyStyle" TargetType="Button">
+		<Setter Property="Background" Value="Black"/>
+		<Setter Property="Foreground" Value="White"/>
+	</Style>
+</Window.Resources>
+
+<Button Style="{StaticResource MyStyle}">Drueck Mich!</Button>

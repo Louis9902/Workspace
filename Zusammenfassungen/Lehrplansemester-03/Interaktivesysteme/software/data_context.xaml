@@ -1,0 +1,1 @@
+<TextBox Name="Box" Text={Binding Path=StudentName} />

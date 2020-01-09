@@ -1,0 +1,7 @@
+<Style x:Key="MyStyle" TargetType="Button">
+	<Style.Triggers>
+		<Trigger Property="Button.IsMouseOver" Value="True">
+			<Setter Property="Button.Background" Value="Yellow"/>
+		</Trigger>
+	</Style.Triggers>
+</Style>
