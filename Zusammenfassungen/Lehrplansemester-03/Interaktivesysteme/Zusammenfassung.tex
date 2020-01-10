@@ -87,7 +87,7 @@
 % configure document %
 \setitemize{leftmargin=15pt}
 \setenumerate{leftmargin=15pt}
-\setlist{itemsep=1pt,parsep=1pt}
+\setlist{itemsep=1pt,parsep=1pt,noitemsep}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
@@ -141,23 +141,23 @@
 	einer Benutzerschnittstelle die laufende Bearbeitung einer Aufgabe durch ein
 	technisches System zu beeinflussen.
 	\subsection{Formen von Interaktion}
-	\begin{itemize}[itemsep=1pt, parsep=1pt, nolistsep]
+	\begin{itemize}
 		\item \textbf{Anweisung}
-		      \begin{itemize}[itemsep=1pt, nolistsep]
+		      \begin{itemize}
 			      \item Eingabe von Kommandos
 		      \end{itemize}
 		\item \textbf{Dialog}
-		      \begin{itemize}[itemsep=1pt, nolistsep]
+		      \begin{itemize}
 			      \item Ablauf von Eingabe und Ausgabe
 		      \end{itemize}
 		\item \textbf{Manipulation (von Kommandos, Inhalten)}
-		      \begin{itemize}[itemsep=1pt, parsep=1pt, nolistsep]
+		      \begin{itemize}
 			      \item Auswählen („Choice“)
 			      \item Ansteuern („Target Acquisition“)
 			      \item Verändern
 		      \end{itemize}
 		\item \textbf{Erkunden (einer Menge von Kommandos, Inhalten)}
-		      \begin{itemize}[itemsep=1pt, parsep=1pt, nolistsep]
+		      \begin{itemize}
 			      \item Suchanfragen
 			      \item Browsing
 		      \end{itemize}
@@ -691,6 +691,20 @@
 			            Benutzerschnittstelle erforderlich
 		      \end{itemize}
 	\end{itemize}
+	\subsection{Gebrauchstauglichkeit}
+	"Gebrauchstauglichkeit oder Usability bezeichnet die Eignung eines Produktes
+	bei der Nutzung durch bestimmte Benutzer in einem bestimmten
+	Benutzungskontext die vorgegebenen Ziele
+	(\textit{Wirksamkeit, Qualität der Zielerreichung}), effizient
+	(\textit{Kosten-Nutzen-Relation}) und zufriedenstellend zu erreichen."
+	\begin{itemize}
+		\item \textbf{Usability Testing} Die Messung der Gebrauchstauglichkeit
+		      durch Beobachtung bzw. Befragung von Benutzern  bei der
+		      Durchführung einer Aufgabe im Benutzerkontext.
+		\item \textbf{Usability Inspection} Eine Vorhersage der
+		      Gebrauchstauglichkeit durch einen Gutachter, der in der Lage ist,
+		      Probleme der Benutzer vorherzusagen und die Anwendung analysiert.
+	\end{itemize}
 	\section{Modelle interaktiver Systeme}
 	\subsection{Ebenen der Benutzerinteraktion}
 	{
@@ -803,7 +817,7 @@
 					      \item Komponenten werden durch ihre Schnittstelle
 					            beschrieben
 					      \item Verständnis der internen Funktionsweise der
-								Komponenten \emph{nicht} erforderlich
+					            Komponenten \emph{nicht} erforderlich
 				      \end{itemize}
 				\item Anwendung des Frameworks
 				      \begin{itemize}[leftmargin=4pt,nolistsep]
