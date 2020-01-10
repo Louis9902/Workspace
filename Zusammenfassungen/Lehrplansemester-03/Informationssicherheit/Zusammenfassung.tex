@@ -3,7 +3,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
-\usepackage[page]{totalcount}
 
 \usepackage{geometry}
 \usepackage{titlesec}
@@ -19,6 +18,11 @@
 \usepackage{tabularx}
 
 \usepackage{multicol}
+
+\usepackage{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning}
 
 \hyphenation{
 	prak-tisch
@@ -230,8 +234,6 @@
 	\(a = g^{t}\) eine Primitivwurzel von \(\mathbb{Z}_{p}^{*}\) genau dann wenn
 	gilt: \(\gcd(t,\varphi(p)) = 1\). Somit lässt sich folgendes aussagen:
 	\[\gcd(t,\varphi(p)) = 1 \Rightarrow \langle g^{t} \rangle = \mathbb{Z}_{p}^{*}\]
-
-	\subsection{Miller-Rabin}
 
 	\section{Verschlüsselungsalgorithmen}
 	\subsection{Asymetrische Verfahren}
@@ -611,6 +613,11 @@
 	\subsection{Modification Detection Code}
 	\emph{Modification Detection Code} (MDC) ist ein Hashwert, welcher der
 	Integritätsprüfung dient.
+	\paragraph{Nachrichten Integritätsprüfung}
+	\begin{itemize}[nolistsep]
+		\item \underline{Asymetrisch:} Signatur
+		\item \underline{Symmetrisch:} MAC
+	\end{itemize}
 
 	\subsection{Message Authentification Code}
 	\emph{Message Authentication Codes} (MAC) sind ein symmetrisches Verfahren,
@@ -639,7 +646,7 @@
 	\end{center}
 
 	\section{Protokolle}
-	\subsection{Diffie-Hellman-\\Schlüsselaustausch}
+	\subsection[Diffie-Hellman-Schlüsselaustausch]{Diffie-Hellman-\\Schlüsselaustausch}
 	Alice und Bob haben einen gemeinsamen öffentlichen Schlüssel \((p,g)\),
 	wobei \(p\) eine Primzahl ist und \(g\) eine Primitivwurzel von
 	\(\mathbb{Z}_{p}\).
@@ -665,6 +672,74 @@
 		\item Bob entschlüsselt $s = \dec_{k}(z)$ und verifiziert $\ver((g^{b}||g^{a}),s,\pkey_{A})$
 	\end{enumerate}
 	Sollte die letzte Überprüfung korrekt sein, dann ist ein gemeinsamer Schlüssel gewählt.
+
+	\subsection{SSl und TLS}
+	TLS (\emph{Transport Socket Layer}) ist eine weiterentwicklung des von
+	Netscape entwickelten Protokolls SSL (\emph{Secure Socket Layer}).
+	Das Protokoll besteht aus 5 Teilprotokollen. TLS setzt auf die
+	Transportschicht des OSI-Modell auf. Darurch kann TLS unabhängig von
+	Anwendungen auf TCP aufgesetzt werden.  Den Teilprotokollen kommen dabei
+	verschiedene Funktionen zu:
+	\begin{itemize}
+		\item Das \emph{TLS Handshake Protocol} initialisiert die
+		      Verschlüsselung. Dieses Protokoll führt den Schlüsselaustausch
+		      durch.
+		\item Das \emph{TLS Change Cipher Spec Protocol} enthält bloß ein Byte
+		      mit dem Inhalt \glqq 1\grqq. Dies dient dazu, die ausgehandelte
+		      Verschlüsselung zu aktivieren.
+		\item Das \emph{TLS Alert Protocol} meldet Fehler, die im Betrieb
+		      aufgetreten sind.
+		\item Das \emph{TLS Record Protocol} ist ein Dummy-Protokoll, dass die
+		      Daten der Anwendungen weiterreicht.
+		\item Das \emph{TLS Application Data Protocol} dient dazu, Daten mit den
+		      ausgehandelten Konfigurationen zu verschlüsseln.
+	\end{itemize}
+	\subsubsection{TLS-Handshake}
+	\begin{center}
+		\input{./Documents/TLS_Handshake.tex}
+		\footnotesize TLS-Handshake ab TLS 1.3
+	\end{center}
+	Die hervorgehobenen Nachrichten nur bei der Client-Authentifizierung.
+	\columnbreak
+	\begin{description}
+		\item[ClientHello] Enthält die unterstützten:
+		      \begin{itemize}[leftmargin=0pt]
+			      \item TLS-Versionen
+			      \item Cipher-Suites
+			      \item Signaturverfahren
+			      \item Elliptic Curve Diffie-Hellman (ECDH) Gruppen oder
+			            Ephemeral Diffie-Hellman (EDH) Gruppen
+			      \item Diffie-Hellman \emph{key shares}
+			      \item Referenzen auf Pre-shared keys (PSK)
+			      \item 32-Bit \texttt{client\_random}
+		      \end{itemize}
+		\item[ServerHello] enthält die ausgewählte:
+		      \begin{itemize}[leftmargin=0pt]
+			      \item TLS-Version
+			      \item Cipher-Suite (Server wählt die stärkste)
+			      \item ECDH Gruppe oder EDH Gruppe
+			      \item Referenze auf PSK
+			      \item 32-Bit \texttt{server\_random}
+		      \end{itemize}
+		\item[EncryptedExtensions] \;
+		      \begin{itemize}[leftmargin=0pt]
+			      \item \texttt{max\_fragment\_size}
+			      \item \texttt{cookies}
+			      \item \texttt{certificate\_authorities}
+		      \end{itemize}
+		\item[Certificate] Server (bzw. Client) schickt seinen öffentlichen
+		      Schlüsselin einem Zertifikat, der Client (bzw. Server) prüft
+		      das Zertifikat.
+		\item[CertificateVerify] Der Server (bzw. Client) schickt seine
+		      Unterschrift auf das Transkript der vorangegangenen
+		      Handshake-Nachrichten. Die Challenge \texttt{client\_random} des
+		      Clients (bzw. die challenge \texttt{server\_random} des Servers)
+		      ist im Transkript enthalten und wird damit mit unterschrieben.
+		\item[Finished] Sie enthalten jeweils einen mit dem gemeinsamen
+		      Geheimnis gebildeten MAC über alle vorher beim handshake ausgetauschten
+		      Nachrichten. Mit diesen MACs können Client und Server die Integrität und
+		      den Absender aller Nachrichten im Handshake verifizieren.
+	\end{description}
 	\columnbreak
 
 	\section{Primzahlen}

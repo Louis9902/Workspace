@@ -248,12 +248,12 @@
 	\paragraph{Relative Positionierung} Es wird von aktuell gespeicherter
 	Position ausgegangen und die Veränderung der Koordinaten umgesetzt.
 	\paragraph{Control-Display-Gain} \textbf{<<MacKenzie>>} Der durch die
-	Bewegung eines indirekten Zeigegerätes („Control“) resultierende Effekt
+	Bewegung eines indirekten Zeigegerätes ("Control") resultierende Effekt
 	(„Gain“) am Bildschirm. \\
 	Nach MacKenzie balanciert eine günstige Einstellung des Gain Schnelligkeit
 	und Präzision der Positionierung.
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/figure_01.png}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/ControlDisplayGain.png}
 	\end{center}
 	\begin{itemize}
 		\item \textit{Gain niedrig:} Große Bewegung Controller bewirkt
@@ -269,7 +269,7 @@
 		\item Definiert die zur Positionsbestimmung verfügbare Zeit
 	\end{itemize}
 	\begin{center}
-		\includegraphics[width=\linewidth]{./pictures/figure_02.png}
+		\includegraphics[width=\linewidth]{./Documents/Graphics/SamplingRate.png}
 	\end{center}
 	\paragraph{Verzögerung}
 	\begin{itemize}
@@ -295,14 +295,14 @@
 		      Computerspielen oder 3D-Modellierungstools können hohe
 		      Anforderungen an Zeigegeräte gestellt werden
 	\end{itemize}
-	\subsubsection{Zeigeaufgaben}
+	\subsubsection{Zeige Aufgaben}
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/figure_03.png}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/TargetSelectionTask.png}
 	\end{center}
-	Das Experiment nach Fitts: Wie lange benötigt ein Mensch, um mit einm Stift
-	ausgehend von einem Startpunkt ein Ziel zu erreichen? Das Experiment steht
-	dabei in der Abhängigkeit von der Distanz \(D\) des Ziels und der Breite
-	\(W\).
+	Das Experiment nach Fitts: Wie lange benötigt ein Mensch \(MT\), um mit einm
+	Stift ausgehend von einem Startpunkt ein Ziel zu erreichen? Das Experiment
+	steht dabei in der Abhängigkeit von der Distanz \(D\) des Ziels und der
+	Breite \(W\).
 	\paragraph{Fitts}
 	\[MT = a + b \cdot ID\]
 	\[ID = \log_{2}\left(\frac{2D}{W}\right)\]
@@ -736,7 +736,7 @@
 		      (Anwendungslogik)
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/figure_04.png}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/SeeheimModel.png}
 	\end{center}
 	\subsubsection{Presentation-Abstraction-Control}
 	\begin{description}
@@ -746,7 +746,7 @@
 		\item[Control]  Konsistenz von Presentation und Abstraction
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.5\linewidth]{./pictures/pac.pdf}
+		\includegraphics[width=0.5\linewidth]{./Documents/Graphics/DiagramPAC.pdf}
 	\end{center}
 	\textit{Vorteil:} Wartbarkeit; Austausch von Objekten \\
 	\textit{Nachteil:} Dekomponierung der Interaktion fordernd;
@@ -758,7 +758,7 @@
 		\item[Controller] Steuerung der Anwendung
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/mvc.pdf}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/DiagramMVC.pdf}
 	\end{center}
 	Beobachter-Pattern: View beobachtet Model; Controller kann View austauschen,
 	Kommandos im Modell ausführen, Model ändern
@@ -770,14 +770,14 @@
 	\subsubsection{Model-View-Presenter}
 	\paragraph{Potel}
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/mvp_potel.pdf}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/DiagramMVPPotel.pdf}
 	\end{center}
 	\paragraph{Fowler}
 	Das Model-View-Presenter Passive View nach Fowler präsentiert die Aufgaben
 	der mit MVC eingeführten Komponenten, dabei beachtet der Presenter das Modell
 	und der Presenter aktualisiert die View.
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/mvp_fowler.pdf}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/DiagramMVPFowler.pdf}
 	\end{center}
 	\subsubsection{Model-ViewModel-Model (MVVM)}
 	Das MVVM Modell ist eine im Wesentlichen aus MVC und MVP abgeleitete
@@ -785,7 +785,7 @@
 	(Stärkung der Separation of Concerns durch XAML; Beschreibt die Einbindung
 	von Events und Bindings)
 	\begin{center}
-		\includegraphics[width=0.7\linewidth]{./pictures/mvvm.pdf}
+		\includegraphics[width=0.7\linewidth]{./Documents/Graphics/DiagramMVVM.pdf}
 	\end{center}
 	\section{Frameworks und Tools}
 	\subsection{Frameworks}
@@ -799,11 +799,11 @@
 			\begin{itemize}
 				\item Ansatz
 				      \begin{itemize}[leftmargin=4pt,nolistsep]
-					      \item Vordefinirte\\Komponenten
-					      \item Komponenten\\werden durch\\ihre Schnittstelle
+					      \item Vordefinirte Komponenten
+					      \item Komponenten werden durch ihre Schnittstelle
 					            beschrieben
-					      \item Verständnis der\\internen\\Funktionsweise\\der
-					            Komponenten\\\emph{nicht}\\erforderlich
+					      \item Verständnis der internen Funktionsweise der
+								Komponenten \emph{nicht} erforderlich
 				      \end{itemize}
 				\item Anwendung des Frameworks
 				      \begin{itemize}[leftmargin=4pt,nolistsep]
@@ -960,11 +960,11 @@
 \end{multicols*}
 \begin{multicols*}{3}
 	\section{Windows Presentation Foundation}
-	\lstinputlisting{software/example.xaml}
-	\lstinputlisting{software/example.cs}
+	\lstinputlisting{Documents/Programs/Example.xaml}
+	\lstinputlisting{Documents/Programs/Example.cs}
 	\subsection{Events}
-	\lstinputlisting{software/events.xaml}
-	\lstinputlisting{software/events.cs}
+	\lstinputlisting{Documents/Programs/Events.xaml}
+	\lstinputlisting{Documents/Programs/Events.cs}
 	\subsubsection{Routed Events}
 	Routed Events pflanzen sich entweder aufwärts oder abwärts in der Hierarchie
 	des \emph{Visual Trees} der GUI fort: Zwischen drin liegende Layout-Manager
@@ -994,8 +994,8 @@
 		\item Bubbling/Tunneling stoppen: \texttt{args.Handled = true;}
 	\end{itemize}
 	\subsection{Attribut-Element-Syntax}
-	\lstinputlisting{software/attribute_1.xaml}
-	\lstinputlisting{software/attribute_2.xaml}
+	\lstinputlisting{Documents/Programs/Attribute_1.xaml}
+	\lstinputlisting{Documents/Programs/Attribute_2.xaml}
 	\subsection{Bindings}
 	Bindungen binden immer nur auf \textbf{Properties}, nicht auf
 	Member-Variablen, und der angegebene \textit{Path} muss \texttt{public} sein.
@@ -1007,14 +1007,15 @@
 		\item \textit{OneTime}: Eine einmalige \textit{OneWay} Bindung
 	\end{itemize}
 	\subsubsection{Data-Context}
-	\lstinputlisting{software/data_context.cs}
-	\lstinputlisting{software/data_context.xaml}
+	\lstinputlisting{Documents/Programs/DataContext.cs}
+	\lstinputlisting{Documents/Programs/DataContext.xaml}
+	\columnbreak
 	\subsubsection{INotifyPropertyChanged}
-	\lstinputlisting{software/notify_property.cs}
+	\lstinputlisting{Documents/Programs/NotifyProperty.cs}
 	\subsection{Style Templates}
-	\lstinputlisting{software/styles.xaml}
+	\lstinputlisting{Documents/Programs/Styles.xaml}
 	\subsection{Triggers und Validation}
-	\lstinputlisting{software/triggers.xaml}
-	\lstinputlisting{software/validation.xaml}
+	\lstinputlisting{Documents/Programs/Triggers.xaml}
+	\lstinputlisting{Documents/Programs/Validation.xaml}
 \end{multicols*}
 \end{document}
