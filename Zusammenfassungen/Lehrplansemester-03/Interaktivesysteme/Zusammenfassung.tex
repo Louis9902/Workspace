@@ -1,53 +1,66 @@
 \documentclass
 [
-	8pt,		% Schriftgröße
-	ngerman,	% für Umlaute, Silbentrennung etc.
-	a4paper,	% Papierformat
-	landscape,	% Orientierung
-	final		% Status des Dokuments (final/draft)
+	8pt,		% font size
+	ngerman,	% hyphenation and more
+	a4paper,	% paper size
+	landscape,	% orientation
+	final		% document status (final/draft)
 ]{extarticle}
 
-% Anpassung der Landessprache %
+% \newenvironment{graphics}
+%   {\par\medskip\noindent\minipage{\linewidth}}
+%   {\endminipage\par\medskip}
+
+% adjust language %
 \usepackage[ngerman]{babel}
-% Einbindung von Sonderzeichen %
+% integration of speacial characters %
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
-% Anpassung des Seitenlayouts %
+% adjust page layout %
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 % --------------------------- %
 \usepackage{multicol}
+\usepackage{multirow}
 % --------------------------- %
 \usepackage{setspace}
 \usepackage{geometry}
-% Anpassung von Farben %
+\usepackage{adjustbox}
+% adjust colors %
 \usepackage{color}
-% Einbindung von mathematischen Symbole %
+% integration of mathematical symbols %
 \usepackage{amsmath}
 \usepackage{amssymb}
-% Einbindung von Programmcode %
+\usepackage{amsthm}
+\usepackage{mathtools}
+% integration of source code %
 \usepackage{listings}
-% Anpassung von Aufzählungen %
+% adjust enumerations %
 \usepackage{enumitem}
-% Erweiterung von Tabellen %
+% adjust tables %
 \usepackage{tabularx}
-% Einbindung von Grafiken %
+% integration of graphics %
 \usepackage{graphicx}
+% create graphics %
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
+% integration of seperate files %
+\usepackage{standalone}
 
-% ========== Informationen ========== %
+% ========== INFORMATION ========== %
 \def\name{Louis Seubert}
 \def\prefix{Zusammenfassung}
 \def\lecture{Interaktivesysteme}
-\def\maxpages{5}
+\def\maxpages{6}
 
-% ============== Anpassungen ============== %
-% Anpassung des Grafik Verzeichnisses %
+% ============== ADJUSTMENTS ============== %
+% adjust graphics path %
 \graphicspath
 {
 	{figures/}
 }
-% Anpassung des Seitenlayouts %
+% adjust page layout %
 \geometry
 {
 	left=0.55cm,
@@ -56,7 +69,7 @@
 	bottom=0.55cm,
 	headsep=2mm
 }
-% Anpassing des Programmcodes %
+% adjust source code view %
 \lstset
 {
 	basicstyle=\ttfamily\footnotesize,
@@ -80,7 +93,7 @@
 \pagestyle{fancy}
 \fancyhead{} % clear header
 \fancyhead[L]{\prefix\;\lecture}
-\fancyhead[R]{\thepage\;von\;\maxpages}
+\fancyhead[R]{\thepage\;--\;\maxpages}
 \fancyhead[C]{\name}
 \fancyfoot{} % clear footer
 

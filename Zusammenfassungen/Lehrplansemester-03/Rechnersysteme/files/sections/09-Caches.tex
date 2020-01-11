@@ -23,7 +23,7 @@ einem parallelen Zugriff auf die Caches und den Hauptspeicher gilt: $T_{i - 1} =
 \subsection{Virtuelle Speicheradresse}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.5]
+\begin{tikzpicture}[scale=0.4]
 \draw (00,00) rectangle (05,01) node[pos=0.5] {\small\textbf{TAG}};
 \draw (05,00) rectangle (09,01) node[pos=0.5] {\small\textbf{LINE}};
 \draw (09,00) rectangle (12,01) node[pos=0.5] {\small\textbf{WORD}};
@@ -78,8 +78,8 @@ werden, heizu gibt es folgende möglichkeiten:
 \begin{enumerate}
  \item Cache-Treffer
  \begin{enumerate}
-  \item\textbf{Write Through} Die modifizierten Daten werden sofort in den Hauptspeicher zurück geschrieben.
-  \item\textbf{Write Back} Die modifizierten Daten werden erst in den Hauptspeicher zurück geschrieben,
+  \item\textbf{Write Through} Die modifizierten Daten werden sofort in den Hauptspeicher zurück geschrieben.
+  \item\textbf{Write Back} Die modifizierten Daten werden erst in den Hauptspeicher zurück geschrieben,
   wenn die betroffene Cache-Zeile aus dem Cache entfernt wird.\par (LRU-Algorithmus \emph{Last Recently Used})
  \end{enumerate}
 
