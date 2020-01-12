@@ -44,6 +44,20 @@
 % integration of seperate files %
 \usepackage{standalone}
 
+% colors %
+\usepackage{color}
+\definecolor{cmark}{HTML}{008000}
+\definecolor{xmark}{HTML}{E32636}
+
+% tick and cross symbols %
+\usepackage{pifont}
+\newcommand{\cmark}{\textcolor{cmark}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{xmark}{\ding{55}}}
+
+\newcommand*\circlenummber[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.1ex] (char) {#1};}}
+
+\DeclareMathOperator{\avg}{avg}
+
 % ========== INFORMATION ========== %
 \def\name{Louis Seubert}
 \def\prefix{Zusammenfassung}
@@ -120,191 +134,635 @@
 \titleformat*{\subparagraph}{\small\bfseries}
 \titlespacing*{\subparagraph}{0pt}{.5em}{.5em}
 
+\newcommand*\important{\par\vspace{\abovedisplayskip}\textbf{Wichtig:}\par}
+\newcommand*\example{\par\vspace{\abovedisplayskip}\textbf{Beispiel:}\par}
+\newcommand{\includefigure}[1]{\begin{center}\input{#1}\end{center}}
 
-\input{./files/Configuration.tex}
-\input{./files/Hyphenation.tex}
-
-\newcommand{\dropin}[2][]
-{
-	\begin{center}
-		\input{#1}
-		\ifthenelse{\equal{#2}{}}{}{\footnotesize#2}
-	\end{center}
-}
+\newenvironment{definitions}{
+    \par\vspace{\abovedisplayshortskip}\noindent
+    \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}
+}{\endtabularx\par\vspace{\belowdisplayshortskip}}
 
 \begin{document}
 \begin{multicols*}{4}
-	\section{Einheiten, Größen}
-	\subsection{Datenmengen}
-	\begin{center}
-		\input{./Documents/Charts/DataSizes.tex}
-	\end{center}
-	\subsection{Frquenz \(f\)}
-	\[f = \cfrac{1}{T}\]
-	\section{Leistungsbewertung}
-	\begin{description}
-		\item[MIPS] millions of instructions per second
-		\item[FLOPS] floating point operations per second
-	\end{description}
-	\important MIPS-Vergleiche ergeben lediglich Sinn inerhalb der gleichen ISA
-	(Instruction Set Architecture).
-	\[\text{MIPS} = \cfrac{10^3}{\text{Instruktionszeit in ns}}\]
-	\subsection{Amdahlsches Gesetz}
-	Die Beschleunigung eines Systems wird berechnet durch ein vergleich der Zeit:
-	\[\text{Beschleunigung} = \cfrac{\text{Zeit vor der Beschleunigung}}{\text{Zeit nach der Beschleunigung}}\]
-	Damit kann man folgende Gesetzmäßigkeit aufstellen:
-	\[S = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
-	Aus diesem Zusammenhang kann man nun auch folgendes herleiten:
-	\[\cfrac{T_{0}}{T_{S}} = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
-	\begin{definitions}
-		$\(S\)$ & (Gesamt-)Beschleunigung des Programmes \\
-		$\(s\)$ & Beschleunigung des Pro­gramm­teils welches von der Verbesserung profitiert \\
-		$\(p\)$ & Anteil der Zeit, in dem die Verbesserung benutzt wird \\
-		$\(T_{0}\)$ & Zeit vor der Beschleunigung \\
-		$\(T_{S}\)$ & Zeit nach der Beschleunigung
-	\end{definitions}
-	\section{Fehlertoleranz}
-	\subsection{N-Modulare-Redundanz}
-	Die Wahrscheinlichkeit eines fehlerfreien Funktionieren eines Systemes
-	\(p_{s}\), mit \(m\) Komponenten, ist abhängig von der Verfügbarkeit der
-	Einzelkomponenten \(p_{c}\) und der Verfügbarkeit des Voters \(p_{v}\). Für
-	einen perfekten bzw. nicht vorkommenden Voter ist \(p_{v} = 1\). Die
-	maximale Anzahl der ausfallenden Komponenten \(w\), wird falls nicht gegeben,
-	durch \(w = \lceil \frac{m}{2} \rceil\) representiert.
-	\[p_{s} = \sum_{i = 0}^{w} \left( \binom{m}{m - 1} \cdot p_{c}^{m - 1} \cdot (1 - p_{c}) \right) \cdot p_{v}\]
-	\begin{description}
-		\item[2MR]
-		      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 2MR
-		      Systems:\par 2 Komponenten mit der Verfügbarkeit \(p_{c}\) und
-		      einem Voter mit der Verfügbarkeit \(p_{v}\):
-		      \[p_{s} = \left(2 p_{c} - p_{c}^{2} \right) \cdot p_{v}\]
-		\item[3MR]
-		      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 3MR
-		      Systems:\par 3 Komponenten mit der Verfügbarkeit \(p_{c}\) und
-		      einem Voter mit der Verfügbarkeit \(p_{v}\):
-		      \[p_{s} = \left(3 p_{c}^{2} - 2 p_{c}^{3} \right) \cdot p_{v}\]
-		\item[4MR]
-		      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 4MR
-		      Systems:\par 4 Komponenten mit der Verfügbarkeit \(p_{c}\) und
-		      einem Voter mit der Verfügbarkeit \(p_{v}\):
-		      \[p_{s} = \left(3 p_{c}^{4} - 8 p_{c}^{3} + 6 p_{c}^{2} \right) \cdot p_{v}\]
-		\item[5MR]
-		      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 5MR
-		      Systems:\par 5 Komponenten mit der Verfügbarkeit \(p_{c}\) und
-		      einem Voter mit der Verfügbarkeit \(p_{v}\):
-		      \[p_{s} = \left(6 p_{c}^{5} - 15 p_{c}^{4} + 10 p_{c}^{3} \right) \cdot p_{v}\]
-	\end{description}
-	\section{Paritätsprüfung}
-	\subsection{Paritätsbit}
-	Die Wahrscheinlichkeit das ein Wort der Länge \(n\) wirklich fehlerfrei ist,
-	wird bereits urch die Fehlererkennung mittels eines Paritätsbits erhöht.
-	Dabei ist die \emph{Wahrscheinlichkeit für ein} korrektes Bit \(p\), wobei
-	gilt das \(0<p<1\) ist. Die Bitfolge mit der Länge \(n+1\) wird dann als
-	korrekt angesehen wenn alle \(n+1\) oder \(n\) Bits korrekt sind.
-	Die Wahrscheinlichkeit für das Wort mit der Länge \(n\) und einem
-	Paritätsbit wird wiefolt berechnet:
-	\begin{align*}
-		P_{\text{parity}} & = p^{n+1}+\binom{n+1}{n}\cdot p^{n}\cdot\left(1-p\right)  \\
-		                  & = p^{n+1}+\left(n+1\right)\cdot\left(p^{n}-p^{n+1}\right) \\
-		                  & = \left(n+1\right)\cdot p^{n}-n\cdot p^{n + 1}
-	\end{align*}
-	Für ein Wort der Länge \(n\) ist die Wahrscheinlichkeit das es korrekt
-	angesehen wird: \[P_{\text{no\_parity}} = p^{n}\]
-	\section{Hamming-Code}
-	\subsection{Anzahl der Prüf- und Datenbits}
-	Für ein Wort der länge \(n\) mit \(m\) Datenbits benötigt man \(r\) Prüfbits
-	um einen 1-Bit-Fehler pro Wort zu korrigiren.
-	Daraus ergibt sich die allgemeine Ungleichung: \[2^{r} \geq m + r + 1\]
-	Und für einen \emph{perfekten} Hamming-Code ergibt sich: \[2^{r} = m + r + 1\]
-	Der \emph{perfekte} Hamming-Code besitzt die Wortlänge \(2^{r} - 1\).
-	\subsection{Hamming-Abstand}
-	Der Hamming-Abstand gibt die Anzahl der Bits zwischen zwei beliebige Wörtern
-	aus dem Code.
-	\example
-	Die zwei Wörter \(\texttt{1100100100}_2\) und \(\texttt{1001100011}_2\)
-	haben den Hamming-Abstand \(h = 5\).
-	\subsubsection*{Hamming-Abstand eines Codes}
-	Der Hamming-Abstand eines Codes ist die kleinstmögliche Anzahl an Bits, die
-	man verändern muss um ein neues gültiges Wort aus dem vorliegenden Code zu
-	bekommen.
-	\example
-	\begin{center}
-		\begin{minipage}{.35\linewidth}
-			\begin{align*}
-				x = \texttt{00110} \\
-				y = \texttt{00101} \\
-				z = \texttt{01110}
-			\end{align*}
-		\end{minipage}
-		\begin{minipage}{.35\linewidth}
-			\begin{eqnarray*}
-				h_{xy} &=& 2    \\
-				h_{xz} &=& 1    \\
-				h_{yz} &=& 3
-			\end{eqnarray*}
-		\end{minipage}
-	\end{center} \par
-	Da der kleinste Abstand 1 ist, ist der Hamming-Abstand des Codes ebenfalls 1.
-	\subsection{Fehlererkennung}
-	Um \(d\) Bitfehler zu erkennen, braucht man den Hamming-Abstand \(h\):
-	\begin{eqnarray*}
-		h &=& d + 1 \\
-		d &=& h - 1
-	\end{eqnarray*}
-	\subsection{Fehlerkorrektur}
-	Um \(d\) Bitfehler zu korrigiren, braucht man den Hamming-Abstand \(h\):
-	\begin{eqnarray*}
-		h &=& 2d + 1 \\
-		d &=& \left\lfloor\cfrac{h - 1}{2}\right\rfloor
-	\end{eqnarray*}
-	\subsection{Bündelfehlerkorrektur}
-	Um mehrere aufeinanderfolgende Bitfehler zu korrigiren ordnet man die \(k\)
-	mit Hamming codierten Wörter der Länge \(n\) in einer \(k \cdot n\) Matrix
-	an. \emph{Dabei ist zu beachten das nun zuerst die erste Spalte der Matrix
-	übertragen bzw. gespeichert wird.}\par Somit kann man einen \textbf{maximal}
-	einen Bündelfehler der Länge \(k\) Bits korrigiren, dabei ist bei \(k\)
-	aufeinanderfolgenden fehlerhaften Bits maximal 1 Bit pro Wort fehlerhaft.
-	\example
-	\includefigure{./graphics/Hamming/Abbildung-1.tex}
-	Die übertragenen Bits lauten:\par
-	\texttt{0111000 0011111 1111111 1100001 0111111 0000000}\par
-	\texttt{1011110 0100101 0011011 0000011 0100101}
-	\subsection{Hamming-Algorithmus}
-	\subsubsection*{Paritäts-Kontrollbits}
-	Paritäts-Kontrollbits $p$ an Zweierpotenz Positionen
-	\begin{itemize}
-		\item Paritätsbit $p_{1}$ prüft 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21
-		\item Paritätsbit $p_{2}$ prüft 2, 3, 6, 7, 10, 11, 14, 15, 18, 19
-		\item Paritätsbit $p_{4}$ prüft 4, 5, 6, 7, 12, 13, 14, 15, 20, 21
-		\item Paritätsbit $p_{8}$ prüft 8, 9, 10, 11, 12, 13, 14, 15
-		\item Paritätsbit $p_{16}$ prüft 16, 17, 18, 19, 20, 21
-	\end{itemize}
-	\example
-	\includefigure{./graphics/Hamming/Abbildung-2.tex}
-	\subsection{Erweiterungen}
-	\subsubsection*{SECDED}
-	\textbf{S}ingle \textbf{E}rror \textbf{C}orrection \textbf{D}ouble \textbf{E}rror
-	\textbf{D}etection füget ein weiteres Paritätsbit an der Position \texttt{0} welches
-	die gesamten anderen Bits auf Parität überprüft. \par
-	\begin{itemize}
-		\item Hamming-Prüfbits \cmark \quad Extra-Prüfbit \cmark\par
-		      $\longrightarrow$ fehlerfrei oder mehr als 2 Fehler
-		\item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \xmark\par
-		      $\longrightarrow$ 1-Bitfehler, korrigirbar mit Hamming
-		\item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \cmark\par
-		      $\longrightarrow$ 2-Bitfehler, nicht lokalisier- bzw. korrigirbar
-	\end{itemize}
+% ======================================================================== %
+\section{Einheiten, Größen}
+% ------------------------------------------------------------------------ %
+\subsection{Datenmengen}
+\begin{center}
+	\input{./Documents/Charts/DataSizes.tex}
+\end{center}
+% ------------------------------------------------------------------------ %
+\subsection{Frquenz \(f\)}
+\[f = \cfrac{1}{T}\]
 
-	%\input{./files/sections/02-Leistungsbewertung.tex}
-	%\input{./files/sections/03-Fehlertoleranz.tex}
-	%\input{./files/sections/04-Paritaetspruefung.tex}
-	%\input{./files/sections/05-Hamming.tex}
-	\input{./files/sections/06-IJVM.tex}
-	\input{./files/sections/07-HDD.tex}
-	\input{./files/sections/08-SSD.tex}
-	\input{./files/sections/09-Caches.tex}
-	\input{./files/sections/10-Sprungvorhersage.tex}
-	\input{./files/sections/11-Cache-Kohaerenz.tex}
-	\input{./files/sections/12-Multithreading.tex}
+% ======================================================================== %
+\section{Leistungsbewertung}
+% ------------------------------------------------------------------------ %
+\subsection{Kenngrößen}
+\begin{itemize}
+	\item \textbf{MIPS} millions of instructions per second
+	\item \textbf{FLOPS} floating point operations per second
+\end{itemize}
+\important
+MIPS-Vergleiche ergeben lediglich Sinn inerhalb der gleichen ISA
+(Instruction Set Architecture).
+\[\text{MIPS} = \cfrac{10^3}{\text{Instruktionszeit in ns}}\]
+% ------------------------------------------------------------------------ %
+\subsection{Amdahlsches Gesetz}
+Die Beschleunigung eines Systems wird berechnet durch ein vergleich der Zeit:
+\[\text{Beschleunigung} = \cfrac{\text{Zeit vor der Beschleunigung}}{\text{Zeit nach der Beschleunigung}}\]
+Damit kann man folgende Gesetzmäßigkeit aufstellen:
+\[S = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
+Aus diesem Zusammenhang kann man nun auch folgendes herleiten:
+\[\cfrac{T_{0}}{T_{S}} = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
+\begin{definitions}
+	$$S$$ & (Gesamt-)Beschleunigung des Programmes \\
+	$$s$$ & Beschleunigung des Pro­gramm­teils welches von der Verbesserung profitiert \\
+	$$p$$ & Anteil der Zeit, in dem die Verbesserung benutzt wird \\
+	$$T_{0}$$ & Zeit vor der Beschleunigung \\
+	$$T_{S}$$ & Zeit nach der Beschleunigung
+\end{definitions}
+Wenn sich z.B. die Anzahl der Prozessor Kerne ver-\(n\)-facht dann ist die
+Beschleunigung des Pro­gramm­teils \(\frac{1}{n}\) wenn es vorher auf einem
+Kern lief.
+
+% ======================================================================== %
+\section{Fehlertoleranz}
+% ------------------------------------------------------------------------ %
+\subsection{N-Modulare-Redundanz}
+Die Wahrscheinlichkeit eines fehlerfreien Funktionieren eines Systemes $p_{s}$, mit $m$
+Komponenten, ist abhängig von der Verfügbarkeit der Einzelkomponenten $p_{c}$ und der
+Verfügbarkeit des Voters $p_{v}$. Für einen perfekten bzw. nicht vorkommenden Voter
+ist $p_{v} = 1$. Die maximale Anzahl der ausfallenden Komponenten $w$, wird falls nicht
+gegeben, durch $w = \lceil \frac{m}{2} \rceil$ representiert.
+\[p_{s} = \sum_{i = 0}^{w} \left( \binom{m}{m - 1} \cdot p_{c}^{m - 1} \cdot (1 - p_{c}) \right) \cdot p_{v}\]
+
+\begin{description}
+	\item[2MR]
+	      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 2MR Systems:\par
+	      2 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+	      \[p_{s} = \left(2 p_{c} - p_{c}^{2} \right) \cdot p_{v}\]
+	\item[3MR]
+	      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 3MR Systems:\par
+	      3 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+	      \[p_{s} = \left(3 p_{c}^{2} - 2 p_{c}^{3} \right) \cdot p_{v}\]
+	\item[4MR]
+	      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 4MR Systems:\par
+	      4 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+	      \[p_{s} = \left(3 p_{c}^{4} - 8 p_{c}^{3} + 6 p_{c}^{2} \right) \cdot p_{v}\]
+	\item[5MR]
+	      Wahrscheinlichkeit des fehlerfreien Funktionierens eines 5MR Systems:\par
+	      5 Komponenten mit der Verfügbarkeit $p_{c}$ und einem Voter mit der Verfügbarkeit $p_{v}$:
+	      \[p_{s} = \left(6 p_{c}^{5} - 15 p_{c}^{4} + 10 p_{c}^{3} \right) \cdot p_{v}\]
+\end{description}
+
+% ======================================================================== %
+\section{Paritätsprüfung}
+% ------------------------------------------------------------------------ %
+\subsection{Paritätsbit}
+Die Wahrscheinlichkeit das ein Wort der Länge $n$ wirklich fehlerfrei ist, wird bereits
+durch die Fehlererkennung mittels eines Paritätsbits erhöht. Dabei ist die
+\emph{Wahrscheinlichkeit für ein} korrektes Bit $p$, wobei gilt das $0<p<1$ ist.
+Die Bitfolge mit der Länge $n+1$ wird dann als korrekt angesehen wenn alle $n+1$ oder
+$n$ Bits korrekt sind. Die Wahrscheinlichkeit für das Wort mit der Länge $n$ und einem
+Paritätsbit wird wiefolt berechnet:
+\begin{align*}
+	P_{\text{parity}} & = p^{n+1}+\binom{n+1}{n}\cdot p^{n}\cdot\left(1-p\right)  \\
+	                  & = p^{n+1}+\left(n+1\right)\cdot\left(p^{n}-p^{n+1}\right) \\
+	                  & = \left(n+1\right)\cdot p^{n}-n\cdot p^{n + 1}
+\end{align*}
+
+Für ein Wort der Länge $n$ ist die Wahrscheinlichkeit das es korrekt angesehen wird:
+\[P_{\text{no\_parity}} = p^{n}\]
+
+% ======================================================================== %
+\section{Hamming-Code}
+% ------------------------------------------------------------------------ %
+\subsection{Anzahl der Prüf- und Datenbits}
+Für ein Wort der länge $n$ mit $m$ Datenbits benötigt man $r$ Prüfbits um einen 1-Bit-Fehler
+pro Wort zu korrigiren.
+Daraus ergibt sich die allgemeine Ungleichung: \[2^{r} \geq m + r + 1\]
+Und für einen \emph{perfekten} Hamming-Code ergibt sich: \[2^{r} = m + r + 1\]
+Der \emph{perfekte} Hamming-Code besitzt die Wortlänge $2^{r} - 1$.
+% ------------------------------------------------------------------------ %
+\subsection{Hamming-Abstand}
+Der Hamming-Abstand gibt die Anzahl der Bits zwischen zwei beliebige Wörtern aus dem Code.
+\example
+Die zwei Wörter $\texttt{1100100100}_2$ und $\texttt{1001100011}_2$ haben den
+Hamming-Abstand $h = 5$.
+
+\subsubsection*{Hamming-Abstand eines Codes}
+Der Hamming-Abstand eines Codes ist die kleinstmögliche Anzahl an Bits, die man verändern
+muss um ein neues gültiges Wort aus dem vorliegenden Code zu bekommen.
+\example
+\begin{center}
+	\begin{minipage}{.35\linewidth}
+		\begin{align*}
+			x = \texttt{00110} \\
+			y = \texttt{00101} \\
+			z = \texttt{01110}
+		\end{align*}
+	\end{minipage}
+	\begin{minipage}{.35\linewidth}
+		\begin{eqnarray*}
+			h_{xy} &=& 2    \\
+			h_{xz} &=& 1    \\
+			h_{yz} &=& 3
+		\end{eqnarray*}
+	\end{minipage}
+\end{center} \par
+Da der kleinste Abstand 1 ist, ist der Hamming-Abstand des Codes ebenfalls 1.
+% ------------------------------------------------------------------------ %
+\subsection{Fehlererkennung}
+Um $d$ Bitfehler zu erkennen, braucht man den Hamming-Abstand $h$:
+\begin{eqnarray*}
+	h &=& d + 1 \\
+	d &=& h - 1
+\end{eqnarray*}
+% ------------------------------------------------------------------------ %
+\subsection{Fehlerkorrektur}
+Um $d$ Bitfehler zu korrigiren, braucht man den Hamming-Abstand $h$:
+\begin{eqnarray*}
+	h &=& 2d + 1 \\
+	d &=& \left\lfloor\cfrac{h - 1}{2}\right\rfloor
+\end{eqnarray*}
+% ------------------------------------------------------------------------ %
+\subsection{Bündelfehlerkorrektur}
+Um mehrere aufeinanderfolgende Bitfehler zu korrigiren ordnet man die $k$ mit Hamming
+codierten Wörter der Länge $n$ in einer $k \cdot n$ Matrix an. \emph{Dabei ist zu
+	beachten das nun zuerst die erste Spalte der Matrix übertragen bzw. gespeichert wird.}\par
+Somit kann man einen \textbf{maximal} einen Bündelfehler der Länge $k$ Bits korrigiren,
+dabei ist bei $k$ aufeinanderfolgenden fehlerhaften Bits maximal 1 Bit pro Wort fehlerhaft.
+
+\example
+\includefigure{./Documents/Graphics/Hamming-Abbildung-1.tex}
+Die übertragenen Bits lauten:\par
+\texttt{0111000 0011111 1111111 1100001 0111111 0000000 1011110 0100101 0011011 0000011 0100101}
+% ------------------------------------------------------------------------ %
+\subsection{Hamming-Algorithmus}
+\subsubsection*{Paritäts-Kontrollbits}
+Paritäts-Kontrollbits $p$ an Zweierpotenz Positionen
+\begin{itemize}
+	\item Paritätsbit $p_{1}$ prüft 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21
+	\item Paritätsbit $p_{2}$ prüft 2, 3, 6, 7, 10, 11, 14, 15, 18, 19
+	\item Paritätsbit $p_{4}$ prüft 4, 5, 6, 7, 12, 13, 14, 15, 20, 21
+	\item Paritätsbit $p_{8}$ prüft 8, 9, 10, 11, 12, 13, 14, 15
+	\item Paritätsbit $p_{16}$ prüft 16, 17, 18, 19, 20, 21
+\end{itemize}
+
+\example
+\includefigure{./Documents/Graphics/Hamming-Abbildung-2.tex}
+% ------------------------------------------------------------------------ %
+\subsection{Erweiterungen}
+\subsubsection*{SECDED}
+\textbf{S}ingle \textbf{E}rror \textbf{C}orrection \textbf{D}ouble \textbf{E}rror
+\textbf{D}etection füget ein weiteres Paritätsbit an der Position \texttt{0} welches
+die gesamten anderen Bits auf Parität überprüft. \par
+\begin{itemize}
+	\item Hamming-Prüfbits \cmark \quad Extra-Prüfbit \cmark\par
+	      $\longrightarrow$ fehlerfrei oder mehr als 2 Fehler
+	\item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \xmark\par
+	      $\longrightarrow$ 1-Bitfehler, korrigirbar mit Hamming
+	\item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \cmark\par
+	      $\longrightarrow$ 2-Bitfehler, nicht lokalisier- bzw. korrigirbar
+\end{itemize}
+
+
+\newcommand{\microinst}{\ensuremath{\mu\text{-Instruktionen}}}
+% ======================================================================== %
+\section{IJVM}
+% ------------------------------------------------------------------------ %
+\subsection{Ausführungsdauer}
+\[
+	\text{Ausführungszeit} = \cfrac{\microinst}{\text{Takt}}
+\]
+\important Bei der Auswärtung der \microinst ist darauf zu achten dass der
+Programm fluss beachtet wird, denn je nach Aufbau des Programmes kann es bei
+bedingten Sprüngen in der Architektur sein das Befehle eine unterscheidliche
+Anzahl an \microinst besitzt. Ebenfalls muss beachtet werden ob inerhalb der
+\microinst auch sprünge stattfinden, welche zusätzliche Operation zum selben
+Takt haben.
+% ------------------------------------------------------------------------ %
+\subsection{Anweisungsabhängigkeit}
+\begin{description}
+	\item[Read after Write (RAW)]
+	      Instruktion \(2\) versucht aus dem Register einen Wert zu lesen
+	      bevor dieser durch Instruktion \(1\) geschrieben wurde. \par
+	      Diese Art der Abhängigkeit ist entscheidend für Aussagen über die
+	      Mindestanzahl der benötigten Taktzyklen. Für die Aufteilung der
+	      einzelnen Instruktionen auf die verscheiedenen
+	      Ausführungseinheiten eines superskalaren Prozessors werden
+	      Abhängigkeitskette gebildet, wobei die Anzahl der Glieder in der
+	      längsten Kette der Mindestanzahl der benötigten Taktzyklen
+	      entspricht.
+	      \begin{align}
+		      \textbf{R1} & = \text{R2} + \text{R3}   \\
+		      \text{R4}   & = \textbf{R1} + \text{R5}
+	      \end{align}
+	      \setcounter{equation}{0}
+
+	\item[Write after Read (WAR)]
+	      Instruktion \(2\) versucht in ein Register einen Wert zu schreiben
+	      bevor es von Instruktion \(1\) gelesen wurde.
+	      \begin{align}
+		      \text{R1}   & = \textbf{R2} + \text{R3} \\
+		      \textbf{R2} & = \text{R5} + \text{R6}
+	      \end{align}
+	      \setcounter{equation}{0}
+
+	\item[Write after Write (WAW)]
+	      Instruktion \(2\) versucht in ein Register einen Wert zu schreiben
+	      bevor in dieses ein Wert von Instruktion \(1\) geschrieben wurde.
+	      \begin{align}
+		      \textbf{R1} & = \text{R2} + \text{R3} \\
+		      \textbf{R1} & = \text{R5} + \text{R6}
+	      \end{align}
+	      \setcounter{equation}{0}
+\end{description}
+% ------------------------------------------------------------------------ %
+\subsection{Adressierungsarten}
+\begin{description}
+	\item[Unmittelbare Adressierung]
+	      Bei der unmittelbaren Adressierung folgt ein Operand direkt dem
+	      Opcode. Er wird als Konstante betrachtet. \\
+	      $\texttt{LOAD 20}\rightarrow\texttt{20}$
+
+	\item[Direkte Adressierung]
+	      Bei der direkten Adressierung wird der Operand der dem Befehl
+	      folgt oder das angegebene Register als Adresse angesehen. \\
+	      $\texttt{LOAD 20}\rightarrow\texttt{40}$
+
+	\item[Indirekte Adressierung]
+	      Bei der indirekten Adressierung enthält die Speicherzelle dagegen
+	      erneut eine Adresse und erst die Speicherzelle die durch diese
+	      Adresse angesprochen wird den Wert selbst. \\
+	      $\texttt{LOAD 20}\rightarrow\texttt{60}$ \\
+	      $\texttt{LOAD R2}\rightarrow\texttt{40}$
+
+	\item[Registeradressierung]
+	      Bei der Registeradressierung ist der Operand ein Register, welches
+	      den Wert selbst beinhaltet. \\
+	      $\texttt{LOAD R2}\rightarrow\texttt{20}$
+
+	\item[Indizierte Adressierung]
+	      Dies entspricht der direkten Adressierung, nur wird vor dem
+	      Zugriff zu der Adresse noch ein fester Wert addiert und das
+	      Resultat als Adresse interpretiert. \\
+	      $\texttt{LOAD (R1 + 40)}\rightarrow\texttt{70}$ \\
+	      Anstelle des festen Wert kann auch ein Indexregister zu einem
+	      Basisregister addiert werden, dies liefert dann die Adresse für
+	      den direkten oder indirekten Zugriff. \\
+	      $\texttt{LOAD (R1 + R2)}\rightarrow\texttt{50}$
+\end{description}
+\emph{Beispielwerte:}
+\begin{center}
+	\begin{tabular}{|r|l|c|r|l|}\cline{1-2}\cline{4-5}
+		Register    & Wert        &  & Adresse     & Wert        \\\cline{1-2}\cline{4-5}
+		\texttt{R1} & \texttt{10} &  & \texttt{20} & \texttt{40} \\\cline{1-2}\cline{4-5}
+		\texttt{R2} & \texttt{20} &  & \texttt{30} & \texttt{50} \\\cline{1-2}\cline{4-5}
+		            &             &  & \texttt{40} & \texttt{60} \\\cline{1-2}\cline{4-5}
+		            &             &  & \texttt{50} & \texttt{70} \\\cline{1-2}\cline{4-5}
+	\end{tabular}
+\end{center}
+
+
+% ======================================================================== %
+\section{Hard Disk Drive}
+% ------------------------------------------------------------------------ %
+\subsection{Begriffe}
+\begin{description}
+	\item[Spur]
+	      Ein Kreis auf der Festplatte auf dem die Sektoren nacheinander
+	      liegen. Die Spuren sind konzentrisch auf der Festplatte gelegt.
+
+	\item[Sektor]
+	      Ein Stück aus einer Spur mit fester Breite. Die Sektorlänge ist
+	      z.B. in Bytes ($512$ oder $4096$ Bytes) oder Mikrometer angegeben.
+	      Jeder Sektor enthält zudem noch $40$ bis $100$ Bytes für
+	      Verwaltungsinformationen (\emph{Präambel}) und
+	      Fehlererkennung/-korrektur.
+
+	\item[Zylinder]
+	      Wenn die Festplatte aus mehreren übereinander liegenden Scheiben
+	      besteht, besteht ein Zylinder allen Spuren die genau übereinander
+	      auf den Scheiben liegen. Wenn es z.B. 2 Scheiben gibt, dann sind
+	      alle $2$ Spuren die ganz außen auf jeder Scheibe liegen ein
+	      Zylinder; genauso machen alle Spuren Nr. $16$ auf jeder Scheibe
+	      zusammen ein Zylinder aus: Zylinder $16$. Ein Zylinder ist also
+	      eine Erweiterung der Spur auf vertikalen Ebene wenn es mehrere
+	      Scheiben gibt. Es folgt, auf einem Zylinder der aus $n$
+	      übereinander liegenden Spuren besteht und wenn jede dieser Spuren
+	      $k$ Bytes hat, dann hat ein Zylinder $n \cdot k$ Bytes. Folgt
+	      auch, dass eine Angabe wie $32$ Zylinder bedeutet dass jede
+	      Scheibe $32$ Spuren hat.
+\end{description}
+% ------------------------------------------------------------------------ %
+\subsection{Datenübertragungszeit}
+Die mittlere Datenübertragungszeit $T_{\text{average}}$ einer Festplatte
+hinsichtlich der auf einer Spur befindlichen Daten kann vereinfacht mittels
+der folgenden Funktion dargestellt werden:
+\[T_{\text{average}} := T_{s} + T_{r} + T_{t}\]
+Die mittlere Positionierungszeit $T_{s}$ setzt sich dabei zusammen aus der
+Positionierungszeit $MT_{\text{sr}}$ des Schreib/Lese-Kopfs in die richtige
+radiale Position zum Lesen/Schreiben und der Zeit $MT_{\text{sc}}$ zum
+wechseln auf benachbarte Spuren $S_{c}$, daraus leiten sich folgenden
+Funktionen ab:
+\begin{align*}
+	T_{s}         & := T_{\text{sr}} + T_{\text{sc}} \\
+	T_{\text{sr}} & := MT_{\text{sr}}\cdot (S-S_{c}) \\
+	T_{\text{sc}} & := MT_{\text{sc}}\cdot S_{c}
+\end{align*}
+Sollten jedoch alle Spuren $S$ bis auf die erste benachbart sein, dann gilt
+für die Positionierungszeit folgenden Funktion:
+\[T_{s} := MT_{\text{sr}} + MT_{\text{sc}}\cdot (S-1)\]
+Der Drehverzug $T_{r}$ fällt bei jedem Spurwechsel an und ist die
+Verzögerung, welche anfällt bis sich der gesuchte Sektor auf der rotierenden
+Festplatte unter dem Schreib/Lese-Kopf befindet. Die Drehverzugszeit ist
+dabei abhängig von der Rotationsgeschwindigkeit $v$ welche in \emph{RPM}
+angegeben wird. \[T_{r} := \left(\cfrac{60\cdot 1000}{2v}\right)\cdot S\]
+Die Übertragungszeit $T_{t}$ ist die eigentliche Zeit welche benötigt wird
+und die Daten zu übertragen; diese ist abhängig von der
+Rotationsgeschwindigkeit $v$ sowie der Anzahl der genutzten Sektoren
+$N_{u}$ pro Spur und der Gesamtanzahl der Sektoren $N_{t}$ pro Spur.
+\[T_{t} := \left(\cfrac{60\cdot 1000}{v}\right)\cdot \cfrac{N_{u}}{N_{t}}\cdot S\]
+Die Anzahl der benötigten Spuren lässt wie folgt berechnen:
+\[\text{Spuren} = \cfrac{\text{Datei}_\text{Gr}}{\text{Oberflächen}_\text{Anz}\cdot \text{Sektoren}_\text{Anz}\cdot \text{Sektor}_\text{Gr}}\]
+% ------------------------------------------------------------------------ %
+\subsection{Speicherdirektzugriff}
+Der Speicherdirektzugriff ermöglicht es angeschlossenen Peripheriegeräten
+ohne Umweg über die CPU mit dem Arbeitsspeicher zu kommuniziren. Ein Vorteil
+des Speicherdirektzugriffs ist die schneller Datenübertargung bei einer
+gleichzeitigen Entlastung des Prozessors. Der DMA-Controller muss jedoch die
+Daten zwangsläufig über das gleiche Bussystem übertragen wie die CPU. \par
+Die Buszyklen $C$ welche für einen $n$-Bit-DMA-Transfer benötigten werden
+kann mittels folgender Funktion, in Abhängigkeit von der Umdrehungsdauer
+$T_{r}$ (in ms), der Sektorgröße $S$ und der Sektorenanzahl $A$,ermittelt
+werden: \[C = \left\lceil\cfrac{A\cdot S\cdot 8}{n\cdot T_{r}}\right\rceil\]
+
+% ======================================================================== %
+\section{Solid State Drive}
+\begin{definitions}
+	$$C$$ & Lösch/Schreib-Zyklen pro Speicherzelle                                  \\
+	$$T_{L}$$ & Lebensdauer                                                         \\
+	$$B_{G}$$ & Gesamtanzahl der Blöcke                                             \\
+	$$B_{T}$$ & Anzahl der Blöcke welche pro Zeiteinheit geschrieben werden         \\
+	$$P_{D}$$ & Prozentanteil der dynamischen Daten                                 \\
+	$$P_{S}$$ & Prozentanteil der reservierten Blöcke für das Bad Block Management
+\end{definitions}
+\[B_{G} = \cfrac{\text{Kapazität}}{\text{Blockgröße}} \cdot ( 1 - P_{S} )\]
+\important
+Wenn es heißt: \emph{Eine typische Datei, die zu den Dynamischen Daten gerechnet
+	wird, belegt im Mittel $x$ Blöcke ...}, dann muss wie flogt vorgegangen
+werden:\par
+$A_{\text{DBF}} = \text{Anzahl Dynamischener Blöcke pro Datei}$
+\[\text{Anzahl}_\text{Datein} = \cfrac{\text{Anzahl}_\text{Dynamischener Blöcke}}{A_{\text{DBF}}}\]
+\[B_{T} = A_{\text{DBF}} \cdot \text{Anz}_\text{Datein} \cdot \text{Zeiteinheit}\]
+% ------------------------------------------------------------------------ %
+\subsection{Static Wear Levelling}
+\[T_{L} = \cfrac{C \cdot B_{G}}{B_{T}}\]
+% ------------------------------------------------------------------------ %
+\subsection{Dynamic Wear Levelling}
+\[T_{L} = \cfrac{C \cdot ( B_{G} \cdot P_{D} )}{B_{T}}\]
+% ======================================================================== %
+\section{Caches}
+% ------------------------------------------------------------------------ %
+\subsection{Zugriffszeit}
+Die Trefferwahrscheinlichkeit für einen Wert in eimem Level-$i$-Cache
+berechnet siech wie folgt:
+\begin{align*}
+	P(\text{L1})  & = p_{\text{L1}}                                                                                \\
+	P(\text{L2})  & = p_{\text{L2}} \cdot (\underbracket{1 - P(\text{L1})}_{\text{L1 Miss}})                       \\
+	P(\text{L3})  & = p_{\text{L3}} \cdot (\underbracket{1 - P(\text{L1}) - P(\text{L2})}_{\text{L1 und L2 Miss}}) \\
+	P(\text{MEM}) & = 1 - (\underbracket{P(\text{L1}) - P(\text{L2}) - P(\text{L3})}_{\text{nicht im Cache}})
+\end{align*}
+Dabei bezeichnet $p_{\text{L}i}$ den Prozentsatz der Speicher-Lesezugriff,
+die Cache-Treffer des Level-$i$-Caches sind. Die mittlere Zugriffszeit auf
+Werte aus dem Hauptspeicher bzw. dem Cache lässt sich dann wie folgt
+berechen:
+\[T_{\avg} = P(\text{MEM}) \cdot \left( T_{i - 1} + T_{\text{MEM}} \right) + \sum\left( T_{i} \cdot P(\text{L}_{i}) \right)\]
+Wobei $T_{i}$ die Zugriffszeit für den Level-$i$-Cache in Nanosekunden ist,
+$T_{\text{MEM}}$ ist die Zugriffszeit auf den Hauptspeicher und $T_{i - 1}$
+ist der letzte Cache vor dem Hauptspeicher.
+\important
+$T_{i - 1} \neq 0$, wenn erst \emph{nach} dem letzten Cache auf den
+Hauptspeicher zugegriffen wird. Bei einem parallelen Zugriff auf die Caches
+und den Hauptspeicher gilt: $T_{i - 1} = 0$.
+% ------------------------------------------------------------------------ %
+\subsection{Virtuelle Speicheradresse}
+\begin{center}
+	\begin{tikzpicture}[scale=0.4]
+		\draw (00,00) rectangle (05,01) node[pos=0.5] {\small\textbf{TAG}};
+		\draw (05,00) rectangle (09,01) node[pos=0.5] {\small\textbf{LINE}};
+		\draw (09,00) rectangle (12,01) node[pos=0.5] {\small\textbf{WORD}};
+		\draw (12,00) rectangle (15,01) node[pos=0.5] {\small\textbf{BYTE}};
+	\end{tikzpicture}
+\end{center}
+\begin{description}
+	\item[TAG] Das Feld Tag beshetht aus einem eindeutigen n-Bit-Wert. Er
+	      kennzeichnet die entsprechenden Zeile im Hauptspeicher, woher die
+	      Daten stammen. Die Anzahl der Bist wird meist so gewählt das eine
+	      volle Speicheradresse (32/64 Bits) entsteht.
+	      \[\text{Bits}_\texttt{TAG} = \text{Bits}_\texttt{ADDRESS} - \text{Bits}_\texttt{LINE} - \text{Bits}_\texttt{WORD}\]
+	\item[LINE]
+	      Das Line Feld gibt an, in welcher Zeile sich die entsprechenden
+	      Daten befinden, falls diese im Cache vorhanden sein sollten.
+	      \[\text{Bits}_\texttt{LINE} = \left\lceil \log_{2}\left(\cfrac{\text{Cachegröße}}{\text{Cachezeilengröße}}\right) \right\rceil\]
+	\item[WORD] Mit dem Word Feld wird angegeben welches Wort aus der Cache
+	      Zeile angefordert wird. Dies fällt oftmals zusammen mit dem
+	      \emph{BYTE} Feld, da der Cache lediglich eine Byte-Adressierung
+	      zulässt.
+	\item[BYTE] Das Byte Feld gibt an welches Byte aus einem Speicherwort
+	      geldaen werden soll. Dies kann bei einem Cache der lediglich eine
+	      Byte-Adressierung zulässt auch mit dem \emph{WORD} Feld zusammengefast
+	      werden.
+	      \[\text{Bits}_\texttt{WORD} = \left\lceil \log_{2}\left(\text{Cachezeilengröße}\right) \right\rceil\]
+\end{description}
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\subsubsection*{N-Weg-Cache}
+Ermöglicht es für eine Speicheradresse mehrere Einträge abzulegen. Dies wird
+benötig wenn ein Programm häufig Wörter an zwei weit auseinander liegenden
+Adressen holt und dadurch ständig Konflikte auftreten welche möglicherweße
+die vorherige Referenz aus dem Cache verdrängt. Ein Zusammfassung $n$
+solcher Cache-Einträge nennt man \emph{Menge}.
+\[ \text{Anzahl}_\text{Mengen} = \cfrac{\text{Cachegröße}}{\text{Cachezeilengröße} \cdot \text{Assoziativität}}\]
+Da die Kapazität des Caches zunimmt jedoch nicht die Anzahl der
+adressierbaren Cachezeilen, dadurch muss die Anzahl der benötigten Bist für
+die Cachezeilen wiefolgt lauten:
+\[\text{Bits}_\texttt{LINE} = \left\lceil log_{2}\left( \text{Anzahl}_\text{Mengen} \right) \right\rceil\]
+% ------------------------------------------------------------------------ %
+\subsection{Schreib-Operationen}
+Schreibt der Prozess ein Wort und das Wort befindet sich im Cache, muss der
+Cache-Eintrag aktualisirt werden, heizu gibt es folgende möglichkeiten:
+\begin{enumerate}
+	\item Cache-Treffer
+	      \begin{enumerate}
+		      \item\textbf{Write Through} Die modifizierten Daten werden
+		            sofort in den Hauptspeicher zurück geschrieben.
+		      \item\textbf{Write Back} Die modifizierten Daten werden erst
+		            in den Hauptspeicher zurück geschrieben,
+		            wenn die betroffene Cache-Zeile aus dem Cache entfernt
+		            wird.\par (LRU-Algorithmus \emph{Last Recently Used})
+	      \end{enumerate}
+
+	\item Cache-Verfehlen
+	      \begin{enumerate}
+		      \item\textbf{Write Allocation} Erzeugen eines neuen
+		            Cache-Eintrags, in den die Daten geschrieben werden.
+		      \item\textbf{Write Around} Schreiben von Daten direkt in den
+		            Hauptspeicher, ohne einen Cache-Eintrag zu erzeugen.
+	      \end{enumerate}
+\end{enumerate}
+% ======================================================================== %
+\columnbreak
+\section{Sprungvorhersage}
+Dynamische Sprungvorhersage mit hilfe einer History-Tabelle mit \(n\)
+Entscheidungs-Bits pro Eintrag kann als ein endlicher Automat dargestellt
+werden.
+% ------------------------------------------------------------------------ %
+\subsection{2-Bit-Sprungvorhersage}
+\begin{center}
+	\includestandalone[width=\linewidth]{./Documents/Graphics/Sprungvorhersage-Abbildung-1}
+\end{center}
+% ------------------------------------------------------------------------ %
+\subsection{3-Bit-Sprungvorhersage}
+\begin{center}
+	\includestandalone[width=\linewidth]{./Documents/Graphics/Sprungvorhersage-Abbildung-2}
+\end{center}
+% ======================================================================== %
+\section{Cache-Kohärenz}
+\begin{description}
+	\item[Modified] Cache-Zeile ist gültig und die Kopie im Hauptspeicher
+	      ist nicht gültig. Der Eintrag kann in keinem andern Cache
+	      existiren.
+	\item[Exclusive] Cache-Zeile ist gültig und die Kopie im Hauptspeicher
+	      ist gültig. Der Eintrag kann in keinem andern Cache existiren.
+	\item[Shared] Cache-Zeile ist gültig und die Kopie im Hauptspeicher
+	      ist gültig. Der Eintrag kann möglicherweiße in einem andern Cache
+	      existiren.
+	\item[Invalid] Cache-Zeile ist nicht gültig oder ist im aktuellen Cache
+	      nicht vorhanden.
+	\item[Owned] Ist eine Cache-Zeile \textit{Modified} und ein anderer
+	      Prozess möchte den aktuellen Wert lesen, so versetzt er die
+	      aktuell modifzierte Zeile in den Zustand Owned. Die Caches
+	      tauschen dabei ihre Werte aus, jedoch beibt der Wert im
+	      Hauptspeicher unverändert und somit ungültig.
+	\item[Forward] Die Cache-Zeile agiert in diesem Fall als ein Vermittler
+	      für andere Caches in welchem die selbe Cache-Zeile mit dem Zustand
+	      \textit{Shared} ist. Dabei ist die Cache-Zeile mit dem Zustand
+	      \textit{Forward} immer die welche als letztes modifzierte wurde.
+\end{description}
+% ------------------------------------------------------------------------ %
+\subsection{MSI}
+\begin{center}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-1}
+	{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-2}
+	{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{center}
+% ------------------------------------------------------------------------ %
+\subsection{MESI}
+\begin{center}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-3}
+	{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-4}
+	{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{center}
+% ------------------------------------------------------------------------ %
+\subsection{MOESI}
+\begin{center}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-5}
+	{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-6}
+	{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{center}
+% ------------------------------------------------------------------------ %
+\subsection{MESIF}
+\begin{center}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-7}
+	{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+	\includestandalone[width=0.8\linewidth]{./Documents/Graphics/Cache-Kohaerenz-Abbildung-8}
+	{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{center}
+% ======================================================================== %
+\columnbreak
+\section{Multithreading}
+Beispiel Verteilung von 3 Threads auf 4 Ausfüehrungseinheiten, dabei
+benötigt die Ausführung einer Instruktion genau eine Taktzyklus:
+\par\vspace{\abovedisplayskip}
+
+\textbf{Thread X}\par\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXX|}\hline
+	X    & 1  & 2  & 3 & 4 & 5 & 6  \\\hline
+	AE 1 & X1 & X4 & - & - & - & X6 \\
+	AE 2 & X2 & X5 & - & - & - & X7 \\
+	AE 3 & X3 &    & - & - & - &    \\
+	AE 4 &    &    & - & - & - &    \\\hline
+\end{tabularx}\par\vspace{\belowdisplayskip}
+
+\textbf{Thread Y}\par\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXX|}\hline
+	Y    & 1  & 2  & 3  & 4 & 5 & 6  \\\hline
+	AE 1 & Y1 & Y2 & Y4 & - & - & X7 \\
+	AE 2 &    & Y3 & Y5 & - & - & X8 \\
+	AE 3 &    &    & Y6 & - & - &    \\
+	AE 4 &    &    &    & - & - &    \\\hline
+\end{tabularx}\par\vspace{\belowdisplayskip}
+
+\textbf{Thread Z}\par\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXX|}\hline
+	Z    & 1  & 2 & 3  & 4 & 5  & 6 \\\hline
+	AE 1 & Z1 & - & Z5 & - & Z7 & - \\
+	AE 2 & Z2 & - & Z6 & - &    & - \\
+	AE 3 & Z3 & - &    & - &    & - \\
+	AE 4 & Z4 & - &    & - &    & - \\\hline
+\end{tabularx}\par\vspace{\belowdisplayskip}
+% ------------------------------------------------------------------------ %
+\subsection{Feinkörniges Multithreading}
+Mit Round-Robin Ausführungsreihenfolge wird in jedem Taktzyklus ein anderer
+Thread ausgeführt. Falls ein Thread keine Aufgaben hat, wird nicht zurück
+gegangen. \par
+\begingroup\setlength\tabcolsep{2pt}
+\small
+\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXXXXXX|}\hline
+	     & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 \\\hline
+	AE 1 & X1 & Y1 & Z1 & X4 & Y2 & Z5 & Y4 & Z7 & X6 & Y7 \\
+	AE 2 & X2 &    & Z2 & X5 & Y3 & Z6 & Y5 &    & X7 & Y8 \\
+	AE 3 & X3 &    & Z3 &    &    &    & Y6 &    &    &    \\
+	AE 4 &    &    & Z4 &    &    &    &    &    &    &    \\\hline
+\end{tabularx}
+\endgroup
+% ------------------------------------------------------------------------ %
+\subsection{Grobkörniges Multithreading}
+Führt eine Thread aus, bis eine Verzögerung auftritt, dann wird nach Round-Robin
+die Ausführungsreihenfolge geändert. Im Normalfall tritt eine Verzögerung auf,
+hier ist es 1 Taktzyklus.\par
+\begingroup\setlength\tabcolsep{1.25pt}
+\small
+\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXXXXXXXXXXXX|}\hline
+	     & 1  & 2  & 3 & 4  & 5  & 6  & 7 & 8  & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\\hline
+	AE 1 & X1 & X4 & - & Y1 & Y2 & Y4 & - & Z1 & - & X6 & -  & Y7 & -  & Z5 & -  & Z7 \\
+	AE 2 & X2 & X4 & - &    & Y3 & Y5 & - & Z2 & - & X7 & -  & Y8 & -  & Z6 & -  &    \\
+	AE 3 & X3 &    & - &    &    & Y6 & - & Z3 & - &    & -  &    & -  &    & -  &    \\
+	AE 4 &    &    & - &    &    &    & - & Z4 & - &    & -  &    & -  &    & -  &    \\\hline
+\end{tabularx}
+\endgroup
+% ------------------------------------------------------------------------ %
+\subsection{Simultanes Multithreading} Mit Round-Robin Ausführungsreihenfolge
+werden die Threads aus alle Ausfüehrungseinheiten aufgeteilt. Dabei gibt es eine
+Verzögerung falls alle Threads zu einem Taktzyklus keine Aufgaben haben.\par
+\begingroup\setlength\tabcolsep{2pt}
+\small
+\vspace{\abovedisplayskip}
+\begin{tabularx}{\linewidth}{|c|XXXXXXXX|}\hline
+	     & 1  & 2  & 3  & 4  & 5  & 6 & 7  & 8  \\\hline
+	AE 1 & X1 & Y2 & Z3 & Y4 & Z5 &   & X6 & Z7 \\
+	AE 2 & X2 & Y3 & Z4 & Y5 & Z6 &   & X7 &    \\
+	AE 3 & X3 & Z1 & X4 & Y6 &    &   & Y7 &    \\
+	AE 4 & Y1 & Z2 & X5 &    &    &   & Y8 &    \\\hline
+\end{tabularx}
+\endgroup
 \end{multicols*}
 \end{document}
