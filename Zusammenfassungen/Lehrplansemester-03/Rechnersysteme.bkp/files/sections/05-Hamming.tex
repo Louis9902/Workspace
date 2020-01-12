@@ -1,0 +1,97 @@
+\section{Hamming-Code}
+
+\subsection{Anzahl der Prüf- und Datenbits}
+Für ein Wort der länge $n$ mit $m$ Datenbits benötigt man $r$ Prüfbits um einen 1-Bit-Fehler 
+pro Wort zu korrigiren.
+Daraus ergibt sich die allgemeine Ungleichung:
+\[
+ 2^{r} \geq m + r + 1
+\]
+Und für einen \emph{perfekten} Hamming-Code ergibt sich:
+\[
+ 2^{r} = m + r + 1
+\]
+Der \emph{perfekte} Hamming-Code besitzt die Wortlänge $2^{r} - 1$.
+
+\subsection{Hamming-Abstand}
+Der Hamming-Abstand gibt die Anzahl der Bits zwischen zwei beliebige Wörtern aus dem Code.
+\example
+Die zwei Wörter $\texttt{1100100100}_2$ und $\texttt{1001100011}_2$ haben den 
+Hamming-Abstand $h = 5$.
+
+\subsubsection*{Hamming-Abstand eines Codes}
+Der Hamming-Abstand eines Codes ist die kleinstmögliche Anzahl an Bits, die man verändern
+muss um ein neues gültiges Wort aus dem vorliegenden Code zu bekommen.
+\example
+\begin{center}
+ \begin{minipage}{.35\linewidth}
+    \begin{align*}
+        x = \texttt{00110}  \\
+        y = \texttt{00101}  \\
+        z = \texttt{01110}
+    \end{align*}
+\end{minipage}
+\begin{minipage}{.35\linewidth}
+    \begin{eqnarray*}
+        h_{xy} &=& 2    \\
+        h_{xz} &=& 1    \\
+        h_{yz} &=& 3
+    \end{eqnarray*}
+\end{minipage}
+\end{center} \par
+Da der kleinste Abstand 1 ist, ist der Hamming-Abstand des Codes ebenfalls 1.
+
+\subsection{Fehlererkennung}
+Um $d$ Bitfehler zu erkennen, braucht man den Hamming-Abstand $h$:
+\begin{eqnarray*}
+    h &=& d + 1 \\
+    d &=& h - 1
+\end{eqnarray*}
+
+\subsection{Fehlerkorrektur}
+Um $d$ Bitfehler zu korrigiren, braucht man den Hamming-Abstand $h$:
+\begin{eqnarray*}
+    h &=& 2d + 1 \\
+    d &=& \left\lfloor\cfrac{h - 1}{2}\right\rfloor
+\end{eqnarray*}
+
+\subsection{Bündelfehlerkorrektur}
+Um mehrere aufeinanderfolgende Bitfehler zu korrigiren ordnet man die $k$ mit Hamming
+codierten Wörter der Länge $n$ in einer $k \cdot n$ Matrix an. \emph{Dabei ist zu 
+beachten das nun zuerst die erste Spalte der Matrix übertragen bzw. gespeichert wird.}\par
+Somit kann man einen \textbf{maximal} einen Bündelfehler der Länge $k$ Bits korrigiren,
+dabei ist bei $k$ aufeinanderfolgenden fehlerhaften Bits maximal 1 Bit pro Wort fehlerhaft.
+
+\example
+\includefigure{./graphics/Hamming/Abbildung-1.tex}
+Die übertragenen Bits lauten:\par
+\texttt{0111000 0011111 1111111 1100001 0111111 0000000}\par
+\texttt{1011110 0100101 0011011 0000011 0100101}
+
+\subsection{Hamming-Algorithmus}
+\subsubsection*{Paritäts-Kontrollbits}
+Paritäts-Kontrollbits $p$ an Zweierpotenz Positionen
+\begin{itemize}
+    \item Paritätsbit $p_{1}$ prüft 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21
+    \item Paritätsbit $p_{2}$ prüft 2, 3, 6, 7, 10, 11, 14, 15, 18, 19
+    \item Paritätsbit $p_{4}$ prüft 4, 5, 6, 7, 12, 13, 14, 15, 20, 21
+    \item Paritätsbit $p_{8}$ prüft 8, 9, 10, 11, 12, 13, 14, 15
+    \item Paritätsbit $p_{16}$ prüft 16, 17, 18, 19, 20, 21
+\end{itemize}
+
+\example
+\includefigure{./graphics/Hamming/Abbildung-2.tex}
+
+\subsection{Erweiterungen}
+\subsubsection*{SECDED}
+\textbf{S}ingle \textbf{E}rror \textbf{C}orrection \textbf{D}ouble \textbf{E}rror 
+\textbf{D}etection füget ein weiteres Paritätsbit an der Position \texttt{0} welches
+die gesamten anderen Bits auf Parität überprüft. \par
+\begin{itemize}
+    \item Hamming-Prüfbits \cmark \quad Extra-Prüfbit \cmark\par
+    $\longrightarrow$ fehlerfrei oder mehr als 2 Fehler
+    \item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \xmark\par
+    $\longrightarrow$ 1-Bitfehler, korrigirbar mit Hamming
+    \item Hamming-Prüfbits \xmark \quad Extra-Prüfbit \cmark\par
+    $\longrightarrow$ 2-Bitfehler, nicht lokalisier- bzw. korrigirbar
+\end{itemize}

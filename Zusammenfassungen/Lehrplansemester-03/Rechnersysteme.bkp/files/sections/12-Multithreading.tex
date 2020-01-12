@@ -1,0 +1,66 @@
+\section{Multithreading}
+Beispiel Verteilung von 3 Threads auf 4 Ausfüehrungseinheiten, dabei benötigt die Ausführung
+einer Instruktion genau eine Taktzyklus:
+\subsubsection*{Thread X}
+\begin{tabular}{|c|llllll|}\hline
+  X  & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+AE 1 & X1 & X4 &   &   &   & X6\\
+AE 2 & X2 & X5 &   &   &   & X7\\
+AE 3 & X3 &    &   &   &   &   \\
+AE 4 &    &    &   &   &   &   \\\hline
+\end{tabular}\par
+\subsubsection*{Thread Y}
+\begin{tabular}{|c|llllll|}\hline
+  Y  & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+AE 1 & Y1 & Y2 & Y4 &   &   & X7\\
+AE 2 &    & Y3 & Y5 &   &   & X8\\
+AE 3 &    &    & Y6 &   &   &   \\
+AE 4 &    &    &    &   &   &   \\\hline
+\end{tabular}\par
+\subsubsection*{Thread Z}
+\begin{tabular}{|c|llllll|}\hline
+  Z  & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+AE 1 & Z1 &   & Z5 &   & Z7 &  \\
+AE 2 & Z2 &   & Z6 &   &    &  \\
+AE 3 & Z3 &   &    &   &    &  \\
+AE 4 & Z4 &   &    &   &    &  \\\hline
+\end{tabular}\par
+
+\paragraph{Feinkörniges Multithreading} Mit Round-Robin Ausführungsreihenfolge wird in jedem
+Taktzyklus ein anderer Thread ausgeführt. Falls ein Thread keine Aufgaben hat, wird nicht
+zurück gegangen.\par
+\begingroup\setlength\tabcolsep{2pt}
+\begin{tabular}{|c|llllllllll|}\hline
+     & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\\hline
+AE 1 & X1 & Y1 & Z1 & X4 & Y2 & Z5 & Y4 & Z7 & X6 & Y7\\
+AE 2 & X2 &    & Z2 & X5 & Y3 & Z6 & Y5 &    & X7 & Y8\\
+AE 3 & X3 &    & Z3 &    &    &    & Y6 &    &    &   \\
+AE 4 &    &    & Z4 &    &    &    &    &    &    &   \\\hline
+\end{tabular}
+\endgroup
+
+\paragraph{Grobkörniges Multithreading} Führt eine Thread aus, bis eine Verzögerung auftritt, dann
+wird nach Round-Robin die Ausführungsreihenfolge geändert. Im Normalfall tritt eine Verzögerung auf,
+hier ist es 1 Taktzyklus.\par
+\begingroup\setlength\tabcolsep{2pt}
+\begin{tabular}{|c|llllllllllllllll|}\hline
+     & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\\hline
+AE 1 & X1 & X4 &   & Y1 & Y2 & Y4 &   & Z1 &   & X6 &   & Y7 &   & Z5 &   & Z7 \\
+AE 2 & X2 & X4 &   &    & Y3 & Y5 &   & Z2 &   & X7 &   & Y8 &   & Z6 &   &    \\
+AE 3 & X3 &    &   &    &    & Y6 &   & Z3 &   &    &   &    &   &    &   &    \\
+AE 4 &    &    &   &    &    &    &   & Z4 &   &    &   &    &   &    &   &    \\\hline
+\end{tabular}
+\endgroup
+
+\paragraph{Simultanes Multithreading} Mit Round-Robin Ausführungsreihenfolge werden die Threads
+aus alle Ausfüehrungseinheiten aufgeteilt. Dabei gibt es eine Verzögerung falls alle Threads
+zu einem Taktzyklus keine Aufgaben haben.\par
+\begingroup\setlength\tabcolsep{2pt}
+\begin{tabular}{|c|llllllll|}\hline
+     & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\hline
+AE 1 & X1 & Y2 & Z3 & Y4 & Z5 &   & X6 & Z7 \\
+AE 2 & X2 & Y3 & Z4 & Y5 & Z6 &   & X7 &    \\
+AE 3 & X3 & Z1 & X4 & Y6 &    &   & Y7 &    \\
+AE 4 & Y1 & Z2 & X5 &    &    &   & Y8 &    \\\hline
+\end{tabular}
+\endgroup

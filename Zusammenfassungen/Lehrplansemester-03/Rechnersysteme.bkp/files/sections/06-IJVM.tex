@@ -1,0 +1,91 @@
+\newcommand{\microinst}{\ensuremath{\mu\text{-Instruktionen}}}
+
+\section{IJVM}
+
+\subsection{Ausführungsdauer}
+\[
+ \text{Ausführungszeit} = \cfrac{\microinst}{\text{Takt}}
+\]
+\important Bei der Auswärtung der \microinst ist darauf zu achten dass der Programm 
+fluss beachtet wird, denn je nach Aufbau des Programmes kann es bei bedingten Sprüngen
+in der Architektur sein das Befehle eine unterscheidliche Anzahl an \microinst besitzt. 
+Ebenfalls muss beachtet werden ob inerhalb der \microinst auch sprünge stattfinden,
+welche zusätzliche Operation zum selben Takt haben.
+
+\subsection{Anweisungsabhängigkeit}
+\begin{description}
+ \item[Read after Write (RAW)]
+ Instruktion $2$ versucht aus dem Register einen Wert zu lesen bevor dieser durch
+ Instruktion $1$ geschrieben wurde. \par
+ Diese Art der Abhängigkeit ist entscheidend für Aussagen über die Mindestanzahl
+ der benötigten Taktzyklen. Für die Aufteilung der einzelnen Instruktionen auf die
+ verscheiedenen Ausführungseinheiten eines superskalaren Prozessors werden 
+ Abhängigkeitskette gebildet, wobei die Anzahl der Glieder in der längsten Kette
+ der Mindestanzahl der benötigten Taktzyklen entspricht.
+ \begin{align}
+ \textbf{R1} &= \text{R2} + \text{R3} \\
+ \text{R4} &= \textbf{R1} + \text{R5}
+ \end{align}
+ \setcounter{equation}{0}
+ 
+ \item[Write after Read (WAR)]
+ Instruktion $2$ versucht in ein Register einen Wert zu schreiben bevor es von
+ Instruktion $1$ gelesen wurde.
+ \begin{align}
+ \text{R1} &= \textbf{R2} + \text{R3} \\
+ \textbf{R2} &= \text{R5} + \text{R6}
+ \end{align}
+ \setcounter{equation}{0}
+
+ \item[Write after Write (WAW)]
+ Instruktion $2$ versucht in ein Register einen Wert zu schreiben bevor in dieses
+ ein Wert von Instruktion $1$ geschrieben wurde.
+ \begin{align}
+ \textbf{R1} &= \text{R2} + \text{R3} \\
+ \textbf{R1} &= \text{R5} + \text{R6}
+ \end{align}
+ \setcounter{equation}{0}
+\end{description}
+
+\subsection{Adressierungsarten}
+\begin{description}
+ \item[Unmittelbare Adressierung] 
+ Bei der unmittelbaren Adressierung folgt ein Operand direkt dem Opcode. Er wird als Konstante betrachtet. \par
+ $\texttt{LOAD 20}\rightarrow\texttt{20}$
+ 
+ \item[Direkte Adressierung]
+ Bei der direkten Adressierung wird der Operand der dem Befehl folgt oder das angegebene Register als
+ Adresse angesehen. \par
+ $\texttt{LOAD 20}\rightarrow\texttt{40}$
+ 
+ \item[Indirekte Adressierung]
+ Bei der indirekten Adressierung enthält die Speicherzelle dagegen erneut eine Adresse und erst die
+ Speicherzelle die durch diese Adresse angesprochen wird den Wert selbst. \par
+ $\texttt{LOAD 20}\rightarrow\texttt{60}$ \par
+ $\texttt{LOAD R2}\rightarrow\texttt{40}$
+ 
+ \item[Registeradressierung]
+ Bei der Registeradressierung ist der Operand ein Register, welches den Wert selbst beinhaltet. \par
+ $\texttt{LOAD R2}\rightarrow\texttt{20}$
+
+ \item[Indizierte Adressierung]
+ Dies entspricht der direkten Adressierung, nur wird vor dem Zugriff zu der Adresse noch ein fester Wert
+ addiert und das Resultat als Adresse interpretiert. \par
+ $\texttt{LOAD (R1 + 40)}\rightarrow\texttt{70}$ \\
+ Anstelle des festen Wert kann auch ein Indexregister zu einem Basisregister addiert werden, dies liefert
+ dann die Adresse für den direkten oder indirekten Zugriff. \par
+ $\texttt{LOAD (R1 + R2)}\rightarrow\texttt{50}$
+\end{description}
+\emph{Beispielwerte:}
+\begin{center}
+\begin{tabular}{|r|l|c|r|l|}\cline{1-2}\cline{4-5}
+Register & Wert & & Adresse & Wert\\\cline{1-2}\cline{4-5}
+\texttt{R1} & \texttt{10} & & \texttt{20} & \texttt{40}\\\cline{1-2}\cline{4-5}
+\texttt{R2} & \texttt{20} & & \texttt{30} & \texttt{50}\\\cline{1-2}\cline{4-5}
+            &             & & \texttt{40} & \texttt{60}\\\cline{1-2}\cline{4-5}
+            &             & & \texttt{50} & \texttt{70}\\\cline{1-2}\cline{4-5}
+\end{tabular}
+\end{center}
+
+
+

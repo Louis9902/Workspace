@@ -1,0 +1,55 @@
+\section{Cache-Kohärenz}
+\begin{description}
+ \item[Modified] Cache-Zeile ist gültig und die Kopie im Hauptspeicher ist nicht
+ gültig. Der Eintrag kann in keinem andern Cache existiren.
+ \item[Exclusive] Cache-Zeile ist gültig und die Kopie im Hauptspeicher ist gültig.
+ Der Eintrag kann in keinem andern Cache existiren.
+ \item[Shared] Cache-Zeile ist gültig und die Kopie im Hauptspeicher ist gültig.
+ Der Eintrag kann möglicherweiße in einem andern Cache existiren.
+ \item[Invalid] Cache-Zeile ist nicht gültig oder ist im aktuellen Cache nicht vorhanden.
+ \item[Owned] Ist eine Cache-Zeile \textit{Modified} und ein anderer Prozess möchte den 
+ aktuellen Wert lesen, so versetzt er die aktuell modifzierte Zeile in den Zustand Owned.
+ Die Caches tauschen dabei ihre Werte aus, jedoch beibt der Wert im Hauptspeicher
+ unverändert und somit ungültig.
+ \item[Forward] Die Cache-Zeile agiert in diesem Fall als ein Vermittler für andere Caches
+ in welchem die selbe Cache-Zeile mit dem Zustand \textit{Shared} ist. Dabei ist die 
+ Cache-Zeile mit dem Zustand \textit{Forward} immer die welche als letztes modifzierte 
+ wurde.
+\end{description}
+
+\subsection{MSI}
+\begin{minipage}{\linewidth}
+\centering
+\includestandalone[width=0.8\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-1}
+{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+\includestandalone[width=0.8\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-2}
+{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{minipage}
+
+\subsection{MESI}
+\begin{minipage}{\linewidth}
+\centering
+\includestandalone[width=0.8\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-3}
+{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+\includestandalone[width=0.8\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-4}
+{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{minipage}
+
+\subsection{MOESI}
+\begin{minipage}{\linewidth}
+\centering
+\includestandalone[width=0.7\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-5}
+{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+\includestandalone[width=0.7\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-6}
+{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{minipage}
+
+\subsection{MESIF}
+\begin{minipage}{\linewidth}
+\centering
+\includestandalone[width=0.7\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-7}
+{\small\textit{Zustandsübergänge des initiierenden Prozessors}}
+\includestandalone[width=0.7\linewidth]{./graphics/Cache-Kohaerenz/Abbildung-8}
+{\small\textit{Zustandsübergänge des passiven Prozessors}}
+\end{minipage}
+
