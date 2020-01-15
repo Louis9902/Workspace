@@ -519,8 +519,8 @@
 	\subsubsection*{Low-Encryption-Exponent-Attack}
 	Möglich bei einem kleinen Abstand zwischen den Primfaktoren von \(n\).
 	\begin{enumerate}
-		\item \(x = \left\lceil\sqrt{n}\right\rceil\)
-		\item \(y = \sqrt{x^{2}-n}\)
+		\item \(x = \left\lceil\;\sqrt{n}\;\right\rceil\)
+		\item \(y = \sqrt{x^{2}-n}\) (wenn von 3. dann \(x+1\))
 		\item \(
 		      \begin{cases}
 			      \text{gehe zu 2} & \text{wenn } y \textbf{ nicht}\text{ ganzzahlig} \\
@@ -532,7 +532,7 @@
 	\subsubsection*{Small-Message-Space-Attack}
 	Wenn die Anzahl der möglichen Nachrichten klein ist und der mögliche Inhalt
 	im Vorraus bekannt ist, dann kann der Angreifer eine Liste führen, in welcher
-	die möglichen Nachrichten zusammen mit dem \pkey verschlüsselten Nachricht
+	die möglichen Nachrichten zusammen mit dem \pkey\; verschlüsselten Nachricht
 	aufgeführt werden. Sollte dann eine Nachricht abgefangen werden, muss lediglich
 	in der Liste gesucht werden. \par
 	Durch den Einsatz von OAEP (Optimal Asymmetric Enrcyption Padding) kann dies
@@ -658,6 +658,8 @@
 		\item Alice berechnet nun $k = d^a \bmod p$
 		\item Bob berechnet nun $k = c^b \bmod p$
 	\end{enumerate}
+	Wichtig bei der Angabe des Schlüssels muss evtl. mit \(\) gepaddet werden um
+	die geforderte Schlüssellänge zu erreichen.
 
 	\subsection{Station-to-Station-Protokoll}
 	Eine Erweiterung des Diffie-Hellman-Schlüsselaustausch um einen
