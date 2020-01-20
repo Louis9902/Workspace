@@ -196,7 +196,7 @@ Komponenten, ist abhängig von der Verfügbarkeit der Einzelkomponenten $p_{c}$ 
 Verfügbarkeit des Voters $p_{v}$. Für einen perfekten bzw. nicht vorkommenden Voter
 ist $p_{v} = 1$. Die maximale Anzahl der ausfallenden Komponenten $w$, wird falls nicht
 gegeben, durch $w = \lceil \frac{m}{2} \rceil$ representiert.
-\[p_{s} = \sum_{i = 0}^{w} \left( \binom{m}{m - 1} \cdot p_{c}^{m - 1} \cdot (1 - p_{c}) \right) \cdot p_{v}\]
+\[p_{s} = \sum_{i = 0}^{w} \left( \binom{m}{m - i} \cdot p_{c}^{m - i} \cdot (1 - p_{c})^{i} \right) \cdot p_{v}\]
 
 \begin{description}
 	\item[2MR]
