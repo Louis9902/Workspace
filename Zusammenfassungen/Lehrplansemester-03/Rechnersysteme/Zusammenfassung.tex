@@ -387,34 +387,34 @@ Takt haben.
 	\item[Unmittelbare Adressierung]
 	      Bei der unmittelbaren Adressierung folgt ein Operand direkt dem
 	      Opcode. Er wird als Konstante betrachtet. \\
-	      $\texttt{LOAD 20}\rightarrow\texttt{20}$
+	      $\texttt{LOAD 20}\rightarrow\texttt{20}$ (\texttt{Load Immediate})
 
 	\item[Direkte Adressierung]
 	      Bei der direkten Adressierung wird der Operand der dem Befehl
 	      folgt oder das angegebene Register als Adresse angesehen. \\
-	      $\texttt{LOAD 20}\rightarrow\texttt{40}$
+	      $\texttt{LOAD 20}\rightarrow\texttt{40}$ (\texttt{Load Direct})
 
 	\item[Indirekte Adressierung]
 	      Bei der indirekten Adressierung enthält die Speicherzelle dagegen
 	      erneut eine Adresse und erst die Speicherzelle die durch diese
 	      Adresse angesprochen wird den Wert selbst. \\
-	      $\texttt{LOAD 20}\rightarrow\texttt{60}$ \\
-	      $\texttt{LOAD R2}\rightarrow\texttt{40}$
+	      $\texttt{LOAD 20}\rightarrow\texttt{60}$ (\texttt{Load Indirect})\\
+	      $\texttt{LOAD R2}\rightarrow\texttt{40}$ (\texttt{Load Indirect-Register-Mode})
 
 	\item[Registeradressierung]
 	      Bei der Registeradressierung ist der Operand ein Register, welches
 	      den Wert selbst beinhaltet. \\
-	      $\texttt{LOAD R2}\rightarrow\texttt{20}$
+	      $\texttt{LOAD R2}\rightarrow\texttt{20}$ (\texttt{Load Register-Mode})
 
 	\item[Indizierte Adressierung]
 	      Dies entspricht der direkten Adressierung, nur wird vor dem
 	      Zugriff zu der Adresse noch ein fester Wert addiert und das
 	      Resultat als Adresse interpretiert. \\
-	      $\texttt{LOAD (R1 + 40)}\rightarrow\texttt{70}$ \\
+	      $\texttt{LOAD (R1 + 40)}\rightarrow\texttt{70}$ (\texttt{Load Indexed Mode}) \\
 	      Anstelle des festen Wert kann auch ein Indexregister zu einem
 	      Basisregister addiert werden, dies liefert dann die Adresse für
 	      den direkten oder indirekten Zugriff. \\
-	      $\texttt{LOAD (R1 + R2)}\rightarrow\texttt{50}$
+	      $\texttt{LOAD (R1 + R2)}\rightarrow\texttt{50}$ \\(\texttt{Load Based-Indexed-Mode})
 \end{description}
 \emph{Beispielwerte:}
 \begin{center}
@@ -426,7 +426,15 @@ Takt haben.
 		            &             &  & \texttt{50} & \texttt{70} \\\cline{1-2}\cline{4-5}
 	\end{tabular}
 \end{center}
-
+% ------------------------------------------------------------------------ %
+\subsection{Umwandlung von MicX in MicY}
+Bei der Umwandlung darauf achten das der Versatzt der einzelnen Mikroinstruktionen
+richtig erfolgt, d.h. es muss darauf geachtet werden das ein Register erst dann wieder
+verwendet werden darf wenn es von der Vorherigen Instruktion nicht mehr benötig wird. \par
+Bei einem \textbf{read} wird aus dem \texttt{MAR} die Adresse gelesen und der Wert aus
+dem Speicher in das \texttt{MDR} gelegt. (\textsf{MDR = mem}) \par
+Bei einem \textbf{write} wird aus dem \texttt{MAR} der Adresse gelesen an die der Wert
+aus dem \texttt{MDR} geschrieben wird. (\textsf{mem = MDR})
 
 % ======================================================================== %
 \section{Hard Disk Drive}
@@ -525,7 +533,7 @@ $A_{\text{DBF}} = \text{Anzahl Dynamischener Blöcke pro Datei}$
 \[T_{L} = \cfrac{C \cdot B_{G}}{B_{T}}\]
 % ------------------------------------------------------------------------ %
 \subsection{Dynamic Wear Levelling}
-\[T_{L} = \cfrac{C \cdot ( B_{G} \cdot (P_{D} + P_{F}) )}{B_{T}}\]
+\[T_{L} = \cfrac{C \cdot  B_{G} \cdot (P_{D} + P_{F})}{B_{T}}\]
 % ======================================================================== %
 \section{Caches}
 % ------------------------------------------------------------------------ %
