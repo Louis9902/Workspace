@@ -149,11 +149,17 @@
 	\end{description}
 	\example Ein Direktor (Anwender) lässt sich von seinem Chauffeur (Benutzer)
 	mit einem Auto (Hilfsmittel) zu seinem nächsten Termin bringen
+	\subsection{Arten der Kontrolle}
+	\begin{itemize}
+		\item \textbf{Interne Kontrolle:} Assistenten
+		\item \textbf{Externe Kontrolle:} WIMP
+	\end{itemize}
 	\subsection{Definition Interaktives System}
 	Ein \textbf{interaktives System} gibt dem Benutzer die Möglichkeit, mittels
 	einer Benutzerschnittstelle die laufende Bearbeitung einer Aufgabe durch ein
 	technisches System zu beeinflussen.
 	\subsection{Formen von Interaktion}
+	Nach \emph{Preece et al.}
 	\begin{itemize}
 		\item \textbf{Anweisung}
 		      \begin{itemize}
@@ -169,7 +175,7 @@
 			      \item Ansteuern („Target Acquisition“)
 			      \item Verändern
 		      \end{itemize}
-		\item \textbf{Erkunden (einer Menge von Kommandos, Inhalten)}
+		\item \textbf{Erkunden (einer Menge von Kommandos [Menu], Inhalten)}
 		      \begin{itemize}
 			      \item Suchanfragen
 			      \item Browsing
@@ -178,7 +184,7 @@
 	\subsection{Arten von Benutzerschnittstellen}
 	\begin{itemize}
 		\item \textbf{T}ext \textbf{U}ser \textbf{I}nterface
-		\item \textbf{T}angible \textbf{U}ser \textbf{I}nterface
+		\item \textbf{T}angible \textbf{U}ser \textbf{I}nterface (\(\rightarrow \text{Post-WIMP}\))
 		\item \textbf{G}raphical \textbf{U}ser \textbf{I}nterface
 		\item \textbf{V}oice \textbf{U}ser \textbf{I}nterface
 		\item \textbf{H}aptic \textbf{U}ser \textbf{I}nterface
@@ -507,6 +513,45 @@
 		\item Realisieren Fensterplatzierungsstrategien
 		\item Unterstützen Navigation in Fenstern
 	\end{itemize}
+	\subsubsection{Navigation in Bildschirmfenstern}
+	\begin{itemize}
+		\item Die physikalische Größe des Ausgabegeräts beschränkt den sichtbaren
+		      Bereich eines Fensters
+		\item Verkleinerung des Weltmodells im Zuge der Window-to-Viewport-Transformation
+		      nur begrenzt zielführend aufgrund:
+		      \begin{itemize}
+			      \item Grenzen der Auflösung des Ausgabegeräts
+			      \item Grenzen der menschlichen Wahrnehmung
+		      \end{itemize}
+		\item Dem Benutzer wird daher ermöglicht, das im Weltmodell definierte Fenster zu
+		      manipulieren
+	\end{itemize}
+	\begin{description}
+		\item[Scrolling] Indirekte Manipulation der Position im Weltmodell;
+		      Unterstützt durch Controls des Fensters (Scrollbar) und ggf.
+		      Hardware (Tastatur, Mausrad)
+		\item[Panning] Direkte Manipulation der Position im Weltmodell
+		\item[Zooming] Skalierung der Größe des Fensters im Weltmodell;
+		      U.U. verbunden mit einer Modifikation von Datenselektion und
+		      Präsentation (vgl. Bederson \& Hollan, 1994);
+		      B. Bederson. PA3D: Early zoomable user interface (ZUI)
+	\end{description}
+	\paragraph{Mehraufwand durch Fenstermanagement}
+	Nach \emph{Bury \& Darnell:}\\
+	Primäre Aufgabe der Probanden (Textverarbeitung) erfordert Einsatz von
+	Hilfsfunktionen:
+	\begin{enumerate}
+		\item Freie Verwaltung der Fenster der Hilfswerkzeuge
+		\item Hilfswerkzeuge immer Vollbild
+	\end{enumerate}
+	Beobachtung: Freie Verwaltung verlangsamt das Arbeiten, führt aber zu einem
+	akkurateren Arbeiten.
+	\subsubsection{Virtuelle Desktops}
+	Ziel: Verwaltungsaufwand reduzieren unter Beibehaltung einer akkuraten
+	Arbeitsweise. Virtuelle Desktops realisieren eine Raum-Metapher
+	(Henderson \& Card, 1986): Fenster (Anwendungen) werden in Gruppen
+	gebündelt, welche einen "Raum" nachbilden. Inhaltliche Logik der Bündelung
+	vorgegeben durch System oder individuell durch Benutzer.
 	\subsubsection{Koordinatensysteme}
 	Das Koordinatensystem eines Fenstersystems bestimmt Positionierung und Größe
 	präsentierter Information
@@ -585,9 +630,9 @@
 		\item Informationsgehalt der Aufgabe (,,choice'')\\
 		      \(H = \log_{2}(n)\)
 		\item Reaktionszeit (,,reaction time'')\\
-			  \(RT = BZ + IV \cdot \log_{2}(n)\)
-			  wobei \(IV\) die Informationsverarbeitungsgeschwindigkeit ist
-			  und \(BZ\) die Bewegungszeit
+		      \(RT = BZ + IV \cdot \log_{2}(n)\)
+		      wobei \(IV\) die Informationsverarbeitungsgeschwindigkeit ist
+		      und \(BZ\) die Bewegungszeit
 		\item Reaktionszeit in hierarchischen Menüs folgt dem Hick-Hyman-Gesetz
 		      laut Landauer \& Nachbar, 1985
 		\item Reaktionszeit bei häufig verwendeten Aktionen folgt dem
@@ -765,7 +810,7 @@
 		      (Anwendungslogik)
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/SeeheimModel.png}
+		\includegraphics[width=0.9\linewidth]{./Documents/Graphics/SeeheimModel.png}
 	\end{center}
 	\subsubsection{Presentation-Abstraction-Control}
 	\begin{description}
@@ -775,7 +820,7 @@
 		\item[Control]  Konsistenz von Presentation und Abstraction
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.5\linewidth]{./Documents/Graphics/DiagramPAC.pdf}
+		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/DiagramPAC.pdf}
 	\end{center}
 	\textit{Vorteil:} Wartbarkeit; Austausch von Objekten \\
 	\textit{Nachteil:} Dekomponierung der Interaktion fordernd;
@@ -787,7 +832,7 @@
 		\item[Controller] Steuerung der Anwendung
 	\end{description}
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/DiagramMVC.pdf}
+		\includegraphics[width=0.8\linewidth]{./Documents/Graphics/DiagramMVC.pdf}
 	\end{center}
 	Beobachter-Pattern: View beobachtet Model; Controller kann View austauschen,
 	Kommandos im Modell ausführen, Model ändern
@@ -799,14 +844,14 @@
 	\subsubsection{Model-View-Presenter}
 	\paragraph{Potel}
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/DiagramMVPPotel.pdf}
+		\includegraphics[width=0.8\linewidth]{./Documents/Graphics/DiagramMVPPotel.pdf}
 	\end{center}
 	\paragraph{Fowler}
 	Das Model-View-Presenter Passive View nach Fowler präsentiert die Aufgaben
 	der mit MVC eingeführten Komponenten, dabei beachtet der Presenter das Modell
 	und der Presenter aktualisiert die View.
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/DiagramMVPFowler.pdf}
+		\includegraphics[width=0.8\linewidth]{./Documents/Graphics/DiagramMVPFowler.pdf}
 	\end{center}
 	\subsubsection{Model-ViewModel-Model (MVVM)}
 	Das MVVM Modell ist eine im Wesentlichen aus MVC und MVP abgeleitete
@@ -814,7 +859,7 @@
 	(Stärkung der Separation of Concerns durch XAML; Beschreibt die Einbindung
 	von Events und Bindings)
 	\begin{center}
-		\includegraphics[width=0.6\linewidth]{./Documents/Graphics/DiagramMVVM.pdf}
+		\includegraphics[width=0.8\linewidth]{./Documents/Graphics/DiagramMVVM.pdf}
 	\end{center}
 	\section{Frameworks und Tools}
 	\subsection{Frameworks}
@@ -1000,7 +1045,8 @@
 	(\texttt{Grid}, \texttt{StackPanel}, etc.) bekommen nur dann ein Event, wenn
 	ein enthaltendes Elementen ebenfalls ein Event geschickt bekommt. Bei \(\ge\)
 	2 sich überlagernden Elementen in der gleichen Ebene wählt das Hit-Testing
-	\emph{immer} das im XAML \emph{zuletzt} deklarierte.
+	\emph{immer} das im XAML \emph{zuletzt} deklarierte. Die allgemeinen Event Args
+	heißen \texttt{RoutedEventArgs}
 	\begin{itemize}
 		\item Direkte Events (werden nicht weitergereicht)
 		      \begin{itemize}[nolistsep]
@@ -1038,7 +1084,6 @@
 	\subsubsection{Data-Context}
 	\lstinputlisting{Documents/Programs/DataContext.cs}
 	\lstinputlisting{Documents/Programs/DataContext.xaml}
-	\columnbreak
 	\subsubsection{INotifyPropertyChanged}
 	\lstinputlisting{Documents/Programs/NotifyProperty.cs}
 	\subsection{Style Templates}
@@ -1046,5 +1091,7 @@
 	\subsection{Triggers und Validation}
 	\lstinputlisting{Documents/Programs/Triggers.xaml}
 	\lstinputlisting{Documents/Programs/Validation.xaml}
+	\subsection{Menüs}
+	\lstinputlisting{Documents/Programs/Menues.xaml}
 \end{multicols*}
 \end{document}
