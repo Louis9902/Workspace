@@ -36,6 +36,7 @@
 \usepackage{enumitem}
 % adjust tables %
 \usepackage{tabularx}
+\usepackage{cellspace}
 % integration of graphics %
 \usepackage{graphicx}
 % create graphics %
@@ -115,6 +116,8 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\topskip}{10pt}
+\setlength\cellspacetoplimit{4pt}
+\setlength\cellspacebottomlimit{4pt}
 % set column seperator %
 \setlength{\columnseprule}{0.5pt}
 
@@ -150,12 +153,17 @@
 % ------------------------------------------------------------------------ %
 \subsection{Datenmengen}
 \begin{center}
-	\input{./Documents/Charts/DataSizes.tex}
+	\input{./Documents/Charts/Datenmengen.tex}
 \end{center}
 % ------------------------------------------------------------------------ %
 \subsection{Frquenz \(f\)}
 \[f = \cfrac{1}{T}\]
-
+\[\cfrac{1}{Hz} = \text{Taktzykluszeit}\]
+% ------------------------------------------------------------------------ %
+\subsection{Vorsätze für Maßeinheiten}
+\begin{center}
+	\includestandalone[width=0.6\linewidth]{./Documents/Charts/SI-Praefixe}
+\end{center}
 % ======================================================================== %
 \section{Leistungsbewertung}
 % ------------------------------------------------------------------------ %
@@ -170,12 +178,6 @@ MIPS-Vergleiche ergeben lediglich Sinn inerhalb der gleichen ISA
 \[\text{MIPS} = \cfrac{10^3}{\text{Instruktionszeit in ns}}\]
 % ------------------------------------------------------------------------ %
 \subsection{Amdahlsches Gesetz}
-Die Beschleunigung eines Systems wird berechnet durch ein vergleich der Zeit:
-\[\text{Beschleunigung} = \cfrac{\text{Zeit vor der Beschleunigung}}{\text{Zeit nach der Beschleunigung}}\]
-Damit kann man folgende Gesetzmäßigkeit aufstellen:
-\[S = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
-Aus diesem Zusammenhang kann man nun auch folgendes herleiten:
-\[\cfrac{T_{0}}{T_{S}} = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
 \begin{definitions}
 	$$S$$ & (Gesamt-)Beschleunigung des Programmes \\
 	$$s$$ & Beschleunigung des Pro­gramm­teils welches von der Verbesserung profitiert \\
@@ -183,6 +185,16 @@ Aus diesem Zusammenhang kann man nun auch folgendes herleiten:
 	$$T_{0}$$ & Zeit vor der Beschleunigung \\
 	$$T_{S}$$ & Zeit nach der Beschleunigung
 \end{definitions}
+Die Beschleunigung eines Systems wird berechnet durch ein vergleich der Zeit:
+\[\text{Beschleunigung} = \cfrac{\text{Zeit vor der Beschleunigung}}{\text{Zeit nach der Beschleunigung}}\]
+Damit kann man folgende Gesetzmäßigkeit aufstellen:
+\begin{align*}
+	S & = \cfrac{1}{(1-p)+\cfrac{p}{s}}            \\
+	s & = \cfrac{p \cdot S}{(p \cdot S - S + 1)}   \\
+	p & = \cfrac{s \cdot (S - 1)}{(s - 1) \cdot S}
+\end{align*}
+Aus diesem Zusammenhang kann man nun auch folgendes herleiten:
+\[\cfrac{T_{0}}{T_{S}} = \cfrac{1}{(1-p)+\cfrac{p}{s}}\]
 Wenn sich z.B. die Anzahl der Prozessor Kerne ver-\(n\)-facht dann ist die
 Beschleunigung des Pro­gramm­teils \(\frac{1}{n}\) wenn es vorher auf einem
 Kern lief.
@@ -435,7 +447,23 @@ Bei einem \textbf{read} wird aus dem \texttt{MAR} die Adresse gelesen und der We
 dem Speicher in das \texttt{MDR} gelegt. (\textsf{MDR = mem}) \par
 Bei einem \textbf{write} wird aus dem \texttt{MAR} der Adresse gelesen an die der Wert
 aus dem \texttt{MDR} geschrieben wird. (\textsf{mem = MDR})
-
+% ------------------------------------------------------------------------ %
+\subsection{Ausführung von Pipelines}
+Es besteht eine RAW-Abhängigkeit zwischen der Anweisung I2, die in R4 schreibt,
+und der Anweisung I3, die R4 liest. Deshalb kann I3 die Eingaberegister erst lesen,
+wenn I2 das Zurückschreiben abgeschlossen hat, was zu einer Pipelineverzögerung
+führt (Pipeline Stall).
+\begingroup\setlength\tabcolsep{2pt}
+\small
+\begin{center}
+	\includestandalone[width=\linewidth]{Documents/Graphics/Pipelines-Abbildung-1}
+	{\footnotesize\textbf{Ohne} Berücksichtigung der Abhängigkeiten}
+\end{center}
+\begin{center}
+	\includestandalone[width=\linewidth]{Documents/Graphics/Pipelines-Abbildung-2}
+	{\footnotesize\textbf{Mit} Berücksichtigung der Abhängigkeiten}
+\end{center}
+\endgroup
 % ======================================================================== %
 \section{Hard Disk Drive}
 % ------------------------------------------------------------------------ %
@@ -614,7 +642,6 @@ Cache-Eintrag aktualisirt werden, heizu gibt es folgende möglichkeiten:
 		            wenn die betroffene Cache-Zeile aus dem Cache entfernt
 		            wird.\par (LRU-Algorithmus \emph{Last Recently Used})
 	      \end{enumerate}
-
 	\item Cache-Verfehlen
 	      \begin{enumerate}
 		      \item\textbf{Write Allocation} Erzeugen eines neuen
@@ -623,8 +650,18 @@ Cache-Eintrag aktualisirt werden, heizu gibt es folgende möglichkeiten:
 		            Hauptspeicher, ohne einen Cache-Eintrag zu erzeugen.
 	      \end{enumerate}
 \end{enumerate}
+% ------------------------------------------------------------------------ %
+\subsection{Cache-Hits und Cache-Misses}
+Um die Hits und Misses zu bestimmen muss zunächst die Aufteilung des Speicheradresse
+berechnet werden. (\textit{Siehe 9.2}) Danach müssen die Tag und Zeilen Bits der
+Speicheradressen verglichen werden. \par
+\begin{enumerate}
+	\item Zwei Variablen sind in \emph{derselben} Cache-Zeile, wenn ihre
+	      Speicheradressen identische Tag- und Line-Einträge besitzen.
+	\item Zwei Variablen stehen im Konflikt, wenn ihre Speicheradressen
+	      identische Line-Einträge, aber verschiedene Tag-Einträge besitzen
+\end{enumerate}
 % ======================================================================== %
-\columnbreak
 \section{Sprungvorhersage}
 Dynamische Sprungvorhersage mit hilfe einer History-Tabelle mit \(n\)
 Entscheidungs-Bits pro Eintrag kann als ein endlicher Automat dargestellt
