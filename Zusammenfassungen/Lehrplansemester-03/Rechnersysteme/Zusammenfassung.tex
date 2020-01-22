@@ -508,7 +508,8 @@ werden: \[C = \left\lceil\cfrac{A\cdot S\cdot 8}{n\cdot T_{r}}\right\rceil\]
 	$$B_{G}$$ & Gesamtanzahl der Blöcke                                             \\
 	$$B_{T}$$ & Anzahl der Blöcke welche pro Zeiteinheit geschrieben werden         \\
 	$$P_{D}$$ & Prozentanteil der dynamischen Daten                                 \\
-	$$P_{S}$$ & Prozentanteil der reservierten Blöcke für das Bad Block Management
+	$$P_{S}$$ & Prozentanteil der reservierten Blöcke für das Bad Block Management	\\
+	$$P_{F}$$ & Prozentanteil der freien Blöcke
 \end{definitions}
 \[B_{G} = \cfrac{\text{Kapazität}}{\text{Blockgröße}} \cdot ( 1 - P_{S} )\]
 \important
@@ -523,7 +524,7 @@ $A_{\text{DBF}} = \text{Anzahl Dynamischener Blöcke pro Datei}$
 \[T_{L} = \cfrac{C \cdot B_{G}}{B_{T}}\]
 % ------------------------------------------------------------------------ %
 \subsection{Dynamic Wear Levelling}
-\[T_{L} = \cfrac{C \cdot ( B_{G} \cdot P_{D} )}{B_{T}}\]
+\[T_{L} = \cfrac{C \cdot ( B_{G} \cdot (P_{D} + P_{F}) )}{B_{T}}\]
 % ======================================================================== %
 \section{Caches}
 % ------------------------------------------------------------------------ %
