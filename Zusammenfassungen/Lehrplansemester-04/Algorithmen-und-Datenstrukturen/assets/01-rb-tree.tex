@@ -1,0 +1,15 @@
+\documentclass[tikz]{standalone}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{trees}
+
+\input{rb-tree-common}
+
+\begin{document}
+\begin{tikzpicture}[level distance=25pt,sibling distance=25pt]
+	\node [b] {B}
+	child { node [r] {A}
+			child { node [r] {Z} node [t] {~} }
+		}
+	child { node [r] {C} node [o] {~} };
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,82 @@
+%! Package = PACKAGE_NAME
+%! Author = louis
+%! Date = 6/16/20
+
+% \(\mathbin{\bowtie}\)
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Summary}[2020/06/16 v1.0 Summary]
+
+\RequirePackage{geometry}
+\geometry{left=0.5cm, right=0.5cm, top=1cm, bottom=0.5cm, landscape, headsep=2mm}
+
+\newcommand{\lecture}{\@latex@warning@no@line{No \noexpand\lecture given}}
+\newcommand{\student}{\@latex@warning@no@line{No \noexpand\student given}}
+
+% Common Packages
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{float}
+
+% Math Packages
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+% Fix some Math Stuff because it may need some love <3
+\RequirePackage{mathtools}
+
+% Other Packages
+\RequirePackage{lastpage}
+\RequirePackage{fancyhdr}
+
+\RequirePackage{titlesec}
+\RequirePackage{paralist}
+
+%% Header & Footer
+\pagestyle{fancy}
+% clear
+\fancyhead{}
+\fancyfoot{}
+% refresh
+\fancyhead[L]{\lecture}
+\fancyhead[C]{\student}
+\fancyhead[R]{\thepage\ -\ \pageref{LastPage}}
+\fancyheadoffset{0cm}
+
+%% Sections
+\titlespacing{\section}{0pt}{4pt}{4pt}
+\titlespacing{\subsection}{0pt}{4pt}{4pt}
+\titlespacing{\subsubsection}{0pt}{2pt}{2pt}
+
+% Shortcuts for mathematical Symbols
+\newcommand{\N}{\ensuremath{\mathbb{N}}}   % Natural numbers
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}   % Integer numbers
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}   % Rational numbers
+\newcommand{\R}{\ensuremath{\mathbb{R}}}   % Real numbers
+\newcommand{\C}{\ensuremath{\mathbb{C}}}   % Complex numbers
+
+% Shortcut Environments for mathematical Stuff
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\tuple}{\langle}{\rangle}
+
+% Shortcuts for Computer Science Symbols
+\newcommand{\OO}{\ensuremath{\mathcal{O}}} % Big-O notation
+
+\newcommand{\NIL}{\textsc{\small nil}}     % NIL Keyword
+
+% Define new Theorems
+\newtheoremstyle{break}  % name
+{}                     % Space above, empty = `usual value'
+{}                     % Space below
+{\normalfont}          % Body font
+{}                     % Indent amount (empty = no indent, \parindent = para indent)
+{\normalfont\bfseries} % Theorem head font
+{}                     % Punctuation after theorem head
+{\newline}             % Space after theorem head: \newline = line break
+{}                     % Theorem head spec
+\theoremstyle{break}
+
+\newtheorem{example}{Beispiel}[section]
+\newtheorem{definition}{Definition}

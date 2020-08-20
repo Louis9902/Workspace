@@ -1,0 +1,16 @@
+\documentclass[tikz]{standalone}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{trees}
+
+\input{rb-tree-common}
+
+\begin{document}
+\begin{tikzpicture}[level distance=25pt,sibling distance=25pt]
+	\node [b] {A}
+	child { node [r] {\(\curvearrowleft\)}
+			child { node [b] {C} }
+			child { node [b] {D} }
+		}
+	child { node [r] {Z} };
+\end{tikzpicture}
+\end{document}
